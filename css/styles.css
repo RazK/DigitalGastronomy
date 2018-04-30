@@ -1,0 +1,22 @@
+body {
+    /*background-color: yellow;*/
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+/*#slider { margin: 100px; }*/
+
+.c-18deg-color { background: red; }
+.c-22deg-color { background: yellow; }
+.c-24deg-color { background: green; }
+.c-20deg-color { background: blue; }
+.c-22deg-color { background: purple; }
+
