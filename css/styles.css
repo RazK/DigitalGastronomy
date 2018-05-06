@@ -12,21 +12,54 @@ main {
     flex: 1 0 auto;
 }
 
+label {
+    display: inline-block;
+    color: rgb(255,125,131);
+    padding: 10px;
+    border: 1px solid black ;
+    font-size: 5em;
+    font-weight: bold;
+}
+
+#slider2 {
+    /*width: 40%;*/
+    /*display: inherit;*/
+    /*alignment: center;*/
+}
+
+
 #slider { margin: 100px; }
 
+.sour {
+    color : rgb(255,235,151);
+}
 
+.spicy {
+    color : rgb(255,125,131);
+}
 
+.herbs {
+    color: rgb(149,232,145);
+}
 
+.omami {
+    color: rgb(40,35,35);
+}
 .c-18deg-color { background: rgb(255,235,151); }
 .c-20deg-color { background: rgb(255,125,131); }
-.c-22deg-color { background:  rgb(149,232,145);}
+.c-22deg-color { background: rgb(149,232,145);}
 .c-24deg-color { background: rgb(40,35,35); }
 .c-26deg-color { background: rgb(253,239,238); }
 
 
 
-canvas {
+#myCanvas {
     border: 25px solid rgb(253,239,238);
     border-radius: 50%;
     background-color: rgb(255,208,149);
 }
+
+
+/*#canvas {*/
+    /*border: 1px solid black;*/
+/*}*/
