@@ -82,19 +82,23 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-origin {
   height: 28px;
   left: -17px;
   top: -6px;
+
 }
 .noUi-vertical {
   width: 18px;
+
 }
 .noUi-vertical .noUi-handle {
   width: 28px;
   height: 34px;
   left: -6px;
   top: -17px;
+
 }
 html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
   right: -17px;
   left: auto;
+
 }
 /* Styling;
  * Giving the connect element a border radius causes issues with using transform: scale
@@ -104,6 +108,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
   border-radius: 4px;
   border: 1px solid #D3D3D3;
   box-shadow: inset 0 1px 1px #F0F0F0, 0 3px 6px -5px #BBB;
+
 }
 .noUi-connects {
   border-radius: 3px;
@@ -115,32 +120,49 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
  */
 .noUi-draggable {
   cursor: ew-resize;
+
 }
 .noUi-vertical .noUi-draggable {
   cursor: ns-resize;
+
 }
 .noUi-handle {
-  border: 1px solid #D9D9D9;
-  border-radius: 3px;
-  background: #FFF;
-  cursor: default;
-  box-shadow: inset 0 0 1px #FFF, inset 0 1px 7px #EBEBEB, 0 3px 6px -3px #BBB;
+  /*border: 1px solid #D9D9D9;*/
+  /*border-radius: 3px;*/
+  /*background: #FFF;*/
+  /*cursor: default;*/
+
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 50px;
+    border-radius: 25%;
+    background: rgb(255,227,222);
+    /*background: rgb(20,0,222);*/
+
+    cursor: pointer;
 }
+
+
+    /*box-shadow: inset 0 0 1px #FFF, inset 0 1px 7px #EBEBEB, 0 3px 6px -3px #BBB;*/
+
 .noUi-active {
-  box-shadow: inset 0 0 1px #FFF, inset 0 1px 7px #DDD, 0 3px 6px -3px #BBB;
+  /*box-shadow: inset 0 0 1px #FFF, inset 0 1px 7px #DDD, 0 3px 6px -3px #BBB;*/
 }
 /* Handle stripes;
  */
 .noUi-handle:before,
 .noUi-handle:after {
-  content: "";
-  display: block;
-  position: absolute;
-  height: 14px;
-  width: 1px;
-  background: #E8E7E6;
-  left: 14px;
-  top: 6px;
+  /*content: "%%";*/
+  /*display: block;*/
+  /*position: absolute;*/
+  /*height: 14px;*/
+  /*width: 1px;*/
+  /*background: #000000;*/
+  /*left: 100px;*/
+  /*top: 100px;*/
+
+
 }
 .noUi-handle:after {
   left: 17px;
@@ -242,7 +264,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 }
 .noUi-value-vertical {
   -webkit-transform: translate(0, -50%);
-  transform: translate(0, -50%, 0);
+  transform: translate(0, -50%);
   padding-left: 25px;
 }
 .noUi-rtl .noUi-value-vertical {

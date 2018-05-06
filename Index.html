@@ -6,15 +6,16 @@
 
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css" rel="stylesheet" >
     <link rel="stylesheet" href="assets/noUiSlider/nouislider.css">
     <link rel="stylesheet" href="css/styles.css">
-
 </head>
 <body>
     <container>
         <header>
-
+        <br>
+            <br>
+            <br>
         </header>
         <main>
             <div id="test-swipe-1" class="col s12">Test 1
@@ -31,32 +32,40 @@
                     <a class="waves-effect waves-light btn col s3">RANDOM</a>
                 </div>
             </div>
+
+
             <div id="test-swipe-2" class="col s12">
                 <a>2</a>
                 <div class="row center">
-                    <img class="responsive-img center" src="images/noodle2.jpg" style="max-width: 150px; alignment: center;">
+                    <!--<img class="responsive-img center" src="images/noodle2.jpg" style="max-width: 150px; alignment: center;">-->
+                    <canvas id="myCanvas" width="1000" height="1000"></canvas>
+
                 </div>
+                <p>page 2</p>
                 <div class="row">
                     <div id="slider2"></div>
                 </div>
 
             </div>
 
-            <div id="test-swipe-3" class="col s12 green">Test 3</div>
+            <div id="test-swipe-3" class="col s12 green">Test 3
+
+
+            </div>
 
         </main>
         <footer class="center col s12">
-            <ul id="tabs-swipe-demo" class="tabs">
-                <li class="tab col s3">
-                    <a class="active" href="#test-swipe-1">Test 1</a>
-                </li>
-                <li class="tab col s3">
-                    <a class="active" href="#test-swipe-2">Test 2</a>
-                </li>
-                <li class="tab col s3">
-                    <a class="active" href="#test-swipe-3">Test 3</a>
-                </li>
-            </ul>
+            <!--<ul id="tabs-swipe-demo" class="tabs">-->
+                <!--<li class="tab col s3">-->
+                    <!--<a class="active" href="#test-swipe-1">Test 1</a>-->
+                <!--</li>-->
+                <!--<li class="tab col s3">-->
+                    <!--<a class="active" href="#test-swipe-2">Test 2</a>-->
+                <!--</li>-->
+                <!--<li class="tab col s3">-->
+                    <!--<a class="active" href="#test-swipe-3">Test 3</a>-->
+                <!--</li>-->
+            <!--</ul>-->
         </footer>
     </container>
     <!-- Compiled and minified JavaScript -->
@@ -65,7 +74,7 @@
     <script src="assets/noUiSlider/nouislider.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.js"></script>
-
     <script src="js/app.js"></script>
+
 </body>
 </html>

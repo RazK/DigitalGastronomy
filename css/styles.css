@@ -1,5 +1,5 @@
-body {
-    /*background-color: yellow;*/
+header {
+    background-color: rgb(253 , 239 , 238);
 }
 
 body {
@@ -12,11 +12,21 @@ main {
     flex: 1 0 auto;
 }
 
-/*#slider { margin: 100px; }*/
+#slider { margin: 100px; }
 
-.c-18deg-color { background: red; }
-.c-22deg-color { background: yellow; }
-.c-24deg-color { background: green; }
-.c-20deg-color { background: blue; }
-.c-22deg-color { background: purple; }
 
+
+
+.c-18deg-color { background: rgb(255,235,151); }
+.c-20deg-color { background: rgb(255,125,131); }
+.c-22deg-color { background:  rgb(149,232,145);}
+.c-24deg-color { background: rgb(40,35,35); }
+.c-26deg-color { background: rgb(253,239,238); }
+
+
+
+canvas {
+    border: 25px solid rgb(253,239,238);
+    border-radius: 50%;
+    background-color: rgb(255,208,149);
+}
