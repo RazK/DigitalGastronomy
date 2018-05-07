@@ -53,7 +53,7 @@ label {
 
 
 
-#myCanvas {
+canvas {
     border: 25px solid rgb(253,239,238);
     border-radius: 50%;
     background-color: rgb(255,208,149);
