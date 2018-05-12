@@ -7,56 +7,81 @@
 // function init() {
 //     // Init slider 1
 //     var slider = document.getElementById('slider');
-//     var classes = ['c-18deg-color', 'c-20deg-color', 'c-22deg-color', 'c-24deg-color', 'c-26deg-color'];
+//     var classes = ['c-1-color', 'c-2-color', 'c-3-color'];
 //
 //     noUiSlider.create(slider, {
 //         start: [20, 80],
-//         connect: [true, true, false],
+//         connect: [true, true, true],
 //         range: {
 //             'min': [0],
 //             'max': [100]
 //         }
 //     });
-//
-//     var connect = slider.querySelectorAll('.noUi-connect');
-//
-//     for (var i = 0; i < connect.length; i++) {
-//         connect[i].classList.add(classes[i]);
-//     }
-//
-//     // Init slider 2
-//     var slider2 = document.getElementById('slider2');
-//     slider2.setAttribute("class", "center");
-//
-//     var classes2 = ['c-18deg-color', 'c-20deg-color', 'c-22deg-color', 'c-24deg-color', 'c-26deg-color'];
-//
-//     noUiSlider.create(slider2, {
-//         start: [20, 40, 60, 80],
-//         connect: [true, true, true, true, true],
-//         range: {
-//             'min': [0],
-//             'max': [100]
-//         }
-//
-//     });
-//
-//     var connect2 = slider2.querySelectorAll('.noUi-connect');
-//
-//     for (var i = 0; i < connect2.length; i++) {
-//         connect2[i].classList.add(classes2[i]);
-//     }
-//
-//     // Init tabs
-//     $('.tabs').tabs();
+
+    // var connect = slider.querySelectorAll('.noUi-connect');
+    //
+    // for (var i = 0; i < connect.length; i++) {
+    //     connect[i].classList.add(classes[i]);
+    // }
+    //
+    //
+    // // slider 2
+    // var tooltipSlider = document.getElementById('slider-tooltips');
+    //
+    // noUiSlider.create(tooltipSlider, {
+    //     start: [20, 80, 120],
+    //     tooltips: [ false, true, true ],
+    //     tooltips: [ false, true, true ],
+    //     range: {
+    //         'min': 0,
+    //         'max': 100
+    //
+    //     }
+    // });
+    // Init slider 2
+    // var slider2 = document.getElementById('slider2');
+    // slider2.setAttribute("class", "center");
+    //
+    // var classes2 = ['c-18deg-color', 'c-20deg-color', 'c-22deg-color', 'c-24deg-color', 'c-26deg-color'];
+    //
+    // noUiSlider.create(slider2, {
+    //     start: [20, 40, 60, 80],
+    //     connect: [true, true, true, true, true],
+    //     range: {
+    //         'min': [0],
+    //         'max': [100]
+    //     }
+    //
+    // });
+
+    // var connect2 = slider2.querySelectorAll('.noUi-connect');
+    //
+    // for (var i = 0; i < connect2.length; i++) {
+    //     connect2[i].classList.add(classes2[i]);
+    // }
+
+    // Init tabs
+    // $('.tabs').tabs();
 // }
 
 
 // canvas control:
+//
+// var w = window.innerWidth;
+// var h = window.innerHeight;
+// var side = w < h ? w : h;
+// side = 0.5 * side;
 
-var w = window.innerWidth;
-var h = window.innerHeight;
-var side = w < h ? w : h;
-side = 0.5 * side;
+
+
+function sleep(milliseconds) {
+    var start = new Date().getTime();
+    for (var i = 0; i < 1e7; i++) {
+        if ((new Date().getTime() - start) > milliseconds) {
+            break;
+        }
+    }
+}
 
 //
 // function drawC(event) {
@@ -76,15 +101,14 @@ side = 0.5 * side;
 //         }
 //     }
 // }
-
-
-window.onload = function () {
-    var canvas = document.getElementById("myCanvas");
-    canvas.width = side;
-    canvas.height = side;
-}
-
-
+//
+//
+// window.onload = function () {
+//     var canvas = document.getElementById("canvas1");
+//     canvas.width = side;
+//     canvas.height = side;
+// }
+//
 
 /**------------------------
  ---------------*/
@@ -130,9 +154,12 @@ var _dist = function (x1, y1, x2, y2) {
     return Math.sqrt(a * a + b * b);
 };
 
-var _placeCircles = function (imgData) {
+var placeCircles = function (imgData) {
+    console.log(imgData);
     var i = _circles.length;
     _placedCirclesArr = [];
+    console.log(_placedCirclesArr);
+
     while (i > 0) {
         i--;
         var circle = _circles[i];
@@ -145,10 +172,12 @@ var _placeCircles = function (imgData) {
                     circle.x = x;
                     circle.y = y;
                     _placedCirclesArr.push(circle);
+
                 }
             }
         }
     }
+
 };
 
 var _makeCircles = function () {
@@ -166,22 +195,6 @@ var _makeCircles = function () {
     //     circles.push(circle);
     // }
     //
-    // for (var j = 0; j < 300; j++) {
-    //     var circle = {
-    //         color: _colors[Math.round(Math.random() * _colors.length)],
-    //         size: 3 //do random twice to prefer more smaller ones
-    //     };
-    //     circles.push(circle);
-    // }
-
-    // for (var j = 0; j < 50; j++) {
-    //     var circle = {
-    //         color: _colors[Math.round(Math.random() * _colors.length)],
-    //         size: 5 //do random twice to prefer more smaller ones
-    //     };
-    //     circles.push(circle);
-    // }
-
     for (var j = 0; j < 50; j++) {
         var circle = {
             color: _colors[Math.round(Math.random() * _colors.length)],
@@ -189,6 +202,24 @@ var _makeCircles = function () {
         };
         circles.push(circle);
     }
+
+    for (var j = 0; j < 100; j++) {
+        var circle = {
+            color: _colors[Math.round(Math.random() * _colors.length)],
+            size: 8 //do random twice to prefer more smaller ones
+        };
+        circles.push(circle);
+
+        for (var j = 0; j < 300; j++) {
+            var circle = {
+                color: _colors[Math.round(Math.random() * _colors.length)],
+                size: 5 //do random twice to prefer more smaller ones
+            };
+            circles.push(circle);
+        }
+
+    }
+
 
     circles.sort(function (a, b) {
         return a.size - b.size;
@@ -226,6 +257,7 @@ var _drawCircles = function (ctx) {
 };
 
 var _drawSvg = function (ctx, path, callback) {
+
     var img = new Image(ctx);
     img.onload = function () {
         ctx.drawImage(img, 0, 0);
@@ -251,7 +283,7 @@ var contain = function (mx, my) {
 };
 
 
-var _colors = ['#993300'];//, '#a5c916', '#00AA66', '#FF9900'];
+var _colors = ["rgb(255,154,131)"];//, '#a5c916', '#00AA66', '#FF9900'];
 var _circles = _makeCircles();
 
 
@@ -283,7 +315,7 @@ function CanvasState(canvas) {
     this.shapes = [];  // the collection of things to be drawn
     this.dragging = false; // Keep track of when we are dragging
     // the current selected object. In the future we could turn this into an array for multiple selection
-    this.selection = null;
+    this.coor = [];
     this.dragoffx = 0; // See mousedown and mousemove events for explanation
     this.dragoffy = 0;
 
@@ -302,6 +334,107 @@ function CanvasState(canvas) {
         return false;
     }, false);
 
+
+    // Up, down, and move are for dragging
+    canvas.addEventListener('mousedown', function (e) {
+        myState.dragging = true;
+
+
+        // var mx = mouse.x;
+        // var my = mouse.y;
+        // var shapes = myState.shapes;
+        // var l = shapes.length;
+        // for (var i = l-1; i >= 0; i--) {
+        //     if (shapes[i].contains(mx, my)) {
+        //         var mySel = shapes[i];
+        //         // Keep track of where in the object we clicked
+        //         // so we can move it smoothly (see mousemove)
+        //         myState.dragoffx = mx - mySel.x;
+        //         myState.dragoffy = my - mySel.y;
+        //         myState.dragging = true;
+        //         myState.selection = mySel;
+        //         myState.valid = false;
+        //         return;
+        //     }
+        //
+        // havent returned means we have failed to select anything.
+        // If there was an object selected, we deselect it
+        // if (myState.selection) {
+        //     myState.selection = null;
+        //     myState.valid = false; // Need to clear the old selection border
+        // }
+    }, true);
+    canvas.addEventListener('mousemove', function (e) {
+        if (myState.dragging) {
+            sleep(200);
+            var mouse = myState.getMouse(e);
+            // We don't want to drag the object by its top-left corner, we want to drag it
+            // from where we clicked. Thats why we saved the offset and use it here
+            // myState.selection.x = mouse.x - myState.dragoffx;
+            // myState.selection.y = mouse.y - myState.dragoffy;
+            myState.valid = false; // Something's dragging so we must redraw
+
+            myState.coor.push(mouse.x);
+            myState.coor.push(mouse.y);
+            console.log(myState.coor);
+        }
+    }, true);
+    canvas.addEventListener('mouseup', function (e) {
+        var path = "M " + myState.coor[0] + " " + myState.coor[1] + " ";
+        myState.dragging = false;
+        for (var i = 2; i < myState.coor.length; i += 2) {
+            path += "T " + myState.coor[i] + " " + myState.coor[i + 1] + " ";
+        }
+        path += " Z";
+
+        var aSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        aSvg.setAttributeNS(null, "id", "fullPageID");
+        aSvg.setAttributeNS(null, 'width', 300);
+        aSvg.setAttribute(null, 'height', 300);
+
+        let newpath = document.createElementNS('http://www.w3.org/2000/svg', "path");
+        newpath.setAttributeNS(null, "id", "pathIdD");
+        newpath.setAttributeNS(null, "d", path);
+        newpath.setAttributeNS(null, "stroke", "black");
+        newpath.setAttributeNS(null, "stroke-width", 3);
+        newpath.setAttributeNS(null, "opacity", 1);
+        newpath.setAttributeNS(null, "fill", "rgb(255,125,131)");
+        aSvg.appendChild(newpath);
+        console.log(aSvg);
+
+        ctx = canvas.getContext('2d');
+        var doc = document.getElementById("canvas1");
+        doc.appendChild(aSvg);
+
+        console.log("ctx: " + ctx);
+    });
+        // ctx.drawImage(aSvg,300,300);
+    //
+    //
+    //     var img = new Image(aSvg);
+    //     img.src = "data:image/svg+xml";
+    //
+    //     ;
+    //         // img.onload = function () {
+    //             // ctx.drawImage(img, 0, 0);
+    //             // callback();
+    //         // };
+    //     img.src = path;
+
+
+        //
+        //     var imgData = ctx.getImageData(0, 0, _canvasProps.width, _canvasProps.height);
+        // placeCircles(imgData);
+        // _drawCircles(ctx);
+//     });
+//     initPlate();
+        // _drawSvg(ctx, aSvg, function () {
+        //     var imgData = ctx.getImageData(0, 0, _canvasProps.width, _canvasProps.height);
+        //     placeCircles(imgData);
+        //     _drawCircles(canvas2[0].getContext('2d'));
+        //
+        // }, true);
+    // });
 
     function replaceCircle(id) {
         // var ctx = document.getElementById("canvas2");
@@ -323,8 +456,6 @@ function CanvasState(canvas) {
 
 
     }
-
-
     canvas.addEventListener('click', function (e) {
         console.log("cliecked");
         var mouse = myState.getMouse(e);
@@ -333,8 +464,8 @@ function CanvasState(canvas) {
             replaceCircle(id);
         }
     }, true);
-}
 
+}
 
 CanvasState.prototype.getMouse = function (e) {
     var element = this.canvas, offsetX = 0, offsetY = 0, mx, my;
@@ -360,24 +491,118 @@ CanvasState.prototype.getMouse = function (e) {
 }
 
 
-function initPlate() {
-
-    var s = new CanvasState(document.getElementById("canvas2"));
+var putNoodle = function () {
+    $(function () {
+        $canvas = $("#canvas1")
+        console.log($canvas);
+        var ctx = $canvas[0].getContext('2d');
+        _drawSvg(ctx, 'note.svg', function () {
+            var imgData = ctx.getImageData(0, 0, _canvasProps.width, _canvasProps.height);
+            placeCircles(imgData);
+            _drawCircles($canvas[0].getContext('2d'));
+        });
+    })
 }
 
 
-$(document).ready(function () {
-    var $canvas = $('<canvas>').attr(_canvasProps).appendTo('main');
-    $canvas.attr({"id": "canvas1"});
-    var $canvas2 = $('<canvas>').attr(_canvasProps).appendTo('main');
-    $canvas2.attr({"id": "canvas2"});
-    var ctx = $canvas[0].getContext('2d');
-    _drawSvg(ctx, 'note.svg', function () {
-        var imgData = ctx.getImageData(0, 0, _canvasProps.width, _canvasProps.height);
-        _placeCircles(imgData);
-        _drawCircles($canvas2[0].getContext('2d'));
-    });
-    initPlate();
+function initPlate() {
+
+    var s = new CanvasState(document.getElementById("canvas1"));
+    document.querySelector("#newTimer")
+    var btn = document.querySelector("#random").addEventListener("click", putNoodle, false);
+}
 
 
-});
+
+initPlate();
+
+
+
+
+//
+// console.log(document.getElementById('s3').getAttribute('d'));
+// sleep(1000);
+// let c = "M10 250 Q 80 50, 95 300 T 180 80";
+// document.getElementById('s3').setAttribute('d', c);
+// console.log(document.getElementById('s3').getAttribute('d'));
+
+
+
+//     $canvas.attr({"id": "canvas1"});
+//     var $canvas2 = $('<canvas>').attr(_canvasProps).appendTo('main');
+//     $canvas2.attr({"id": "canvas2"});
+//     var ctx = $canvas[0].getContext('2d');
+//     console.log('note.svg');
+//     _drawSvg(ctx, 'note.svg', function () {
+//         var imgData = ctx.getImageData(0, 0, _canvasProps.width, _canvasProps.height);
+//         placeCircles(imgData);
+//         _drawCircles($canvas2[0].getContext('2d'));
+//     });
+//     initPlate();
+//
+// });
+// //
+
+
+
+//
+// function getMousePos(e) {
+//     return {x: e.clientX, y: e.clientY};
+// }
+//
+//
+// document.onmousemove = function (e) {
+//     var mousecoords = getMousePos(e);
+//     // console.log("x: " + mousecoords.x + " y: " + mousecoords.y);
+// };
+//
+// let coor = [];
+//
+//
+// $(document).ready(function () {
+//     $('<svg>').addEventListener("mousedown", function (e) { coor.push(getMousePos(e));}, true);
+//
+// });
+//
+//
+// console.log(coor);
+//
+// jQuery(document).ready(function(){
+//     // This button will increment the value
+//     $('.qtyplus').click(function(e){
+//         // Stop acting like a button
+//         e.preventDefault();
+//         // Get the field name
+//         fieldName = $(this).attr('field');
+//         // Get its current value
+//         var currentVal = parseInt($('input[name='+fieldName+']').val());
+//         // If is not undefined
+//         if (!isNaN(currentVal)) {
+//             // Increment
+//             $('input[name='+fieldName+']').val(currentVal + 1);
+//         } else {
+//             // Otherwise put a 0 there
+//             $('input[name='+fieldName+']').val(0);
+//         }
+//     });
+//     // This button will decrement the value till 0
+//     $(".qtyminus").click(function(e) {
+//         // Stop acting like a button
+//         e.preventDefault();
+//         // Get the field name
+//         fieldName = $(this).attr('field');
+//         // Get its current value
+//         var currentVal = parseInt($('input[name='+fieldName+']').val());
+//         // If it isn't undefined or its greater than 0
+//         if (!isNaN(currentVal) && currentVal > 0) {
+//             // Decrement one
+//             $('input[name='+fieldName+']').val(currentVal - 1);
+//         } else {
+//             // Otherwise put a 0 there
+//             $('input[name='+fieldName+']').val(0);
+//         }
+//     });
+// });
+
+
+

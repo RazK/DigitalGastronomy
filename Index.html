@@ -15,36 +15,57 @@
     <header>
         <!DOCTYPE html>
         <meta charset="utf-8">
-        <body>
 
     </header>
     <main>
-        <div id="test-swipe-1" class="col s12">Test 1
-            <div class="row center">
-                <img class="responsive-img center" src="images/noodle.jpg" style="max-width: 150px; alignment: center;">
-            </div>
-            <div class="row">
+        <header>
+            </br>
+            </br>
+            </br>
+        </header>
+        <div class="row">
 
-
-
-                <div id="slider"></div>
-            </div>
-            <p> bla bla</p>
-            <p> bly bly</p>
-            <div class="row">
-                <a class="waves-effect waves-light btn col s3">ANCHORS</a>
-                <a class="waves-effect waves-light btn col s3">EVEN</a>
-                <a class="waves-effect waves-light btn col s3">CENTERED</a>
-                <a class="waves-effect waves-light btn col s3">RANDOM</a>
-            </div>
         </div>
+        <div id="test-swipe-1" class="col s12">
+            <div class="row"></div>
+            <div class="row center">
+                <!--<svg class="logo" height="400" width="450">-->
+                <!---->
+                <!--<path id="s3" d="M10 80 Q 52.5 10, 95 80 T 180 80" stroke="blue"-->
+                <!--stroke-width="5" fill="none" ></path>-->
+                <!--</svg>-->
+                <canvas id='canvas1' width='300' height='300'></canvas>
 
+
+            </div>
+
+            <div class="row">
+                <!--<div class="s4"></div>-->
+                <div class="center s2" id="slider"></div>
+
+                <div class="center s2" id="slider-tooltips"></div>
+
+                <div class="row">
+
+                    <!--<a class="waves-effect waves-light btn col s3">ANCHORS</a>-->
+                    <!--<a class="waves-effect waves-light btn col s3">EVEN</a>-->
+                    <!--<a class="waves-effect waves-light btn col s3">CENTERED</a>-->
+                    <!--<a class="waves-effect waves-light btn col s3">RANDOM</a>-->
+                </div>
+            </div>
+            <div class="row center">
+                <button class="center" type="button" id="even">EVEN</button>
+                <button class="center" type="button" id="centered">CENTERED</button>
+                <button class="center" type="button" id="random">RANDOM</button>
+            </div>
+
+        </div>
 
         <div id="test-swipe-2" class="col s12">
             <a>2</a>
             <div class="row center">
                 <!--<img class="responsive-img center" src="images/noodle2.jpg" style="max-width: 150px; alignment: center;">-->
-                <canvas id="myCanvas" width="1000" height="1000"></canvas>
+                <!--<canvas id="myCanvas" width="1000" height="1000"></canvas>-->
 
             </div>
             <br>
@@ -52,15 +73,16 @@
 
                 <div id="slider2"></div>
                 <label class="sour"> SOUR</label>
-                <label class = "spicy"> SPICY</label>
-                <label class= "herbs"> HERBS</label>
-                <label class= "omami"> OMAMI</label>
+                <label class="spicy"> SPICY</label>
+                <label class="herbs"> HERBS</label>
+                <label class="omami"> OMAMI</label>
             </div>
 
         </div>
 
         <div id="test-swipe-3" class="col s12">Test 3
-            <canvas id='canvas' width='400' height='400'></canvas>
+
+
             <div>
                 <label>Circles <input id='c' type='range' value='10' min='1' max='100' step='1'></label><br/>
                 <label>Ratio <input id='r' type='range' value='1' min='.5' max='1.5' step='0.1'></label><br/>
@@ -94,10 +116,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.js"></script>
 <script src="https://d3js.org/d3.v5.min.js"></script>
 <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+<script src="js/app.js"></script>
 
-    <!--<script src="//d3js.org/d3.v3.min.js"></script>-->
 
-                <script src="js/app.js"></script>
+<!--<script src="//d3js.org/d3.v3.min.js"></script>-->
+
 
 </body>
 </html>

@@ -1,5 +1,5 @@
 header {
-    background-color: rgb(253 , 239 , 238);
+    background-color: rgb(253,239,238);
 }
 
 body {
@@ -27,8 +27,23 @@ label {
     /*alignment: center;*/
 }
 
+.track {
+    /*alignment: center;*/
+    display: inline-grid;
+    width: 80%;
+    border-top: 1px solid rgb(254, 232, 228);
+    border-bottom: 1px solid rgb(254, 232, 228);
+    padding-top: 10px;
+    padding-bottom: 10px;
 
-#slider { margin: 100px; }
+}
+
+
+#slider {
+
+
+    margin: 100px;
+}
 
 .sour {
     color : rgb(255,235,151);
@@ -45,6 +60,14 @@ label {
 .omami {
     color: rgb(40,35,35);
 }
+
+.c-1-color { background: rgb(255,208,149); }
+
+.c-2-color { background: rgb(255,154,131); }
+.c-3-color { background: rgb(253,239,238); }
+
+
+
 .c-18deg-color { background: rgb(255,235,151); }
 .c-20deg-color { background: rgb(255,125,131); }
 .c-22deg-color { background: rgb(149,232,145);}
@@ -63,3 +86,35 @@ canvas {
 /*#canvas {*/
     /*border: 1px solid black;*/
 /*}*/
+
+.logo {
+    /*color: blue;*/
+    fill: lime;
+    stroke: greenyellow;
+    stroke-width: 4px;
+    fill-rule: nonzero;
+    background: #3FB8AF;
+}
+
+
+
+#myform {
+    text-align: center;
+    padding: 5px;
+    border: 1px dotted #ccc;
+    margin: 2%;
+}
+.qty {
+    width: 40px;
+    height: 25px;
+    text-align: center;
+}
+input.qtyplus { width:25px; height:25px;}
+input.qtyminus { width:25px; height:25px;}
+
+
+.center1{
+    width: 150px;
+    margin: 40px auto;
+
+}

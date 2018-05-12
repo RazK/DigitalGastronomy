@@ -1,77 +1,113 @@
+var _canvasProps = {width: 300, height: 300};
+var _options = {spacing: 1, numCircles: 1000, minSize: 1, maxSize: 10, higherAccuracy: false};
+var _placedCirclesArr = [];
 
+var _isFilled = function (imgData, imageWidth, x, y) {
+    x = Math.round(x);
+    y = Math.round(y);
+    var a = imgData.data[((imageWidth * y) + x) * 4 + 3];
+    return a > 0;
+};
 
-var maxRadius = 32, // maximum radius of circle
-    padding = 1, // padding between circles; also minimum radius
-    margin = {top: -maxRadius, right: -maxRadius, bottom: -maxRadius, left: -maxRadius},
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
-
-var k = 1, // initial number of candidates to consider per circle
-    m = 10, // initial number of circles to add per frame
-    n = 2500, // remaining number of circles to add
-    newCircle = bestCircleGenerator(maxRadius, padding);
-
-var svg = d3.select("body").append("svg")
-    .attr("width", width)
-    .attr("height", height)
-    .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-d3.timer(function() {
-    for (var i = 0; i < m && --n >= 0; ++i) {
-        var circle = newCircle(k);
-
-        svg.append("circle")
-            .attr("cx", circle[0])
-            .attr("cy", circle[1])
-            .attr("r", 0)
-            .style("fill-opacity", (Math.random() + .5) / 2)
-            .transition()
-            .attr("r", circle[2]);
-
-        // As we add more circles, generate more candidates per circle.
-        // Since this takes more effort, gradually reduce circles per frame.
-        if (k < 500) k *= 1.01, m *= .998;
+var _isCircleInside = function (imgData, imageWidth, x, y, r) {
+    //if (!_isFilled(imgData, imageWidth, x, y)) return false;
+    //--use 4 points around circle as good enough approximation
+    if (!_isFilled(imgData, imageWidth, x, y - r)) return false;
+    if (!_isFilled(imgData, imageWidth, x, y + r)) return false;
+    if (!_isFilled(imgData, imageWidth, x + r, y)) return false;
+    if (!_isFilled(imgData, imageWidth, x - r, y)) return false;
+    if (_options.higherAccuracy) {
+        //--use another 4 points between the others as better approximation
+        var o = Math.cos(Math.PI / 4);
+        if (!_isFilled(imgData, imageWidth, x + o, y + o)) return false;
+        if (!_isFilled(imgData, imageWidth, x - o, y + o)) return false;
+        if (!_isFilled(imgData, imageWidth, x - o, y - o)) return false;
+        if (!_isFilled(imgData, imageWidth, x + o, y - o)) return false;
     }
-    return !n;
-});
+    return true;
+};
 
-function bestCircleGenerator(maxRadius, padding) {
-    var quadtree = d3.geom.quadtree().extent([[0, 0], [width, height]])([]),
-        searchRadius = maxRadius * 2,
-        maxRadius2 = maxRadius * maxRadius;
+var _touchesPlacedCircle = function (x, y, r) {
+    return _placedCirclesArr.some(function (circle) {
+        return _dist(x, y, circle.x, circle.y) < circle.size + r + _options.spacing;//return true immediately if any match
+    });
+};
 
-    return function(k) {
-        var bestX, bestY, bestDistance = 0;
+var _dist = function (x1, y1, x2, y2) {
+    var a = x1 - x2;
+    var b = y1 - y2;
+    return Math.sqrt(a * a + b * b);
+};
 
-        for (var i = 0; i < k || bestDistance < padding; ++i) {
-            var x = Math.random() * width,
-                y = Math.random() * height,
-                rx1 = x - searchRadius,
-                rx2 = x + searchRadius,
-                ry1 = y - searchRadius,
-                ry2 = y + searchRadius,
-                minDistance = maxRadius; // minimum distance for this candidate
-
-            quadtree.visit(function(quad, x1, y1, x2, y2) {
-                if (p = quad.point) {
-                    var p,
-                        dx = x - p[0],
-                        dy = y - p[1],
-                        d2 = dx * dx + dy * dy,
-                        r2 = p[2] * p[2];
-                    if (d2 < r2) return minDistance = 0, true; // within a circle
-                    var d = Math.sqrt(d2) - p[2];
-                    if (d < minDistance) minDistance = d;
+var _placeCircles = function (imgData) {
+    var i = _circles.length;
+    _placedCirclesArr = [];
+    while (i > 0) {
+        i--;
+        var circle = _circles[i];
+        var safety = 1000;
+        while (!circle.x && safety-- > 0) {
+            var x = Math.random() * _canvasProps.width;
+            var y = Math.random() * _canvasProps.height;
+            if (_isCircleInside(imgData, _canvasProps.width, x, y, circle.size)) {
+                if (!_touchesPlacedCircle(x, y, circle.size)) {
+                    circle.x = x;
+                    circle.y = y;
+                    _placedCirclesArr.push(circle);
                 }
-                return !minDistance || x1 > rx2 || x2 < rx1 || y1 > ry2 || y2 < ry1; // or outside search radius
-            });
-
-            if (minDistance > bestDistance) bestX = x, bestY = y, bestDistance = minDistance;
+            }
         }
+    }
+};
 
-        var best = [bestX, bestY, bestDistance - padding];
-        quadtree.add(best);
-        return best;
+var _makeCircles = function () {
+    var circles = [];
+    for (var i = 0; i < _options.numCircles; i++) {
+        var circle = {
+            color: _colors[Math.round(Math.random() * _colors.length)],
+            size: _options.minSize + Math.random() * Math.random() * (_options.maxSize - _options.minSize) //do random twice to prefer more smaller ones
+        };
+        circles.push(circle);
+    }
+    circles.sort(function (a, b) {
+        return a.size - b.size;
+    });
+    return circles;
+};
+
+var _drawCircles = function (ctx) {
+    ctx.save();
+    $.each(_circles, function (i, circle) {
+        ctx.fillStyle = circle.color;
+        ctx.beginPath();
+        ctx.arc(circle.x, circle.y, circle.size, 0, 2 * Math.PI);
+        ctx.closePath();
+        ctx.fill()
+    });
+
+    ctx.restore();
+};
+
+var _drawSvg = function (ctx, path, callback) {
+    var img = new Image(ctx);
+    img.onload = function () {
+        ctx.drawImage(img, 0, 0);
+        callback();
     };
-}
+    img.src = path;
+};
+
+var _colors = ['#993300', '#a5c916', '#00AA66', '#FF9900'];
+var _circles = _makeCircles();
+
+$(document).ready(function () {
+    var $canvas = $('<canvas>').attr(_canvasProps).appendTo('body');
+    var $canvas2 = $('<canvas>').attr(_canvasProps).appendTo('body');
+    var ctx = $canvas[0].getContext('2d');
+    _drawSvg(ctx, 'note.svg', function() {
+        var imgData = ctx.getImageData(0, 0, _canvasProps.width, _canvasProps.height);
+        _placeCircles(imgData);
+        _drawCircles($canvas2[0].getContext('2d'));
+    });
+
+});
