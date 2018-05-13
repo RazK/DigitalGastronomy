@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Add icon library -->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+<script type="text/javascript" src="Ingredients.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+<script src="https://github.com/douglascrockford/JSON-js/blob/master/json2.js" type="convert to json"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+
+<head>
+    <link rel="stylesheet" type="text/css" href="Ingredients.css">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="TopBar">
+    <div class="TopBarTitle">
+        NOODLE SOUP
+    </div>
+</div>
+<div class="Edit">
+
+
+    <div class="ToolBar">
+
+
+        <div id="page1" class="tabcontent">
+            <div align="center">
+
+                <div class="row">
+
+                </div>
+                <div class="NoodleCircles"></div>
+                <!--<img src="Images/Noodle.png" align="center">-->
+            </div>
+            <div class="Tools">
+                <!-- Add icon library -->
+                <link rel="stylesheet"
+                      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+                <div class="icon-bar">
+                    <button class="NoodleOutline" onclick="putNoodle()">ANCHORS</button>
+                    <button class="NoodleOutline" onclick="putNoodle()">EVEN</button>
+                    <button class="NoodleOutline" onclick="putNoodle()">CENTERED</button>
+                    <button class="NoodleOutline" onclick="putNoodle()">RANDOM</button>
+                    <button class="NoodleOutline" id="generate" onclick="putNoodle()">GENERATE</button>
+
+
+                    <!--<img class="Image" src="Icons/OutlineWhite.png" >-->
+                    <!--<img class="Image" src="Icons/BrushWhite.png" id="NoodleBrush" onclick="NoodleBrushPress(event)">-->
+                </div>
+            </div>
+        </div>
+
+        <div id="page2" class="tabcontent">
+            <div id="Bowl" align="center">
+            </div>
+
+
+            <div class="Tools">
+
+                <div class="SlidersContainer" align="center">
+                    <table align="center" width="55%">
+                        <tr>
+                            <td class="SliderLabel" onclick="spicyPress()" id="spicyLabel">Spicy</td>
+
+                            <td>
+                                <input type="range" min="0" max="100" value="0" id="newSpicySlider">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="SliderLabel" onclick="umamiPress()" id="umamiLabel">Umami</td>
+
+                            <td>
+                                <input type="range" min="0" max="100" value="0" id="newUmamiSlider">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="SliderLabel" onclick="herbsPress()" id="herbsLabel">Herbs</td>
+
+                            <td>
+                                <input type="range" min="0" max="100" value="0" id="newHerbsSlider">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="SliderLabel" onclick="sourPress()" id="sourLabel">Sour</td>
+
+                            <td>
+                                <input type="range" min="0" max="100" value="0" id="newSourSlider">
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+                <div class="icon-bar">
+
+                    <img class="Image" src="Icons/VectorWhite.png" id="VectorImage" onclick="vectorPress(event)">
+                    <img class="Image" src="Icons/BrushWhite.png" id="BrushImage" onclick="brushPress(event)">
+                    <img class="Image" src="Icons/EraserWhite.png" id="EraserImage" onclick="eraserPress(event)">
+                    <img class="Image" src="Icons/SelectionWhite.png" id="SelectionImage" onclick="selectPress(event)">
+                    <img class="Image" src="Icons/MoveWhite.png" id="MoveImage" onclick="movePress(event)">
+                </div>
+            </div>
+        </div>
+
+        <div id="page3" class="tabcontent">
+
+            <div class="Tools">
+
+                <div class="icon-bar">
+
+                    <img class="Image" src="Icons/MinWhite.png" id="min" onclick="minPress(event)">
+                    <img class="Image" src="Icons/MaxWhite.png" id="max" onclick="maxPress(event)">
+                </div>
+            </div>
+        </div>
+        <div align="center">
+            <canvas id="BowlCanvas" width='300' height='300'></canvas>
+            <script src="app.js"></script>
+
+        </div>
+        <button class="printSoup" onclick="printSoup(event)">Print</button>
+        <footer class="BottomBar">
+            <div class="Navigation">
+                <div class="pagesNum">
+                    <button class="tablinks" onclick="singlePass(event, 'prev')"><</button>
+                    <button class="tablinks" onclick="openKitchen(event, 1)">1</button>
+                    <button class="tablinks" onclick="openKitchen(event, 2)">2</button>
+                    <button class="tablinks" onclick="openKitchen(event, 3)">3</button>
+                    <button class="tablinks" onclick="singlePass(event, 'next')">></button>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+</div>
+</body>
+</html>
