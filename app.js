@@ -568,7 +568,7 @@ function CanvasState(canvas) {
         });
 
         // Color all selected circles
-        $.each(sortedCircles, function (i, idcircle) {
+        $.each(colored, function (i, idcircle) {
             changeSpecificColor(idcircle.id, color)
         })
     }
