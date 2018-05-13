@@ -263,6 +263,7 @@ var _drawSvg = function (ctx, path, callback) {
         ctx.drawImage(img, 0, 0);
         callback();
     };
+    // img.crossOrigin = "Anonymous";
     img.src = path;
 };
 
