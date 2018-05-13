@@ -509,13 +509,13 @@ function CanvasState(canvas) {
             changeSpecificColor(id, color);
             numOfColoredSpicy += 1;
 
-            spicyFactor += ((document.getElementById("newSpicySlider").value)/ 100 )/ numOfSpicy;
-            $('#newSpicySlider').css('background-image',
-                '-webkit-gradient(linear, left top, right top, '
-                + 'color-stop(' + spicyFactor + ', #FF3852), '
-                + 'color-stop(' + spicyFactor + ', #ddd)'
-                + ')'
-            );
+            // spicyFactor += ((document.getElementById("newSpicySlider").value)/ 100 )/ numOfSpicy;
+            // $('#newSpicySlider').css('background-image',
+            //     '-webkit-gradient(linear, left top, right top, '
+            //     + 'color-stop(' + spicyFactor + ', #FF3852), '
+            //     + 'color-stop(' + spicyFactor + ', #ddd)'
+            //     + ')'
+            // );
 
         }
         if (color === "#AC50D3" && ((numOfUmami - numOfColoredUmami) > 0)){
@@ -1015,5 +1015,7 @@ function sourPress() {
     circleColor = "#E4E62E";
 
 }
+
+
 
 

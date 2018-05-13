@@ -26,7 +26,11 @@
 
 
     <div class="ToolBar">
+        <div align="center">
+            <canvas id="BowlCanvas" width='300' height='300'></canvas>
+            <script src="app.js"></script>
 
+        </div>
 
         <div id="page1" class="tabcontent">
             <div align="center">
@@ -62,39 +66,30 @@
 
 
             <div class="Tools">
+                <div class="SlidersContainer" align="center" width="55%">
 
-                <div class="SlidersContainer" align="center">
-                    <table align="center" width="55%">
-                        <tr>
-                            <td class="SliderLabel" onclick="spicyPress()" id="spicyLabel">Spicy</td>
+                        <div class ="flavor">
+                            <p class="valueSpicy"> 50% </p>
+                            <div id="spicyLabel" class="SliderLabel" onclick="spicyPress()" >Spicy</div>
+                            <input  type="range" min="0" max="100" value="0" id="newSpicySlider">
+                        </div>
 
-                            <td>
-                                <input type="range" min="0" max="100" value="0" id="newSpicySlider">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="SliderLabel" onclick="umamiPress()" id="umamiLabel">Umami</td>
+                    <div class ="flavor">
+                        <p class="value"> 0% </p>
+                        <div id="umamiLabel" class="SliderLabel" onclick="umamiPress()" >Umami</div>
+                            <input id="newUmamiSlider" type="range" min="0" max="100" value="0" >
 
-                            <td>
-                                <input type="range" min="0" max="100" value="0" id="newUmamiSlider">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="SliderLabel" onclick="herbsPress()" id="herbsLabel">Herbs</td>
-
-                            <td>
-                                <input type="range" min="0" max="100" value="0" id="newHerbsSlider">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="SliderLabel" onclick="sourPress()" id="sourLabel">Sour</td>
-
-                            <td>
-                                <input type="range" min="0" max="100" value="0" id="newSourSlider">
-                            </td>
-                        </tr>
-                    </table>
-
+                    </div>
+                    <div class ="flavor">
+                        <p class="value"> 0% </p>
+                        <div class="SliderLabel" onclick="herbsPress()" id="herbsLabel">Herbs</div>
+                            <input type="range" min="0" max="100" value="0" id="newHerbsSlider">
+                    </div>
+                    <div class ="flavor">
+                        <p class="value"> 0% </p>
+                        <div class="SliderLabel" onclick="sourPress()" id="sourLabel">Sour</div>
+                            <input type="range" min="0" max="100" value="0" id="newSourSlider">
+                    </div>
                 </div>
                 <div class="icon-bar">
 
@@ -118,11 +113,7 @@
                 </div>
             </div>
         </div>
-        <div align="center">
-            <canvas id="BowlCanvas" width='300' height='300'></canvas>
-            <script src="app.js"></script>
 
-        </div>
         <button class="printSoup" onclick="printSoup(event)">Print</button>
         <footer class="BottomBar">
             <div class="Navigation">
