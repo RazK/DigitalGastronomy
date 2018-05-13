@@ -544,6 +544,35 @@ function CanvasState(canvas) {
 
     });
 
+    function greedyFillColor(color, target){
+
+        // Knapsack algorithm
+        // Sort circle by size
+        // Remember original id
+        var sortableCircles = [];
+        $.each(_placedCirclesArr, function (i, circle){
+            sortedCircles.push({id:i, circle:circle});
+        })
+        // Sort tuples of {id, circle} by circle size
+        var sortedCircles = sortableCircles.sort(function(a,b){
+            return a.circle.size - b.circle.size;
+        });
+
+        // Collect ids of largest circles still fitting the sack
+        var colored = [];
+        $.each(sortedCircles, function (i, idcircle) {
+            if (idcircle.circle.size < target){
+                colored.push(idcircle.id);
+                target -= idcircle.circle.size;
+            }
+        });
+
+        // Color all selected circles
+        $.each(sortedCircles, function (i, idcircle) {
+            changeSpecificColor(idcircle.id, color)
+        })
+    }
+
     function changeSpecificColor(id, color) {
         var ctx = canvas.getContext("2d");
         console.log(ctx);
