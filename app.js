@@ -187,6 +187,9 @@ var placeCircles = function (imgData) {
 
 };
 
+var randrange = function(min, max){
+    return (max - min)*Math.random() + min;
+}
 
 var placeCirclesCentered = function () {
     //console.log(imgData);
@@ -194,9 +197,13 @@ var placeCirclesCentered = function () {
     console.log(_placedCirclesArr);
 
     var canvas_min = 0.3*Math.min(_canvasProps.width, _canvasProps.height)
-    var center_rad = (0.3+0.4*Math.random()) * canvas_min
-    var ring1_rad = (0.3+0.4*Math.random()) * (canvas_min - center_rad)
-    var ring2_rad = Math.min(0.8*ring1_rad, ((0.3+0.4*Math.random()) * (canvas_min - center_rad - ring1_rad)))
+    var center_rad = randrange(0.3*canvas_min, 0.8*canvas_min);
+    var level_1 = Math.round(5 + Math.random()*12);
+    //var ring1_rad = randrange(0.4*(canvas_min-center_rad), 0.7*(canvas_min-center_rad))
+    //var ring1_rad  = center_rad/[(1/Math.sin(Math.PI/level_1)) - 1]
+    var ring1_rad = Math.min(canvas_min - center_rad, center_rad * Math.sin(Math.PI/level_1)/(1 - Math.sin(Math.PI/level_1)))
+    var level_2 = Math.round(6 + Math.random()*12);
+    var ring2_rad = ring1_rad * Math.sin(Math.PI/level_2)/(1 - Math.sin(Math.PI/level_2))
 
     // Center
     var circle = _circles[0];
@@ -206,10 +213,9 @@ var placeCirclesCentered = function () {
     _placedCirclesArr.push(circle);
 
     // Ring 1
-    var level_1 = Math.round(6 + Math.random()*12);
     for (var i = 1; i < 1 + level_1; i++){
         var circle = _circles[i];
-        var frac = i/level_1;
+        var frac = i/(level_1);
         var deg = frac * 2 * Math.PI;
         var x = _circles[0].x + Math.cos(deg) * (center_rad + ring1_rad + 2);
         var y = _circles[0].y + Math.sin(deg) * (center_rad + ring1_rad + 2);
@@ -222,12 +228,11 @@ var placeCirclesCentered = function () {
     }
 
     // Ring 2
-    var level_2 = Math.round(6 + Math.random()*12);
     for (var i = 0; i < level_1; i++){
         for (var j = 0; j < level_2; j++){
             var circle = _circles[1 + level_1 + (i * level_2) + j];
             var ring1 = _circles[1 + i];
-            var frac = j/level_2;
+            var frac = j/(level_2);
             var deg = -frac * 2 * Math.PI;
             var x = ring1.x + Math.cos(deg) * (ring1_rad + ring2_rad + 2);
             var y = ring1.y + Math.sin(deg) * (ring1_rad + ring2_rad + 2);
@@ -242,6 +247,61 @@ var placeCirclesCentered = function () {
 
 };
 
+var placeCirclesCentered2 = function () {
+    //console.log(imgData);
+    _placedCirclesArr = [];
+    console.log(_placedCirclesArr);
+
+    var canvas_min = 0.3*Math.min(_canvasProps.width, _canvasProps.height)
+    var center_rad = randrange(0.3*canvas_min, 0.8*canvas_min);
+    var level_1 = Math.round(5 + Math.random()*12);
+    //var ring1_rad = randrange(0.4*(canvas_min-center_rad), 0.7*(canvas_min-center_rad))
+    //var ring1_rad  = center_rad/[(1/Math.sin(Math.PI/level_1)) - 1]
+    var ring1_rad = Math.min(canvas_min - center_rad, center_rad * Math.sin(Math.PI/level_1)/(1 - Math.sin(Math.PI/level_1)))
+    var level_2 = Math.round(6 + Math.random()*12);
+    var ring2_rad = ring1_rad * Math.sin(Math.PI/level_2)/(1 - Math.sin(Math.PI/level_2))
+
+    // Center
+    var circle = _circles[0];
+    circle.x = 0.5 *_canvasProps.width;
+    circle.y = 0.5 * _canvasProps.height
+    circle.size = center_rad;
+    _placedCirclesArr.push(circle);
+
+    // Ring 1
+    for (var i = 1; i < 1 + level_1; i++){
+        var circle = _circles[i];
+        var frac = i/(level_1);
+        var deg = frac * 2 * Math.PI;
+        var x = _circles[0].x + Math.cos(deg) * (center_rad + ring1_rad + 2);
+        var y = _circles[0].y + Math.sin(deg) * (center_rad + ring1_rad + 2);
+        circle.size = ring1_rad;
+        if (!_touchesPlacedCircle(x, y, circle.size)) {
+            circle.x = x;
+            circle.y = y;
+            _placedCirclesArr.push(circle);
+        }
+    }
+
+    // Ring 2
+    for (var i = 0; i < level_1; i++){
+        for (var j = 0; j < level_2; j++){
+            var circle = _circles[1 + level_1 + (i * level_2) + j];
+            var ring1 = _circles[1 + i];
+            var frac = j/(level_2);
+            var deg = -frac * 2 * Math.PI;
+            var x = ring1.x + Math.cos(deg) * (ring1_rad + ring2_rad + 2);
+            var y = ring1.y + Math.sin(deg) * (ring1_rad + ring2_rad + 2);
+            circle.size = ring2_rad;
+            if (!_touchesPlacedCircle(x, y, circle.size)) {
+                circle.x = x;
+                circle.y = y;
+                _placedCirclesArr.push(circle);
+            }
+        }
+    }
+
+};
 
 var _makeCircles = function () {
     var circles = [];
