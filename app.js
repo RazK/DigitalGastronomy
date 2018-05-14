@@ -1272,12 +1272,11 @@ function openKitchen(evt, curPage) {
     evt.currentTarget.className += " active";
 
 
-
-    if ( page === 3) {
-        greedyFillColor( "#E4E62E",sourFactor * 0.25); // sour
-        // greedyFillColor( '#FF3852',spicyFactor * 0.25); // spicy
-        // greedyFillColor( "#AC50D3",umamiFactor * 0.25); // omami
-        // greedyFillColor( "#75E039",herbsFactor * 0.25); // herb
+    if (page === 3) {
+        greedyFillColor('#FF3852', spicyFactor * 0.25); // spicy
+        greedyFillColor("#AC50D3", umamiFactor * 0.25); // omami
+        greedyFillColor("#75E039", herbsFactor * 0.25); // herb
+        greedyFillColor("#E4E62E", sourFactor * 0.25); // sour
 
     }
 
@@ -1338,19 +1337,14 @@ function herbval(val) {
 
 function sourVal(val) {
     $('#sourValue').text(val + "%");
-    spicyFactor = val;
+    sourFactor = val;
     $('#newSourSlider').css('background-image',
         '-webkit-gradient(linear, left top, right top, '
         + 'color-stop(' + val / 100 + ', #E4E62E), '
         + 'color-stop(' + val / 100 + ', #ddd)'
         + ')'
-    );
+    )
+    ;
 }
-
-
-
-
-
-
 
 
