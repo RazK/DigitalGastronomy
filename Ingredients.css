@@ -70,21 +70,23 @@ body{
     cursor: pointer;
 }
 
-#SpicySlider::-webkit-slider-thumb {
-    box-shadow: -100vw 0 0 100vw rgba(255, 56, 82, 0.84);
-}
+/*#newSpicySlider::-webkit-slider-thumb {*/
+    /*box-shadow: -100vw 0 0 100vw rgba(255, 56, 82, 0.84);*/
+/*}*/
 
-#UmamiSlider::-webkit-slider-thumb {
-    box-shadow: -100vw 0 0 100vw rgba(172, 80, 211, 0.76);
-}
+/*#newUmamiSlider::-webkit-slider-thumb {*/
+    /*box-shadow: -100vw 0 0 100vw rgba(172, 80, 211, 0.76);*/
+/*}*/
 
-#HerbsSlider::-webkit-slider-thumb {
-    box-shadow: -100vw 0 0 100vw rgba(117, 224, 57, 0.79);
-}
+/*#newHerbsSlider::-webkit-slider-thumb {*/
+    /*box-shadow: -100vw 0 0 100vw rgba(117, 224, 57, 0.79);*/
+/*}*/
 
-#SourSlider::-webkit-slider-thumb {
-    box-shadow: -100vw 0 0 100vw rgba(228, 230, 46, 0.79);
-}
+/*#newSourSlider::-webkit-slider-thumb {*/
+    /*box-shadow: -5vw 0 0 5vw blue;*/
+    /*!*box-shadow: -100vw 0 0 100vw rgba(228, 230, 46, 0.79);*!*/
+
+/*}*/
 
 
 .slider::-webkit-slider-runnable-track {
@@ -93,10 +95,10 @@ body{
 
 
 
-::-moz-range-track {
-    height: 40px;
-    background: #ddd;
-}
+/*::-moz-range-track {*/
+    /*height: 40px;*/
+    /*background: #ddd;*/
+/*}*/
 
 /*.slider::-moz-range-thumb {*/
     /*background: #fff;*/
@@ -109,9 +111,9 @@ body{
     /**/
 /*}*/
 
-::-ms-fill-lower {
-    background: dodgerblue;
-}
+/*::-ms-fill-lower {*/
+    /*background: dodgerblue;*/
+/*}*/
 
 /*::-ms-thumb {*/
     /*background: #fff;*/
@@ -125,20 +127,20 @@ body{
     /*display: none;*/
 /*}*/
 
-::-ms-ticks-before {
-    display: none;
-}
+/*::-ms-ticks-before {*/
+    /*display: none;*/
+/*}*/
 
-::-ms-track {
-    background: #ddd;
-    color: transparent;
-    height: 40px;
-    border: none;
-}
+/*::-ms-track {*/
+    /*background: #ddd;*/
+    /*color: transparent;*/
+    /*height: 40px;*/
+    /*border: none;*/
+/*}*/
 
-::-ms-tooltip {
-    display: none;
-}
+/*::-ms-tooltip {*/
+    /*display: none;*/
+/*}*/
 
 
 /*Top bar design*/
@@ -374,6 +376,14 @@ input[type='range']::-webkit-slider-thumb {
 
 input[type='range']{
     width: 100%;
+}
+
+
+
+input[type=range]::-moz-range-progress {
+    -webkit-appearance: none;
+    background-color: green;
+    height: 1em;
 }
 
 
