@@ -572,6 +572,9 @@ function CanvasState(canvas) {
             changeSpecificColor(idcircle.id, color)
         })
     }
+    canvas.addEventListener('dbclick', function () {
+        greedyFillColor("#75E039", 400);
+    })
 
     function changeSpecificColor(id, color) {
         var ctx = canvas.getContext("2d");
