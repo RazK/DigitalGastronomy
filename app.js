@@ -291,7 +291,7 @@ var placeCirclesCentered2 = function () {
         }
         level_1 -= 1; // dec circles number --> inc total size
     }
-    
+
     // Center
     var circle = _circles[0];
     circle.x = 0.5 *_canvasProps.width;
@@ -908,7 +908,7 @@ function greedyFillColor(color, target) {
     var sortableCircles = [];
 
     for (let i = 0 ; i < _placedCirclesArr.length ; i++) {
-        _placedCirclesArr[i].color = "black";
+        //_placedCirclesArr[i].color = "black";
         _placedCirclesArr[i].id = i;
         let obj = _placedCirclesArr[i];
         sortableCircles.push(obj);
@@ -930,7 +930,7 @@ function greedyFillColor(color, target) {
     // Collect ids of largest circles still fitting the sack
     var colored = [];
     $.each(sortedCircles, function (i, idcircle) {
-        if (idcircle.size < target) {
+        if (idcircle.size < target && (typeof(idcircle.color) === 'undefined' || idcircle.color === color)) {
             colored.push(idcircle.id);
             target -= idcircle.size;
         }
