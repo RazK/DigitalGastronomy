@@ -359,14 +359,14 @@ var _makeCircles = function () {
 
     for (var j = 0; j < 100; j++) {
         var circle = {
-            color: _colors[Math.round(Math.random() * _colors.length)],
+            color: _colors[0],
             size: 8 //do random twice to prefer more smaller ones
         };
         circles.push(circle);
 
         for (var j = 0; j < 300; j++) {
             var circle = {
-                color: _colors[Math.round(Math.random() * _colors.length)],
+                color: _colors[0],
                 size: 5 //do random twice to prefer more smaller ones
             };
             circles.push(circle);
