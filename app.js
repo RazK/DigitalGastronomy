@@ -124,6 +124,15 @@ var SourFactor = 0;
 var circleColor = "#ff9a83";
 var flag = false;
 
+var numOfSpicy = 0;
+var numOfColoredSpicy = 0;
+var numOfUmami = 0;
+var numOfColoredUmami = 0;
+var numOfHerbs = 0;
+var numOfColoredHerbs = 0;
+var numOfSour = 0;
+var numOfColoredSour = 0;
+
 
 var _isFilled = function (imgData, imageWidth, x, y) {
     x = Math.round(x);
@@ -545,21 +554,6 @@ function CanvasState(canvas) {
     });
 
 
-
-    function changeSpecificColor(id, color) {
-        var ctx = canvas.getContext("2d");
-        console.log(ctx);
-        _placedCirclesArr[id].color = color;
-        var circle = _placedCirclesArr[id];
-        // ctx.strokeStyle = "rgb(248,170,145)";
-        ctx.fillStyle = circle.color;
-        ctx.lineWidth = 0;
-
-        ctx.beginPath();
-        ctx.arc(circle.x, circle.y, circle.size, 0, 2 * Math.PI);
-        ctx.fill();
-    }
-
     function replaceCircle(id, color) {
 
         console.log("replaceCircle");
@@ -778,7 +772,19 @@ function CanvasState(canvas) {
 
 
     return {
+        changeSpecificColor: function (id, color) {
+            var ctx = canvas.getContext("2d");
+            console.log(ctx);
+            _placedCirclesArr[id].color = color;
+            var circle = _placedCirclesArr[id];
+            // ctx.strokeStyle = "rgb(248,170,145)";
+            ctx.fillStyle = circle.color;
+            ctx.lineWidth = 0;
 
+            ctx.beginPath();
+            ctx.arc(circle.x, circle.y, circle.size, 0, 2 * Math.PI);
+            ctx.fill();
+        }
     }
 
 }
@@ -807,49 +813,48 @@ CanvasState.prototype.getMouse = function (e) {
 }
 
 
-
-
-function greedyFillColor(color, target) {
-
-    // Knapsack algorithm
-    // Sort circle by size
-    // Remember original id
-    var sortableCircles = [];
-
-    for (let i = 0 ; i < _placedCirclesArr.length ; i++) {
-        _placedCirclesArr[i].color = "black";
-        _placedCirclesArr[i].id = i;
-        let obj = _placedCirclesArr[i];
-        sortableCircles.push(obj);
-    }
-
-
-    // $.each(_placedCirclesArr, function (i, circle) {
-    //     console.log(i);
-    //     console.log(circle);
-    //     console.log(obj);
-    //     sortedCircles.push(obj);
-    // })
-
-    // Sort tuples of {id, circle} by circle size
-    var sortedCircles = sortableCircles.sort(function (a, b) {
-        return a.circle.size - b.circle.size;
-    });
-
-    // Collect ids of largest circles still fitting the sack
-    var colored = [];
-    $.each(sortedCircles, function (i, idcircle) {
-        if (idcircle.circle.size < target) {
-            colored.push(idcircle.id);
-            target -= idcircle.circle.size;
-        }
-    });
-
-    // Color all selected circles
-    $.each(colored, function (i, idcircle) {
-        changeSpecificColor(idcircle.id, color)
-    })
-}
+//
+// function greedyFillColor(color, target) {
+//
+//     // Knapsack algorithm
+//     // Sort circle by size
+//     // Remember original id
+//     var sortableCircles = [];
+//
+//     for (let i = 0 ; i < _placedCirclesArr.length ; i++) {
+//         _placedCirclesArr[i].color = "black";
+//         _placedCirclesArr[i].id = i;
+//         let obj = _placedCirclesArr[i];
+//         sortableCircles.push(obj);
+//     }
+//
+//
+//     // $.each(_placedCirclesArr, function (i, circle) {
+//     //     console.log(i);
+//     //     console.log(circle);
+//     //     console.log(obj);
+//     //     sortedCircles.push(obj);
+//     // })
+//
+//     // Sort tuples of {id, circle} by circle size
+//     var sortedCircles = sortableCircles.sort(function (a, b) {
+//         return a.circle.size - b.circle.size;
+//     });
+//
+//     // Collect ids of largest circles still fitting the sack
+//     var colored = [];
+//     $.each(sortedCircles, function (i, idcircle) {
+//         if (idcircle.circle.size < target) {
+//             colored.push(idcircle.id);
+//             target -= idcircle.circle.size;
+//         }
+//     });
+//
+//     // Color all selected circles
+//     $.each(colored, function (i, idcircle) {
+//         changeSpecificColor(idcircle.id, color)
+//     })
+// }
 
 
 var putNoodleRandom = function () {
@@ -881,9 +886,8 @@ var putNoodleCentered = function () {
         //});
 
     })
-    greedyFillColor( "#E4E62E",324);
+    // greedyFillColor( "#E4E62E",324);
 }
-
 
 
 function initPlate() {
@@ -980,19 +984,6 @@ initPlate();
 //         }
 //     });
 // });
-
-// var numOfCircles;
-// var numOfCircles = 75;
-var numOfSpicy = 0;
-var numOfColoredSpicy = 0;
-var numOfUmami = 0;
-var numOfColoredUmami = 0;
-var numOfHerbs = 0;
-var numOfColoredHerbs = 0;
-var numOfSour = 0;
-var numOfColoredSour = 0;
-
-// calcCircles();
 
 
 function minPress(evt) {
@@ -1141,7 +1132,6 @@ function sourPress() {
     document.getElementById("umamiLabel").style.background = "white";
     document.getElementById("sourLabel").style.background = "#E4E62E";
     circleColor = "#E4E62E";
-
 }
 
 
