@@ -261,7 +261,8 @@ var placeCirclesCentered2 = function () {
     _placedCirclesArr = [];
     console.log(_placedCirclesArr);
 
-    var canvas_min = 0.3*Math.min(_canvasProps.width, _canvasProps.height)
+    var canvas = document.getElementById("BowlCanvas");
+    var canvas_min = 0.3*Math.min(canvas.width, canvas.height)
     var targetArea = canvas_min * canvas_min * Math.PI;
     var curArea = 0;
     var center_rad = randrange(0.3*canvas_min, 0.8*canvas_min);
@@ -291,7 +292,7 @@ var placeCirclesCentered2 = function () {
         }
         level_1 -= 1; // dec circles number --> inc total size
     }
-    
+
     // Center
     var circle = _circles[0];
     circle.x = 0.5 *_canvasProps.width;
@@ -351,7 +352,7 @@ var _makeCircles = function () {
     //
     for (var j = 0; j < 50; j++) {
         var circle = {
-            color: _colors[Math.round(Math.random() * _colors.length)],
+            color: _colors[0],
             size: 10 //do random twice to prefer more smaller ones
         };
         circles.push(circle);
@@ -900,18 +901,22 @@ CanvasState.prototype.getMouse = function (e) {
 
 
 
-function greedyFillColor(color, target) {
+function greedyFillColor(color, targetPercentage) {
 
     // Knapsack algorithm
     // Sort circle by size
     // Remember original id
+    var canvas = document.getElementById("BowlCanvas");
+    var target = (0.3)*canvas.width * canvas.height * targetPercentage / 100;
     var sortableCircles = [];
 
     for (let i = 0 ; i < _placedCirclesArr.length ; i++) {
-        _placedCirclesArr[i].color = "black";
+        //_placedCirclesArr[i].color = "black";
         _placedCirclesArr[i].id = i;
         let obj = _placedCirclesArr[i];
-        sortableCircles.push(obj);
+        if (obj.color === '#ff9a83') {
+            sortableCircles.push(obj);
+        }
     }
 
 
@@ -930,9 +935,9 @@ function greedyFillColor(color, target) {
     // Collect ids of largest circles still fitting the sack
     var colored = [];
     $.each(sortedCircles, function (i, idcircle) {
-        if (idcircle.size < target) {
+        if ((idcircle.size*idcircle.size*Math.PI) < target) {
             colored.push(idcircle.id);
-            target -= idcircle.size;
+            target -= (idcircle.size*idcircle.size*Math.PI);
         }
     });
 
@@ -943,8 +948,8 @@ function greedyFillColor(color, target) {
         var canvas = document.getElementById("BowlCanvas");
         var ctx = canvas.getContext("2d");
         console.log(ctx);
-        _placedCirclesArr[id].color = color;
-        var circle = _placedCirclesArr[id];
+        _placedCirclesArr[idcircle].color = color;
+        var circle = _placedCirclesArr[idcircle];
         // ctx.strokeStyle = "rgb(248,170,145)";
         ctx.fillStyle = circle.color;
         ctx.lineWidth = 0;
@@ -985,7 +990,9 @@ var putNoodleCentered = function () {
         //});
 
     })
-    greedyFillColor( "#E4E62E",324);
+    greedyFillColor( "#E4E62E",50);
+    greedyFillColor( "#75E039",25);
+    //greedyFillColor( "#75E039",5000);
 }
 
 
