@@ -122,6 +122,7 @@ var umamiFactor = 0;
 var HerbsFactor = 0;
 var SourFactor = 0;
 var circleColor = "#ff9a83";
+var flag = false;
 
 
 var _isFilled = function (imgData, imageWidth, x, y) {
@@ -196,26 +197,23 @@ var placeCirclesCentered = function () {
     _placedCirclesArr = [];
     console.log(_placedCirclesArr);
 
-    var canvas_min = 0.3*Math.min(_canvasProps.width, _canvasProps.height)
-    var center_rad = randrange(0.3*canvas_min, 0.8*canvas_min);
-    var level_1 = Math.round(5 + Math.random()*12);
-    //var ring1_rad = randrange(0.4*(canvas_min-center_rad), 0.7*(canvas_min-center_rad))
-    //var ring1_rad  = center_rad/[(1/Math.sin(Math.PI/level_1)) - 1]
-    var ring1_rad = Math.min(canvas_min - center_rad, center_rad * Math.sin(Math.PI/level_1)/(1 - Math.sin(Math.PI/level_1)))
-    var level_2 = Math.round(6 + Math.random()*12);
-    var ring2_rad = ring1_rad * Math.sin(Math.PI/level_2)/(1 - Math.sin(Math.PI/level_2))
+    var canvas_min = 0.3 * Math.min(_canvasProps.width, _canvasProps.height)
+    var center_rad = (0.3 + 0.4 * Math.random()) * canvas_min
+    var ring1_rad = (0.3 + 0.4 * Math.random()) * (canvas_min - center_rad)
+    var ring2_rad = Math.min(0.8 * ring1_rad, ((0.3 + 0.4 * Math.random()) * (canvas_min - center_rad - ring1_rad)))
 
     // Center
     var circle = _circles[0];
-    circle.x = 0.5 *_canvasProps.width;
+    circle.x = 0.5 * _canvasProps.width;
     circle.y = 0.5 * _canvasProps.height
     circle.size = center_rad;
     _placedCirclesArr.push(circle);
 
     // Ring 1
-    for (var i = 1; i < 1 + level_1; i++){
+    var level_1 = Math.round(6 + Math.random() * 12);
+    for (var i = 1; i < 1 + level_1; i++) {
         var circle = _circles[i];
-        var frac = i/(level_1);
+        var frac = i / level_1;
         var deg = frac * 2 * Math.PI;
         var x = _circles[0].x + Math.cos(deg) * (center_rad + ring1_rad + 2);
         var y = _circles[0].y + Math.sin(deg) * (center_rad + ring1_rad + 2);
@@ -228,11 +226,12 @@ var placeCirclesCentered = function () {
     }
 
     // Ring 2
-    for (var i = 0; i < level_1; i++){
-        for (var j = 0; j < level_2; j++){
+    var level_2 = Math.round(6 + Math.random() * 12);
+    for (var i = 0; i < level_1; i++) {
+        for (var j = 0; j < level_2; j++) {
             var circle = _circles[1 + level_1 + (i * level_2) + j];
             var ring1 = _circles[1 + i];
-            var frac = j/(level_2);
+            var frac = j / level_2;
             var deg = -frac * 2 * Math.PI;
             var x = ring1.x + Math.cos(deg) * (ring1_rad + ring2_rad + 2);
             var y = ring1.y + Math.sin(deg) * (ring1_rad + ring2_rad + 2);
@@ -246,6 +245,7 @@ var placeCirclesCentered = function () {
     }
 
 };
+
 
 var placeCirclesCentered2 = function () {
     //console.log(imgData);
@@ -413,9 +413,8 @@ var contain = function (mx, my) {
 };
 
 
-var _colors = [	"#ff9a83"];//, '#a5c916', '#00AA66', '#FF9900'];
+var _colors = ["#ff9a83"];//, '#a5c916', '#00AA66', '#FF9900'];
 var _circles = _makeCircles();
-
 
 
 function CanvasState(canvas) {
@@ -541,7 +540,7 @@ function CanvasState(canvas) {
                             console.log(circleColor);
                             numOfColoredSpicy += 1;
 
-                            spicyFactor += ((document.getElementById("newSpicySlider").value)/ 100 )/ numOfSpicy;
+                            spicyFactor += ((document.getElementById("newSpicySlider").value) / 100) / numOfSpicy;
                             $('#newSpicySlider').css('background-image',
                                 '-webkit-gradient(linear, left top, right top, '
                                 + 'color-stop(' + spicyFactor + ', #FF3852), '
@@ -555,7 +554,7 @@ function CanvasState(canvas) {
                             console.log(circleColor);
                             numOfColoredUmami += 1;
 
-                            umamiFactor += ((document.getElementById("newUmamiSlider").value)/ 100 )/ numOfUmami;
+                            umamiFactor += ((document.getElementById("newUmamiSlider").value) / 100) / numOfUmami;
                             $('#newUmamiSlider').css('background-image',
                                 '-webkit-gradient(linear, left top, right top, '
                                 + 'color-stop(' + umamiFactor + ', #AC50D3), '
@@ -569,7 +568,7 @@ function CanvasState(canvas) {
                             console.log(circleColor);
                             numOfColoredHerbs += 1;
 
-                            HerbsFactor += ((document.getElementById("newHerbsSlider").value)/ 100 )/ numOfHerbs;
+                            HerbsFactor += ((document.getElementById("newHerbsSlider").value) / 100) / numOfHerbs;
                             $('#newHerbsSlider').css('background-image',
                                 '-webkit-gradient(linear, left top, right top, '
                                 + 'color-stop(' + HerbsFactor + ', #75E039), '
@@ -583,7 +582,7 @@ function CanvasState(canvas) {
                             changeSpecificColor(c, circleColor);
                             numOfColoredSour += 1;
 
-                            SourFactor += ((document.getElementById("newSourSlider").value)/ 100 )/ numOfSour;
+                            SourFactor += ((document.getElementById("newSourSlider").value) / 100) / numOfSour;
                             $('#newSourSlider').css('background-image',
                                 '-webkit-gradient(linear, left top, right top, '
                                 + 'color-stop(' + SourFactor + ', #E4E62E), '
@@ -604,37 +603,7 @@ function CanvasState(canvas) {
 
     });
 
-    function greedyFillColor(color, target){
 
-        // Knapsack algorithm
-        // Sort circle by size
-        // Remember original id
-        var sortableCircles = [];
-        $.each(_placedCirclesArr, function (i, circle){
-            sortedCircles.push({id:i, circle:circle});
-        })
-        // Sort tuples of {id, circle} by circle size
-        var sortedCircles = sortableCircles.sort(function(a,b){
-            return a.circle.size - b.circle.size;
-        });
-
-        // Collect ids of largest circles still fitting the sack
-        var colored = [];
-        $.each(sortedCircles, function (i, idcircle) {
-            if (idcircle.circle.size < target){
-                colored.push(idcircle.id);
-                target -= idcircle.circle.size;
-            }
-        });
-
-        // Color all selected circles
-        $.each(colored, function (i, idcircle) {
-            changeSpecificColor(idcircle.id, color)
-        })
-    }
-    canvas.addEventListener('dbclick', function () {
-        greedyFillColor("#75E039", 400);
-    })
 
     function changeSpecificColor(id, color) {
         var ctx = canvas.getContext("2d");
@@ -653,7 +622,7 @@ function CanvasState(canvas) {
     function replaceCircle(id, color) {
 
         console.log("replaceCircle");
-        if (color === "#FF3852" && ((numOfSpicy - numOfColoredSpicy) > 0)){
+        if (color === "#FF3852" && ((numOfSpicy - numOfColoredSpicy) > 0)) {
             changeSpecificColor(id, color);
             numOfColoredSpicy += 1;
 
@@ -666,11 +635,11 @@ function CanvasState(canvas) {
             // );
 
         }
-        if (color === "#AC50D3" && ((numOfUmami - numOfColoredUmami) > 0)){
+        if (color === "#AC50D3" && ((numOfUmami - numOfColoredUmami) > 0)) {
             changeSpecificColor(id, color);
             numOfColoredUmami += 1;
 
-            umamiFactor += ((document.getElementById("newUmamiSlider").value)/ 100 )/ numOfUmami;
+            umamiFactor += ((document.getElementById("newUmamiSlider").value) / 100) / numOfUmami;
             $('#newUmamiSlider').css('background-image',
                 '-webkit-gradient(linear, left top, right top, '
                 + 'color-stop(' + umamiFactor + ', #AC50D3), '
@@ -678,11 +647,11 @@ function CanvasState(canvas) {
                 + ')'
             );
         }
-        if (color === "#75E039" && ((numOfHerbs - numOfColoredHerbs) > 0)){
+        if (color === "#75E039" && ((numOfHerbs - numOfColoredHerbs) > 0)) {
             changeSpecificColor(id, color);
             numOfColoredHerbs += 1;
 
-            HerbsFactor += ((document.getElementById("newHerbsSlider").value)/ 100 )/ numOfHerbs;
+            HerbsFactor += ((document.getElementById("newHerbsSlider").value) / 100) / numOfHerbs;
             $('#newHerbsSlider').css('background-image',
                 '-webkit-gradient(linear, left top, right top, '
                 + 'color-stop(' + HerbsFactor + ', #75E039), '
@@ -691,11 +660,11 @@ function CanvasState(canvas) {
             );
 
         }
-        if (color === "#E4E62E" && ((numOfSour - numOfColoredSour) > 0)){
+        if (color === "#E4E62E" && ((numOfSour - numOfColoredSour) > 0)) {
             changeSpecificColor(id, color);
             numOfColoredSour += 1;
 
-            SourFactor += ((document.getElementById("newSourSlider").value)/ 100 )/ numOfSour;
+            SourFactor += ((document.getElementById("newSourSlider").value) / 100) / numOfSour;
             $('#newSourSlider').css('background-image',
                 '-webkit-gradient(linear, left top, right top, '
                 + 'color-stop(' + SourFactor + ', #E4E62E), '
@@ -752,7 +721,7 @@ function CanvasState(canvas) {
         console.log(ctx);
         if (_placedCirclesArr[id].color === "#FF3852") {
             numOfColoredSpicy -= 1;
-            spicyFactor -= ((document.getElementById("newSpicySlider").value)/ 100 )/ numOfSpicy;
+            spicyFactor -= ((document.getElementById("newSpicySlider").value) / 100) / numOfSpicy;
             $('#newSpicySlider').css('background-image',
                 '-webkit-gradient(linear, left top, right top, '
                 + 'color-stop(' + spicyFactor + ', #FF3852), '
@@ -763,7 +732,7 @@ function CanvasState(canvas) {
         if (_placedCirclesArr[id].color === "#AC50D3") {
             numOfColoredUmami--;
 
-            umamiFactor -= ((document.getElementById("newUmamiSlider").value)/ 100 )/ numOfUmami;
+            umamiFactor -= ((document.getElementById("newUmamiSlider").value) / 100) / numOfUmami;
             $('#newUmamiSlider').css('background-image',
                 '-webkit-gradient(linear, left top, right top, '
                 + 'color-stop(' + umamiFactor + ', #AC50D3), '
@@ -774,7 +743,8 @@ function CanvasState(canvas) {
         if (_placedCirclesArr[id].color === "#75E039") {
             numOfColoredHerbs--;
 
-            HerbsFactor -= ((document.getElementById("newHerbsSlider").value)/ 100 )/ numOfHerbs;
+            HerbsFactor -= ((document.getElementById("newHerbsSlider").value) / 100) / numOfHerbs;
+            console.log("HerbsFactor: " + HerbsFactor);
             $('#newHerbsSlider').css('background-image',
                 '-webkit-gradient(linear, left top, right top, '
                 + 'color-stop(' + HerbsFactor + ', #75E039), '
@@ -785,7 +755,7 @@ function CanvasState(canvas) {
         if (_placedCirclesArr[id].color === "#E4E62E") {
             numOfColoredSour--;
 
-            SourFactor -= ((document.getElementById("newSourSlider").value)/ 100 )/ numOfSour;
+            SourFactor -= ((document.getElementById("newSourSlider").value) / 100) / numOfSour;
             $('#newSourSlider').css('background-image',
                 '-webkit-gradient(linear, left top, right top, '
                 + 'color-stop(' + SourFactor + ', #E4E62E), '
@@ -865,6 +835,11 @@ function CanvasState(canvas) {
 
     }, true);
 
+
+    return {
+
+    }
+
 }
 
 CanvasState.prototype.getMouse = function (e) {
@@ -891,7 +866,53 @@ CanvasState.prototype.getMouse = function (e) {
 }
 
 
+
+
+function greedyFillColor(color, target) {
+
+    // Knapsack algorithm
+    // Sort circle by size
+    // Remember original id
+    var sortableCircles = [];
+
+    for (let i = 0 ; i < _placedCirclesArr.length ; i++) {
+        _placedCirclesArr[i].color = "black";
+        _placedCirclesArr[i].id = i;
+        let obj = _placedCirclesArr[i];
+        sortableCircles.push(obj);
+    }
+
+
+    // $.each(_placedCirclesArr, function (i, circle) {
+    //     console.log(i);
+    //     console.log(circle);
+    //     console.log(obj);
+    //     sortedCircles.push(obj);
+    // })
+
+    // Sort tuples of {id, circle} by circle size
+    var sortedCircles = sortableCircles.sort(function (a, b) {
+        return a.circle.size - b.circle.size;
+    });
+
+    // Collect ids of largest circles still fitting the sack
+    var colored = [];
+    $.each(sortedCircles, function (i, idcircle) {
+        if (idcircle.circle.size < target) {
+            colored.push(idcircle.id);
+            target -= idcircle.circle.size;
+        }
+    });
+
+    // Color all selected circles
+    $.each(colored, function (i, idcircle) {
+        changeSpecificColor(idcircle.id, color)
+    })
+}
+
+
 var putNoodleRandom = function () {
+    flag = true;
     $(function () {
         $canvas = $("#BowlCanvas")
         console.log($canvas);
@@ -919,7 +940,9 @@ var putNoodleCentered = function () {
         //});
 
     })
+    greedyFillColor( "#E4E62E",324);
 }
+
 
 
 function initPlate() {
@@ -927,6 +950,7 @@ function initPlate() {
     var s = new CanvasState(document.getElementById("BowlCanvas"));
     document.querySelector("#newTimer")
     // var btn = document.querySelector("#random").addEventListener("click", putNoodleRandom, false);
+
 }
 
 
@@ -1096,8 +1120,6 @@ function vectorPress(evt) {
 }
 
 
-
-
 function brushPress(evt) {
     tooltype = "brush";
     restoreButtons(evt);
@@ -1180,7 +1202,5 @@ function sourPress() {
     circleColor = "#E4E62E";
 
 }
-
-
 
 

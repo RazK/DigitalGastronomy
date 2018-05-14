@@ -10,7 +10,6 @@
 <script src="https://github.com/douglascrockford/JSON-js/blob/master/json2.js" type="convert to json"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
-
 <head>
     <link rel="stylesheet" type="text/css" href="Ingredients.css">
     <meta charset="UTF-8">
@@ -68,29 +67,37 @@
             <div class="Tools">
                 <div class="SlidersContainer" align="center" width="55%">
 
-                        <div class ="flavor">
-                            <p class="valueSpicy"> 50% </p>
-                            <div id="spicyLabel" class="SliderLabel" onclick="spicyPress()" >Spicy</div>
-                            <input  type="range" min="0" max="100" value="0" id="newSpicySlider">
-                        </div>
+                    <div class="flavor">
+                        <p class="valueSpicy"> 50% </p>
+                        <div id="spicyLabel" class="SliderLabel" onclick="spicyPress()">Spicy</div>
+                        <input type="range" min="0" max="100" value="0" id="newSpicySlider">
+                    </div>
 
-                    <div class ="flavor">
+                    <div class="flavor">
                         <p class="value"> 0% </p>
-                        <div id="umamiLabel" class="SliderLabel" onclick="umamiPress()" >Umami</div>
-                            <input id="newUmamiSlider" type="range" min="0" max="100" value="0" >
+                        <div id="umamiLabel" class="SliderLabel" onclick="umamiPress()">Umami</div>
+                        <input id="newUmamiSlider" type="range" min="0" max="100" value="0">
 
                     </div>
-                    <div class ="flavor">
+                    <div class="flavor">
                         <p class="value"> 0% </p>
                         <div class="SliderLabel" onclick="herbsPress()" id="herbsLabel">Herbs</div>
-                            <input type="range" min="0" max="100" value="0" id="newHerbsSlider">
+                        <input type="range" min="0" max="100" value="0" id="newHerbsSlider">
                     </div>
-                    <div class ="flavor">
+                    <div class="flavor">
                         <p class="value"> 0% </p>
                         <div class="SliderLabel" onclick="sourPress()" id="sourLabel">Sour</div>
-                            <input type="range" min="0" max="100" value="0" id="newSourSlider">
+                        <input type="range" min="0" max="100" value="0" id="newSourSlider">
                     </div>
                 </div>
+                <h1>Custom Range Slider</h1>
+                <p>Drag the slider to display the current value.</p>
+
+                <div class="slidecontainer">
+                    <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+                    <p>Value: <span id="demo"></span></p>
+                </div>
+
                 <div class="icon-bar">
 
                     <img class="Image" src="Icons/VectorWhite.png" id="VectorImage" onclick="vectorPress(event)">
