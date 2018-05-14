@@ -1,14 +1,4 @@
-/**
- * Created by amircohen on 28/04/2018.
- */
-// var slider = document.getElementById("myRange");
-// var output = document.getElementById("demo");
-// output.innerHTML = slider.value; // Display the default slider value
 
-// Update the current slider value (each time you drag the slider handle)
-// slider.oninput = function() {
-//     output.innerHTML = this.value;
-// }
 
 var page = 0;
 
@@ -44,6 +34,11 @@ function openKitchen(evt, curPage) {
     // p.className += " active";
     // console.log(p);
     evt.currentTarget.className += " active";
+
+    if (page === 2) {
+        console.log("val: " + document.getElementById('sourValue'));
+        console.log("slider: " +document.getElementById('newSourSlider'));
+    }
 }
 
 
@@ -67,18 +62,6 @@ function restoreButtons(evt) {
 
 }
 
-//
-// function vectorPress(evt) {
-//     restoreButtons(evt);
-//     evt.currentTarget.src = ("Icons/VectorBlue.png");
-// }
-
-//
-//
-// function eraserPress(evt) {
-//     restoreButtons(evt);
-//     evt.currentTarget.src = ("Icons/EraserBlue.png");
-// }
 
 function selectPress(evt) {
     restoreButtons(evt);
@@ -104,122 +87,3 @@ function NoodleBrushPress(evt) {
 
 }
 
-// function minPress(evt){
-//     document.getElementById("min").src = "Icons/MinWhite.png";
-//     document.getElementById("max").src = "Icons/MaxWhite.png";
-//     evt.currentTarget.src = ("Icons/MinBlue.png");
-// }
-//
-// function maxPress(evt){
-//     document.getElementById("min").src = "Icons/MinWhite.png";
-//     document.getElementById("max").src = "Icons/MaxWhite.png";
-//     evt.currentTarget.src = ("Icons/MaxBlue.png");
-// }
-
-function myFunction() {
-    var x = document.getElementById("SourSlider");
-    // var defaultVal = x.defaultValue;
-    var currentVal = x.value;
-    document.getElementById("demo").innerHTML = "The default value was: " + currentVal
-    //     + "<br>The new, current value is: " + currentVal;
-    // if (defaultVal == currentVal) {
-    //     document.getElementById("demo").innerHTML = "Default value and current value is the same: "
-    //         + x.defaultValue + " and " + x.value
-    //         + "<br>Slide up or down with the slider control to see the difference!";
-    // } else {
-    //     document.getElementById("demo").innerHTML = "The default value was: " + defaultVal
-    //         + "<br>The new, current value is: " + currentVal;
-    // }
-}
-
-
-// var SourSlider = document.getElementById("SourSlider");
-// // Read the slider value.
-//
-// document.getElementById('readButton').addEventListener('click', function(){
-//     alert( SourSlider.value() );
-// });
-
-function CreateNoodle() {
-    var radius = parseInt(document.getElementById("textarea1").value);
-
-    var BowlCanvas = document.getElementById("BowlCanvas");
-    var noodle = BowlCanvas.getContext("2d");
-    var x = (BowlCanvas.width) / 2;
-    var y = (BowlCanvas.height) / 2;
-    noodle.beginPath();
-    noodle.arc(x, y, radius, 0, 2 * Math.PI);
-    noodle.fillStyle = "#e9e5c9";
-    noodle.fill();
-
-}
-
-
-// // var numOfCircles;
-// var numOfCircles = 75;
-// var numOfSpicy = 0;
-// var numOfUmami = 0;
-// var numOfHerbs = 0;
-// var numOfSour = 0;
-//
-// // calcCircles();
-//
-//
-// function brushPress(evt) {
-//     restoreButtons(evt);
-//     evt.currentTarget.src = ("Icons/BrushBlue.png");
-//     var flavourTotal = 0;
-//
-//     var spicyVal = (document.getElementById("SpicySlider")).value;
-//     var umamiVal = (document.getElementById("UmamiSlider")).value;
-//     var herbsVal = (document.getElementById("HerbsSlider")).value;
-//     var sourVal = (document.getElementById("SourSlider")).value;
-//
-//     if (spicyVal > 0) {
-//         flavourTotal += 100;
-//     }
-//     if (umamiVal > 0) {
-//         flavourTotal += 100;
-//     }
-//     if (herbsVal > 0) {
-//         flavourTotal += 100;
-//     }
-//     if (sourVal > 0) {
-//         flavourTotal += 100;
-//     }
-//
-//     numOfSpicy = Math.floor((spicyVal / flavourTotal) * numOfCircles);
-//     numOfUmami = Math.floor((umamiVal / flavourTotal) * numOfCircles);
-//     numOfHerbs = Math.floor((herbsVal / flavourTotal) * numOfCircles);
-//     numOfSour = Math.floor((sourVal / flavourTotal) * numOfCircles);
-//
-//     alert(numOfSpicy + "," + numOfUmami + ","  + numOfHerbs + "," + numOfSour + ",");
-// }
-
-// function spicyPress(){
-//     document.getElementById("spicyLabel").style.background = "#FF3852";
-//     document.getElementById("herbsLabel").style.background = "white";
-//     document.getElementById("umamiLabel").style.background = "white";
-//     document.getElementById("sourLabel").style.background = "white";
-// }
-//
-// function umamiPress(){
-//     document.getElementById("spicyLabel").style.background = "white";
-//     document.getElementById("herbsLabel").style.background = "white";
-//     document.getElementById("umamiLabel").style.background = "#AC50D3";
-//     document.getElementById("sourLabel").style.background = "white";
-// }
-//
-// function herbsPress(){
-//     document.getElementById("spicyLabel").style.background = "white";
-//     document.getElementById("herbsLabel").style.background = "#75E039";
-//     document.getElementById("umamiLabel").style.background = "white";
-//     document.getElementById("sourLabel").style.background = "white";
-// }
-//
-// function sourPress(){
-//     document.getElementById("spicyLabel").style.background = "white";
-//     document.getElementById("herbsLabel").style.background = "white";
-//     document.getElementById("umamiLabel").style.background = "white";
-//     document.getElementById("sourLabel").style.background = "#E4E62E";
-// }
