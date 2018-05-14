@@ -817,8 +817,10 @@ function greedyFillColor(color, target) {
     var sortableCircles = [];
 
     for (let i = 0 ; i < _placedCirclesArr.length ; i++) {
+        _placedCirclesArr[i].color = "black";
+        _placedCirclesArr[i].id = i;
         let obj = _placedCirclesArr[i];
-        sortedCircles.push(obj)
+        sortableCircles.push(obj);
     }
 
 
