@@ -1334,8 +1334,7 @@ function sourVal(val) {
     $('#sourValue').text(val + "%");
     sourFactor = val;
     $('#newSourSlider').css('background-image',
-        '-webkit-gradient(linear, left top, right top, '
-        + 'color-stop(' + val / 100 + ', #b6e079), '
+        '-webkit-gradient(linear, left top, right top, '        + 'color-stop(' + val / 100 + ', #b6e079), '
         + 'color-stop(' + val / 100 + ', #ddd)'
         + ')'
     );
