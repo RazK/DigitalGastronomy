@@ -1227,41 +1227,6 @@ function printSoup() {
 }
 
 
-function spicyPress() {
-    document.getElementById("spicyLabel").style.background = "#FF3852";
-    document.getElementById("herbsLabel").style.background = "white";
-    document.getElementById("umamiLabel").style.background = "white";
-    document.getElementById("sourLabel").style.background = "white";
-    circleColor = "#FF3852";
-
-}
-
-function umamiPress() {
-    document.getElementById("spicyLabel").style.background = "white";
-    document.getElementById("herbsLabel").style.background = "white";
-    document.getElementById("umamiLabel").style.background = "#AC50D3";
-    document.getElementById("sourLabel").style.background = "white";
-    circleColor = "#AC50D3";
-}
-
-function herbsPress() {
-    document.getElementById("spicyLabel").style.background = "white";
-    document.getElementById("herbsLabel").style.background = "#75E039";
-    document.getElementById("umamiLabel").style.background = "white";
-    document.getElementById("sourLabel").style.background = "white";
-    circleColor = "#75E039";
-
-}
-
-function sourPress() {
-    document.getElementById("spicyLabel").style.background = "white";
-    document.getElementById("herbsLabel").style.background = "white";
-    document.getElementById("umamiLabel").style.background = "white";
-    document.getElementById("sourLabel").style.background = "#E4E62E";
-    circleColor = "#E4E62E";
-
-}
-
 
 function openKitchen(evt, curPage) {
 
@@ -1332,7 +1297,7 @@ function spicyVal(val) {
     spicyFactor = val;
     $('#newSpicySlider').css('background-image',
         '-webkit-gradient(linear, left top, right top, '
-        + 'color-stop(' + val / 100 + ', #FF3852), '
+        + 'color-stop(' + val / 100 + ', #f97253), '
         + 'color-stop(' + val / 100 + ', #ddd)'
         + ')'
     );
@@ -1344,7 +1309,7 @@ function umamiVal(val) {
     umamiFactor = val;
     $('#newUmamiSlider').css('background-image',
         '-webkit-gradient(linear, left top, right top, '
-        + 'color-stop(' + val / 100 + ', #AC50D3), '
+        + 'color-stop(' + val / 100 + ', #a28275), '
         + 'color-stop(' + val / 100 + ', #ddd)'
         + ')'
     );
@@ -1358,7 +1323,7 @@ function herbval(val) {
 
     $('#newHerbsSlider').css('background-image',
         '-webkit-gradient(linear, left top, right top, '
-        + 'color-stop(' + val / 100 + ', #75E039), '
+        + 'color-stop(' + val / 100 + ', #a9c0a9), '
         + 'color-stop(' + val / 100 + ', #ddd)'
         + ')'
     );
@@ -1370,7 +1335,7 @@ function sourVal(val) {
     sourFactor = val;
     $('#newSourSlider').css('background-image',
         '-webkit-gradient(linear, left top, right top, '
-        + 'color-stop(' + val / 100 + ', #E4E62E), '
+        + 'color-stop(' + val / 100 + ', #b6e079), '
         + 'color-stop(' + val / 100 + ', #ddd)'
         + ')'
     );

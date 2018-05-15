@@ -30,22 +30,13 @@
             <script src="app.js"></script>
 
 
-
             <div id="page1" class="tabcontent">
                 <div align="center">
 
-                    <div class="row">
 
-                    </div>
-                    <div class="NoodleCircles"></div>
-                    <!--<img src="Images/Noodle.png" align="center">-->
-                </div>
-                <div class="Tools">
-                    <!-- Add icon library -->
-                    <link rel="stylesheet"
-                          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+                    <div class="Tools">
+                        <h1> SRUCTURE</h1>
 
-                    <div class="icon-bar">
                         <button class="NoodleOutline" onclick="putNoodleRandom()">ANCHORS</button>
                         <button class="NoodleOutline" onclick="putNoodleRandom()">EVEN</button>
                         <button class="NoodleOutline" onclick="putNoodleCentered()">CENTERED</button>
@@ -60,11 +51,12 @@
             </div>
 
             <div id="page2" class="tabcontent">
-                <div id="Bowl" align="center">
-                </div>
 
 
                 <div class="Tools">
+                    <h1> FLAVOURS</h1>
+
+
                     <div class="SlidersContainer" align="center" width="55%">
 
                         <div class="flavor">
@@ -95,21 +87,15 @@
                     </div>
 
 
-                    <div class="icon-bar">
-
-                        <!--<img class="Image" src="Icons/VectorWhite.png" id="VectorImage" onclick="vectorPress(event)">-->
-                        <!--<img class="Image" src="Icons/BrushWhite.png" id="BrushImage" onclick="brushPress(event)">-->
-                        <!--<img class="Image" src="Icons/EraserWhite.png" id="EraserImage" onclick="eraserPress(event)">-->
-                        <!--<img class="Image" src="Icons/SelectionWhite.png" id="SelectionImage"-->
-                        <!--onclick="selectPress(event)">-->
-                        <!--<img class="Image" src="Icons/MoveWhite.png" id="MoveImage" onclick="movePress(event)">-->
-                    </div>
                 </div>
             </div>
 
             <div id="page3" class="tabcontent">
 
                 <div class="Tools">
+
+                    <h1> FINE TUNINIG</h1>
+
                     <button id="erase" style="display: none" onclick="eraserBut()">erase</button>
                     <div class="wrapperBars">
                         <div class="ContainterBar" onclick="brushbut('#a28275')">
@@ -175,33 +161,33 @@
                 </div>
             </div>
 
-                    <div id="page5" class="tabcontent">
-                        <div class="Tools">
-                           READY
+            <div id="page5" class="tabcontent">
+                <div class="Tools">
+                    READY
 
-                        </div>
-
-                    </div>
                 </div>
-
-                <!--<button class="printSoup" onclick="printSoup(event)">Print</button>-->
-                <footer class="BottomBar">
-                    <div class="Navigation">
-                        <div class="pagesNum">
-                            <button class="tablinks passPage" onclick="singlePass(event, 'prev')">&nbsp;<&nbsp;</button>
-                            <button class="tablinks" onclick="openKitchen(event, 1)">1</button>
-                            <button class="tablinks" onclick="openKitchen(event, 2)">2</button>
-                            <button class="tablinks" onclick="openKitchen(event, 3)">3</button>
-                            <button class="tablinks" onclick="openKitchen(event, 4)">4</button>
-                            <button class="tablinks" onclick="openKitchen(event, 5)">5</button>
-
-
-                            <button class="tablinks passPage" onclick="singlePass(event, 'next')">&nbsp;>&nbsp;</button>
-                        </div>
-                    </div>
-                </footer>
 
             </div>
         </div>
+
+        <!--<button class="printSoup" onclick="printSoup(event)">Print</button>-->
+        <footer class="BottomBar">
+            <div class="Navigation">
+                <div class="pagesNum">
+                    <button class="tablinks passPage" onclick="singlePass(event, 'prev')">&nbsp;<&nbsp;</button>
+                    <button class="tablinks" onclick="openKitchen(event, 1)">1</button>
+                    <button class="tablinks" onclick="openKitchen(event, 2)">2</button>
+                    <button class="tablinks" onclick="openKitchen(event, 3)">3</button>
+                    <button class="tablinks" onclick="openKitchen(event, 4)">4</button>
+                    <button class="tablinks" onclick="openKitchen(event, 5)">5</button>
+
+
+                    <button class="tablinks passPage" onclick="singlePass(event, 'next')">&nbsp;>&nbsp;</button>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+</div>
 </body>
 </html>
