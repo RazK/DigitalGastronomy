@@ -290,7 +290,7 @@ var placeCirclesCentered2 = function () {
     var curArea = 0;
     var center_rad = randrange(0.3 * canvas_min, 0.8 * canvas_min);
     curArea += center_rad * center_rad * Math.PI
-    var level_1 = 20;
+    var level_1 = 15;
     var testArea = curArea;
     var lastTestArea = curArea;
     var tooBig = false;
@@ -304,7 +304,7 @@ var placeCirclesCentered2 = function () {
         level_1 -= 1; // dec circles number --> inc total size
     }
 
-    var level_2 = 20;
+    var level_2 = 15;
     curArea = lastTestArea;
     tooBig = false;
     while (!tooBig) {
