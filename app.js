@@ -6,6 +6,7 @@
 // #d3c9c9 border plate and backroung next/prex
 // #8c8181 letter
 // #fee9cc soup
+// 	#eae5e5 unused page
 
 
 // range bars:
@@ -133,7 +134,7 @@ const ORIGION = "#e8c880";
 var _canvasProps = {width: 300, height: 300};
 var _options = {spacing: 1, numCircles: 1000, minSize: 3, maxSize: 7, higherAccuracy: false};
 var _placedCirclesArr = [];
-var tooltype = 'brush';
+var tooltype = 'init';
 var ip = "1111";
 var spicyFactor = 0;
 var umamiFactor = 0;
@@ -152,6 +153,8 @@ var numOfSour = 0;
 var numOfColoredSour = 0;
 
 var page = 0;
+var anchorHighNum = 0
+var numOfColoredHigh = 0
 
 
 var _isFilled = function (imgData, imageWidth, x, y) {
@@ -500,6 +503,21 @@ function CanvasState(canvas) {
     }, false);
 
 
+    function changeSpecificColor(id, color) {
+        var ctx = canvas.getContext("2d");
+        console.log(ctx);
+        _placedCirclesArr[id].color = color;
+        var circle = _placedCirclesArr[id];
+        // ctx.strokeStyle = "rgb(248,170,145)";
+        ctx.fillStyle = circle.color;
+        ctx.lineWidth = 0;
+
+        ctx.beginPath();
+        ctx.arc(circle.x, circle.y, circle.size, 0, 2 * Math.PI);
+        ctx.fill();
+    }
+
+
     // Up, down, and move are for dragging
     canvas.addEventListener('mousedown', function (e) {
         myState.dragging = true;
@@ -642,61 +660,44 @@ function CanvasState(canvas) {
     function replaceCircle(id, color) {
 
         console.log("replaceCircle");
-        if (color === "#FF3852" && ((numOfSpicy - numOfColoredSpicy) > 0)) {
+        if (color === SPICY && ((numOfSpicy - numOfColoredSpicy) > 0)) {
             changeSpecificColor(id, color);
             numOfColoredSpicy += 1;
 
 
         }
-        if (color === "#AC50D3" && ((numOfUmami - numOfColoredUmami) > 0)) {
+        if (color === OMAMI && ((numOfUmami - numOfColoredUmami) > 0)) {
             changeSpecificColor(id, color);
             numOfColoredUmami += 1;
 
-            umamiFactor += ((document.getElementById("newUmamiSlider").value) / 100) / numOfUmami;
-            $('#newUmamiSlider').css('background-image',
-                '-webkit-gradient(linear, left top, right top, '
-                + 'color-stop(' + umamiFactor + ', #AC50D3), '
-                + 'color-stop(' + umamiFactor + ', #ddd)'
-                + ')'
-            );
+
         }
-        if (color === "#75E039" && ((numOfHerbs - numOfColoredHerbs) > 0)) {
+        if (color === HERBS && ((numOfHerbs - numOfColoredHerbs) > 0)) {
             changeSpecificColor(id, color);
             numOfColoredHerbs += 1;
 
-            herbsFactor += ((document.getElementById("newHerbsSlider").value) / 100) / numOfHerbs;
-            $('#newHerbsSlider').css('background-image',
-                '-webkit-gradient(linear, left top, right top, '
-                + 'color-stop(' + herbsFactor + ', #75E039), '
-                + 'color-stop(' + herbsFactor + ', #ddd)'
-                + ')'
-            );
-
         }
-        if (color === "#E4E62E" && ((numOfSour - numOfColoredSour) > 0)) {
+        if (color === SOUR && ((numOfSour - numOfColoredSour) > 0)) {
             changeSpecificColor(id, color);
             numOfColoredSour += 1;
-
-            sourFactor += ((document.getElementById("newSourSlider").value) / 100) / numOfSour;
-            // $('#newSourSlider').css('background-image',
-            //     '-webkit-gradient(linear, left top, right top, '
-            //     + 'color-stop(' + sourFactor + ', #E4E62E), '
-            //     + 'color-stop(' + sourFactor + ', #ddd)'
-            //     + ')'
-            // );
         }
     }
 
 
-    function setMin(id) {
+    function setHigh(id) {
         var ctx = canvas.getContext("2d");
         console.log(ctx);
-        _placedCirclesArr[id].z = 1;
+        _placedCirclesArr[id].z = 5;
         var circle = _placedCirclesArr[id];
-        console.log(circle);
 
 
-        ctx.strokeStyle = "red";
+
+
+
+        console.log("pinicon");
+
+
+        ctx.strokeStyle = "blue";
         ctx.fillStyle = circle.color;
         ctx.lineWidth = 3;
 
@@ -704,6 +705,8 @@ function CanvasState(canvas) {
         ctx.arc(circle.x, circle.y, circle.size, 0, 2 * Math.PI);
         ctx.fill();
         ctx.stroke();
+
+        numOfColoredHigh++;
 
 
     }
@@ -733,7 +736,7 @@ function CanvasState(canvas) {
         var ctx = canvas.getContext("2d");
         let bar, val, hi, factor, fixedFactor;
         console.log(ctx);
-        // spicy
+
         switch (_placedCirclesArr[id].color) {
             case OMAMI:
                 numOfColoredUmami--;
@@ -741,7 +744,8 @@ function CanvasState(canvas) {
                 //update bar:
                 bar = document.getElementById("progBarOmami");
                 val = document.getElementById("omamiVal");
-                hi = parseFloat(val.innerHTML);
+                hi = $("#progBarOmami").height();
+                console.log('hi: ' + hi);
                 factor = umamiFactor / numOfUmami;
                 break;
 
@@ -749,7 +753,7 @@ function CanvasState(canvas) {
                 numOfColoredSpicy--;
                 bar = document.getElementById("progBarSpicy");
                 val = document.getElementById("spicyVal");
-                hi = parseFloat(val.innerHTML);
+                hi = $("#progBarSpicy").height();
                 factor = spicyFactor / numOfSpicy;
                 break;
 
@@ -757,7 +761,7 @@ function CanvasState(canvas) {
                 numOfColoredHerbs--;
                 bar = document.getElementById("progBarHerbs");
                 val = document.getElementById("herbsVal");
-                hi = parseFloat(val.innerHTML);
+                hi = $("#progBarHerbs").height();
                 factor = herbsFactor / numOfHerbs;
                 break;
 
@@ -765,12 +769,13 @@ function CanvasState(canvas) {
                 numOfColoredSour--;
                 bar = document.getElementById("progBarSour");
                 val = document.getElementById("sourVal");
-                hi = parseFloat(val.innerHTML);
-                factor = sourFactor / numOfSour;;
+                hi = $("#progBarSour").height();
+                factor = sourFactor / numOfSour;
+                ;
                 break;
 
         }
-        fixedFactor = factor.toFixed(1);
+        fixedFactor = Math.ceil(factor);
         if (hi < 100) {
             hi += fixedFactor;
             bar.style.height = hi + '%';
@@ -823,16 +828,17 @@ function CanvasState(canvas) {
             }
         }
 
-        if (tooltype === "min") {
+        if (tooltype === "high") {
             // update z val
             // update stoke
-            console.log("min");
+            console.log("high");
             var mouse = myState.getMouse(e);
             var id = contain(mouse.x, mouse.y);
-            if (id >= 0) {
-                setMin(id);
+            if ((id >= 0) && (numOfColoredHigh < anchorHighNum)) {
+                setHigh(id);
                 // tooltype = "min";
             }
+
         }
 
         if (tooltype === "max") {
@@ -853,21 +859,7 @@ function CanvasState(canvas) {
     }, true);
 
 
-    return {
-        changeSpecificColor: function (id, color) {
-            var ctx = canvas.getContext("2d");
-            console.log(ctx);
-            _placedCirclesArr[id].color = color;
-            var circle = _placedCirclesArr[id];
-            // ctx.strokeStyle = "rgb(248,170,145)";
-            ctx.fillStyle = circle.color;
-            ctx.lineWidth = 0;
-
-            ctx.beginPath();
-            ctx.arc(circle.x, circle.y, circle.size, 0, 2 * Math.PI);
-            ctx.fill();
-        }
-    }
+    return {}
 
 }
 
@@ -1126,6 +1118,26 @@ function eraserBut() {
     console.log("erase presssed");
 }
 
+function brushbut(flavor) {
+    tooltype = "brush";
+    switch (flavor) {
+        case OMAMI:
+            circleColor = OMAMI;
+            break;
+        case SPICY:
+            circleColor = SPICY;
+            break;
+        case SOUR:
+            circleColor = SOUR;
+            break;
+        case HERBS:
+            circleColor = HERBS
+            break;
+    }
+    console.log("brush presssed");
+
+}
+
 
 function vectorPress(evt) {
     restoreButtons(evt);
@@ -1290,13 +1302,13 @@ function openKitchen(evt, curPage) {
         greedyFillColor("#a28275", umamiFactor * 0.25); // omami
         greedyFillColor("#a9c0a9", herbsFactor * 0.25); // herb
         greedyFillColor("#b6e079", sourFactor * 0.25); // sour
-
-    }
-    if (page === 4) {
         var era = document.getElementById("erase");
-        console.log(era);
         era.style.display = "block";
     }
+    else {
+
+    }
+
 
 }
 
@@ -1364,4 +1376,26 @@ function sourVal(val) {
     );
 }
 
+function updateAnchorsHigh(operator) {
+    console.log("in operator")
+
+
+    if (operator === '-') {
+
+        if (anchorHighNum > 0) {
+            anchorHighNum--;
+            document.getElementById("numHigh").innerHTML = anchorHighNum.toString();
+        }
+    }
+    if (operator === '+') {
+        if (anchorHighNum < _placedCirclesArr.length) {
+            anchorHighNum++;
+            document.getElementById("numHigh").innerHTML = anchorHighNum.toString();
+        }
+    }
+    if (anchorHighNum > 0) {
+        tooltype = "high";
+    }
+
+}
 

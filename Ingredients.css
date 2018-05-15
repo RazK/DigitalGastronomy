@@ -4,6 +4,9 @@ body{
     margin: 0;
     padding: 0;
     height: 100%;
+    color: #8c8181;
+    font-family: Helvetica;
+
 }
 
 
@@ -164,7 +167,15 @@ body{
     cursor: pointer;
     padding: 14px 16px;
     transition: 0.3s;
-    color: #ffaa92;
+    color: #eae5e5;
+    font-size: large;
+    font-weight: bold;
+}
+
+.passPage {
+    background-color: #eae5e5 ;
+    border-radius: 40%;
+    color: #8c8181;
 }
 
 .printSoup {
@@ -195,13 +206,14 @@ body{
 footer {
     position: fixed;
     font-family: Helvetica,sans-serif;
-    color: #ffaa92;
+    color: #eae5e5;
     overflow: hidden;
     /*background-color: 	#fdefee;*/
     /*position: fixed; !* Set the navbar to fixed position *!*/
     bottom: 0; /* Position the navbar at the top of the page */
     width: 100%; /* Full width */
     display: flex;
+    padding: 5%;
     justify-content: center;
     align-items: center;
     height:50px;
@@ -387,6 +399,7 @@ input[type=range]::-moz-range-progress {
     display: inline-table;
     width: 15%;
     height: 100%;
+    padding-bottom: 10%;
     /*margin: 5%;*/
     /*border: 1px solid black;*/
 
@@ -469,3 +482,78 @@ input[type=range]::-moz-range-progress {
 /*p {*/
     /*text-align: center;*/
 /*}*/
+
+
+.wrapperHigh {
+    /*border: 1px solid black;*/
+}
+
+.operation {
+    display: inline-block;
+    border-radius: 30%;
+    border: 1px solid blue;
+}
+
+#minusHigh {
+    display: inline-block;
+    padding: 2%;
+    background: #eae5e5;
+    border-radius: 30%;
+    margin: 0.5%;
+
+
+
+}
+
+* {box-sizing: border-box}
+
+
+#plusHigh {
+    display: inline-block;
+    padding: 2%;
+    background: #eae5e5;
+    border-radius: 30%;
+
+    margin: 0.5%;
+
+
+}
+#anchors {
+    display: inline-block;
+    padding: 1%;
+}
+
+#numHigh {
+    display: inline-block;
+    padding: 0.5%;
+    background: #eae5e5;
+    border-radius: 30%;
+
+}
+
+
+.containerHigh {
+    display: inline-block;
+    alignment: left;
+    width: 25%;
+    border: 2px solid #eae5e5;
+    border-radius: 10px;
+
+}
+
+.theline {
+    text-align: right;
+    /*padding-right: 20px;*/
+    line-height: 40px;
+    color: #8c8181;
+
+}
+
+.progBarHigh {
+    align-items: left;
+    width: 90%;
+    background-color: #8c8181;
+    border: 4px solid white;
+    border-radius: 10px;
+
+}
