@@ -290,7 +290,7 @@ var placeCirclesCentered2 = function () {
     var curArea = 0;
     var center_rad = randrange(0.3 * canvas_min, 0.8 * canvas_min);
     curArea += center_rad * center_rad * Math.PI
-    var level_1 = 20;
+    var level_1 = 15;
     var testArea = curArea;
     var lastTestArea = curArea;
     var tooBig = false;
@@ -304,7 +304,7 @@ var placeCirclesCentered2 = function () {
         level_1 -= 1; // dec circles number --> inc total size
     }
 
-    var level_2 = 20;
+    var level_2 = 15;
     curArea = lastTestArea;
     tooBig = false;
     while (!tooBig) {
@@ -888,7 +888,7 @@ CanvasState.prototype.getMouse = function (e) {
 }
 
 
-function greedyFillColor(color, targetPercentage) {
+function greedyFillColor(color, targetPercentage, isLeftoversEater=false) {
 
     // Knapsack algorithm
     // Sort circle by size
@@ -914,6 +914,29 @@ function greedyFillColor(color, targetPercentage) {
 
     // Collect ids of largest circles still fitting the sack
     var colored = [];
+    if (isLeftoversEater){
+        var idcircle = sortedCircles[0];
+        colored.push(idcircle.id);
+        target -= (idcircle.size * idcircle.size * Math.PI);
+        switch (color) {
+            case OMAMI:
+                numOfColoredUmami++;
+                numOfUmami++;
+                break;
+            case SPICY:
+                numOfColoredSpicy++;
+                numOfSpicy++;
+                break;
+            case SOUR:
+                numOfSour++;
+                numOfColoredSour++;
+                break;
+            case HERBS:
+                numOfColoredHerbs++;
+                numOfHerbs++;
+                break;
+        }
+    }
     $.each(sortedCircles, function (i, idcircle) {
         if ((idcircle.size * idcircle.size * Math.PI) < target) {
             colored.push(idcircle.id);
@@ -1266,7 +1289,7 @@ function openKitchen(evt, curPage) {
         greedyFillColor('#f97253', spicyFactor * 0.25); // spicy
         greedyFillColor("#a28275", umamiFactor * 0.25); // omami
         greedyFillColor("#a9c0a9", herbsFactor * 0.25); // herb
-        greedyFillColor("#b6e079", sourFactor * 0.25); // sour
+        greedyFillColor("#b6e079", sourFactor * 0.25, true); // sour
         var era = document.getElementById("erase");
         era.style.display = "block";
     }
