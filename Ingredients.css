@@ -2,6 +2,8 @@
 
 body{
     margin: 0;
+    padding: 0;
+    height: 100%;
 }
 
 
@@ -70,23 +72,6 @@ body{
     cursor: pointer;
 }
 
-/*#newSpicySlider::-webkit-slider-thumb {*/
-    /*box-shadow: -100vw 0 0 100vw rgba(255, 56, 82, 0.84);*/
-/*}*/
-
-/*#newUmamiSlider::-webkit-slider-thumb {*/
-    /*box-shadow: -100vw 0 0 100vw rgba(172, 80, 211, 0.76);*/
-/*}*/
-
-/*#newHerbsSlider::-webkit-slider-thumb {*/
-    /*box-shadow: -100vw 0 0 100vw rgba(117, 224, 57, 0.79);*/
-/*}*/
-
-/*#newSourSlider::-webkit-slider-thumb {*/
-    /*box-shadow: -5vw 0 0 5vw blue;*/
-    /*!*box-shadow: -100vw 0 0 100vw rgba(228, 230, 46, 0.79);*!*/
-
-/*}*/
 
 
 .slider::-webkit-slider-runnable-track {
@@ -95,61 +80,14 @@ body{
 
 
 
-/*::-moz-range-track {*/
-    /*height: 40px;*/
-    /*background: #ddd;*/
-/*}*/
-
-/*.slider::-moz-range-thumb {*/
-    /*background: #fff;*/
-    /*height: 40px;*/
-    /*width: 20px;*/
-    /*border: 3px solid #999;*/
-    /*border-radius: 0 !important;*/
-    /*box-shadow: -100vw 0 0 100vw dodgerblue;*/
-    /*box-sizing: border-box;*/
-    /**/
-/*}*/
-
-/*::-ms-fill-lower {*/
-    /*background: dodgerblue;*/
-/*}*/
-
-/*::-ms-thumb {*/
-    /*background: #fff;*/
-    /*border: 2px solid #999;*/
-    /*height: 40px;*/
-    /*width: 20px;*/
-    /*!*box-sizing: border-box;*!*/
-/*}*/
-
-/*::-ms-ticks-after {*/
-    /*display: none;*/
-/*}*/
-
-/*::-ms-ticks-before {*/
-    /*display: none;*/
-/*}*/
-
-/*::-ms-track {*/
-    /*background: #ddd;*/
-    /*color: transparent;*/
-    /*height: 40px;*/
-    /*border: none;*/
-/*}*/
-
-/*::-ms-tooltip {*/
-    /*display: none;*/
-/*}*/
-
 
 /*Top bar design*/
 
 .TopBar {
     font-family: Helvetica,sans-serif;
-    color: #ea8071;
+    color: white;
     overflow: hidden;
-    background-color: #fdefee;
+    background-color: #d3c9c9;
     /*position: fixed; !* Set the navbar to fixed position *!*/
     top: 0; /* Position the navbar at the top of the page */
     width: 100%; /* Full width */
@@ -168,8 +106,9 @@ body{
 
 /*Tools bar*/
 .Tools{
+    padding-bottom: 30%;
     margin:0;
-    position: inherit;
+    /*position: inherit;*/
 }
 
 
@@ -241,7 +180,7 @@ body{
 
 /* Create an active/current tablink class */
 .Navigation button.active {
-    color: #ea8071;
+    color: #8c8181;
     font-weight: bold;
     /*background-color: #cc4f76;*/
 }
@@ -249,7 +188,7 @@ body{
 /* Style the tab content */
 .tabcontent {
     display: none;
-    /*padding: 6px 12px;*/
+    padding-bottom: 30%;
     border-top: none;
 }
 
@@ -298,9 +237,9 @@ button{
 
 #BowlCanvas{
     /*padding-top: 3%;*/
-    border: 25px solid 	#fdefee;
+    border: 25px solid #d3c9c9;
     border-radius: 50%;
-    background-color: #ffd095;
+    background-color: #fee9cc;
 }
 
 
@@ -434,3 +373,99 @@ input[type=range]::-moz-range-progress {
 .value {
     text-align: center;
 }
+
+
+.wrapperBars {
+    display: block;
+    height: 100%;
+    width: 100%;
+    /*border: 1px solid black;*/
+}
+
+.ContainterBar {
+    /*float: left;*/
+    display: inline-table;
+    width: 15%;
+    height: 100%;
+    /*margin: 5%;*/
+    /*border: 1px solid black;*/
+
+}
+
+.bar {
+    /*margin: auto;*/
+    width: 40%;
+    height: 100%;
+    border-radius: 10%;
+}
+
+.progBar {
+    width: 100%;
+    height: 0%;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    line-height: 30px;
+
+}
+
+.omamiColor {
+    color: #a28275;
+}
+
+#progBarOmami {
+    background-color: #a28275;
+}
+
+.omamiFrame {
+    border: 2px solid;
+    border-color: #a28275;
+}
+
+
+.sourColor {
+    color: #b6e079;
+}
+
+#progBarSour {
+    background-color: #b6e079;
+}
+
+
+.sourFrame {
+    border: 3px solid;
+    border-color: #b6e079;
+}
+
+
+
+.spicyColor {
+    color: #f97253;
+}
+
+#progBarSpicy {
+    background-color: #f97253;
+}
+
+
+.spicyFrame {
+    border: 3px solid;
+    border-color: #f97253;
+}
+
+.herbsFrame {
+    border: 3px solid;
+    border-color: #a9c0a9;
+}
+
+
+.herbsColor {
+    color: #a9c0a9;
+}
+
+#progBarHerbs {
+    background-color: #a9c0a9;
+}
+
+/*p {*/
+    /*text-align: center;*/
+/*}*/

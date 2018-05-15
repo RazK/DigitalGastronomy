@@ -1,3 +1,13 @@
+// #a28275  omami
+// #b6e079 sour
+// #f97253 spicy
+// #a9c0a9 herb
+//	#f2d58b stoke circle
+// #d3c9c9 border plate and backroung next/prex
+// #8c8181 letter
+// #fee9cc soup
+
+
 // range bars:
 //
 // $(document).ready(function () {
@@ -112,7 +122,14 @@ function sleep(milliseconds) {
 /**------------------------
  ---------------*/
 
-const sss = document.getElementById('sourValue');
+const OMAMI = "#a28275";
+const SOUR = "#b6e079";
+const SPICY = "#f97253";
+const HERBS = "#a9c0a9";
+const STROKE = "#f2d58b";
+const ORIGION = "#e8c880";
+
+
 var _canvasProps = {width: 300, height: 300};
 var _options = {spacing: 1, numCircles: 1000, minSize: 3, maxSize: 7, higherAccuracy: false};
 var _placedCirclesArr = [];
@@ -122,7 +139,7 @@ var spicyFactor = 0;
 var umamiFactor = 0;
 var herbsFactor = 0;
 var sourFactor = 0;
-var circleColor = "#ff9a83";
+var circleColor = ORIGION;
 var flag = false;
 
 var numOfSpicy = 0;
@@ -202,7 +219,7 @@ var placeCircles = function (imgData) {
 
 var randrange = function (min, max) {
     return (max - min) * Math.random() + min;
-}
+};
 
 var placeCirclesCentered = function () {
     //console.log(imgData);
@@ -355,23 +372,23 @@ var _makeCircles = function () {
     //
     for (var j = 0; j < 50; j++) {
         var circle = {
-            color: _colors[0],
-            size: 10 //do random twice to prefer more smaller ones
+            color: ORIGION,
+            size: 8 //do random twice to prefer more smaller ones
         };
         circles.push(circle);
     }
 
     for (var j = 0; j < 100; j++) {
         var circle = {
-            color: _colors[0],
-            size: 8 //do random twice to prefer more smaller ones
+            color: ORIGION,
+            size: 6 //do random twice to prefer more smaller ones
         };
         circles.push(circle);
 
         for (var j = 0; j < 300; j++) {
             var circle = {
-                color: _colors[0],
-                size: 5 //do random twice to prefer more smaller ones
+                color: ORIGION,
+                size: 4 //do random twice to prefer more smaller ones
             };
             circles.push(circle);
         }
@@ -386,28 +403,15 @@ var _makeCircles = function () {
 };
 
 
-//
-// click_handler = function (e) {
-//     var mouse =
-//     var id = contain(mouse.x, mouse.y,);
-//     if(id >= 0 ){
-//         console.log(i);
-//         // _placedCirclesArr[i].color = "green";
-//     }
-//
-//
-// };
-
-
 var _drawCircles = function (ctx) {
     ctx.save();
     $.each(_circles, function (i, circle) {
-        ctx.fillStyle = "#ea8071";
+        ctx.fillStyle = "#e8c880";
         ctx.beginPath();
         ctx.arc(circle.x, circle.y, circle.size, 0, 2 * Math.PI);
         ctx.closePath();
         ctx.fill();
-        ctx.strokeStyle = "#ffaa92";
+        ctx.strokeStyle = "#f2d58b";
         ctx.lineWidth = 3;
         ctx.stroke();
 
@@ -415,9 +419,6 @@ var _drawCircles = function (ctx) {
     });
 
     ctx.restore();
-    // ctx.addEventListener("click", click_handler(event) , false)
-
-
 };
 
 var _drawSvg = function (ctx, path, callback) {
@@ -448,7 +449,6 @@ var contain = function (mx, my) {
 };
 
 
-var _colors = ["#ff9a83"];//, '#a5c916', '#00AA66', '#FF9900'];
 var _circles = _makeCircles();
 
 
@@ -646,13 +646,6 @@ function CanvasState(canvas) {
             changeSpecificColor(id, color);
             numOfColoredSpicy += 1;
 
-            // spicyFactor += ((document.getElementById("newSpicySlider").value)/ 100 )/ numOfSpicy;
-            // $('#newSpicySlider').css('background-image',
-            //     '-webkit-gradient(linear, left top, right top, '
-            //     + 'color-stop(' + spicyFactor + ', #FF3852), '
-            //     + 'color-stop(' + spicyFactor + ', #ddd)'
-            //     + ')'
-            // );
 
         }
         if (color === "#AC50D3" && ((numOfUmami - numOfColoredUmami) > 0)) {
@@ -738,64 +731,68 @@ function CanvasState(canvas) {
 
     function setOrigin(id) {
         var ctx = canvas.getContext("2d");
+        let bar, val, hi, factor, fixedFactor;
         console.log(ctx);
-        if (_placedCirclesArr[id].color === "#FF3852") {
-            numOfColoredSpicy -= 1;
-            spicyFactor -= ((document.getElementById("newSpicySlider").value) / 100) / numOfSpicy;
-            $('#newSpicySlider').css('background-image',
-                '-webkit-gradient(linear, left top, right top, '
-                + 'color-stop(' + spicyFactor + ', #FF3852), '
-                + 'color-stop(' + spicyFactor + ', #ddd)'
-                + ')'
-            );
-        }
-        if (_placedCirclesArr[id].color === "#AC50D3") {
-            numOfColoredUmami--;
+        // spicy
+        switch (_placedCirclesArr[id].color) {
+            case OMAMI:
+                numOfColoredUmami--;
+                console.log("numOfColoredUmami" + numOfColoredUmami);
+                //update bar:
+                bar = document.getElementById("progBarOmami");
+                val = document.getElementById("omamiVal");
+                hi = parseFloat(val.innerHTML);
+                factor = umamiFactor / numOfUmami;
+                break;
 
-            umamiFactor -= ((document.getElementById("newUmamiSlider").value) / 100) / numOfUmami;
-            $('#newUmamiSlider').css('background-image',
-                '-webkit-gradient(linear, left top, right top, '
-                + 'color-stop(' + umamiFactor + ', #AC50D3), '
-                + 'color-stop(' + umamiFactor + ', #ddd)'
-                + ')'
-            );
-        }
-        if (_placedCirclesArr[id].color === "#75E039") {
-            numOfColoredHerbs--;
+            case SPICY:
+                numOfColoredSpicy--;
+                bar = document.getElementById("progBarSpicy");
+                val = document.getElementById("spicyVal");
+                hi = parseFloat(val.innerHTML);
+                factor = spicyFactor / numOfSpicy;
+                break;
 
-            herbsFactor -= ((document.getElementById("newHerbsSlider").value) / 100) / numOfHerbs;
-            console.log("herbsFactor: " + herbsFactor);
-            $('#newHerbsSlider').css('background-image',
-                '-webkit-gradient(linear, left top, right top, '
-                + 'color-stop(' + herbsFactor + ', #75E039), '
-                + 'color-stop(' + herbsFactor + ', #ddd)'
-                + ')'
-            );
-        }
-        if (_placedCirclesArr[id].color === "#E4E62E") {
-            numOfColoredSour--;
+            case HERBS:
+                numOfColoredHerbs--;
+                bar = document.getElementById("progBarHerbs");
+                val = document.getElementById("herbsVal");
+                hi = parseFloat(val.innerHTML);
+                factor = herbsFactor / numOfHerbs;
+                break;
 
-            sourFactor -= ((document.getElementById("newSourSlider").value) / 100) / numOfSour;
-            // $('#newSourSlider').css('background-image',
-            //     '-webkit-gradient(linear, left top, right top, '
-            //     + 'color-stop(' + sourFactor + ', #E4E62E), '
-            //     + 'color-stop(' + sourFactor + ', #ddd)'
-            //     + ')'
-            // );
+            case SOUR:
+                numOfColoredSour--;
+                bar = document.getElementById("progBarSour");
+                val = document.getElementById("sourVal");
+                hi = parseFloat(val.innerHTML);
+                factor = sourFactor / numOfSour;;
+                break;
+
         }
-        _placedCirclesArr[id].color = "rgb(234,128,113)";
+        fixedFactor = factor.toFixed(1);
+        if (hi < 100) {
+            hi += fixedFactor;
+            bar.style.height = hi + '%';
+            val.innerHTML = hi + '%';
+            if (hi >= 95) {
+                bar.style.borderBottomRightRadius = 5 + "px";
+                bar.style.borderBottomLeftRadius = 5 + "px";
+            }
+        }
+
+        _placedCirclesArr[id].color = ORIGION;
         var circle = _placedCirclesArr[id];
         console.log(circle);
 
 
-        // ctx.strokeStyle = "rgb(234,128,113)";
+        ctx.strokeStyle = STROKE;
         ctx.fillStyle = circle.color;
-        ctx.lineWidth = 0;
-
+        ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.arc(circle.x, circle.y, circle.size, 0, 2 * Math.PI);
         ctx.fill();
-        // ctx.stroke();
+        ctx.stroke();
 
 
     }
@@ -912,18 +909,11 @@ function greedyFillColor(color, targetPercentage) {
         //_placedCirclesArr[i].color = "black";
         _placedCirclesArr[i].id = i;
         let obj = _placedCirclesArr[i];
-        if (obj.color === '#ff9a83') {
+        if (obj.color === '#e8c880') {
             sortableCircles.push(obj);
         }
     }
 
-
-    // $.each(_placedCirclesArr, function (i, circle) {
-    //     console.log(i);
-    //     console.log(circle);
-    //     console.log(obj);
-    //     sortedCircles.push(obj);
-    // })
 
     // Sort tuples of {id, circle} by circle size
     var sortedCircles = sortableCircles.sort(function (a, b) {
@@ -936,6 +926,24 @@ function greedyFillColor(color, targetPercentage) {
         if ((idcircle.size * idcircle.size * Math.PI) < target) {
             colored.push(idcircle.id);
             target -= (idcircle.size * idcircle.size * Math.PI);
+            switch (color) {
+                case OMAMI:
+                    numOfColoredUmami++;
+                    numOfUmami++;
+                    break;
+                case SPICY:
+                    numOfColoredSpicy++;
+                    numOfSpicy++;
+                    break;
+                case SOUR:
+                    numOfSour++;
+                    numOfColoredSour++;
+                    break;
+                case HERBS:
+                    numOfColoredHerbs++;
+                    numOfHerbs++;
+                    break;
+            }
         }
     });
 
@@ -1105,12 +1113,17 @@ function maxPress(evt) {
 
 }
 
+//
+// function eraserPress(evt) {
+//     restoreButtons(evt);
+//     evt.currentTarget.src = ("Icons/EraserBlue.png");
+//     tooltype = "erase";
+//
+// }
 
-function eraserPress(evt) {
-    restoreButtons(evt);
-    evt.currentTarget.src = ("Icons/EraserBlue.png");
+function eraserBut() {
     tooltype = "erase";
-
+    console.log("erase presssed");
 }
 
 
@@ -1273,11 +1286,16 @@ function openKitchen(evt, curPage) {
 
 
     if (page === 3) {
-        greedyFillColor('#FF3852', spicyFactor * 0.25); // spicy
-        greedyFillColor("#AC50D3", umamiFactor * 0.25); // omami
-        greedyFillColor("#75E039", herbsFactor * 0.25); // herb
-        greedyFillColor("#E4E62E", sourFactor * 0.25); // sour
+        greedyFillColor('#f97253', spicyFactor * 0.25); // spicy
+        greedyFillColor("#a28275", umamiFactor * 0.25); // omami
+        greedyFillColor("#a9c0a9", herbsFactor * 0.25); // herb
+        greedyFillColor("#b6e079", sourFactor * 0.25); // sour
 
+    }
+    if (page === 4) {
+        var era = document.getElementById("erase");
+        console.log(era);
+        era.style.display = "block";
     }
 
 }
@@ -1343,8 +1361,7 @@ function sourVal(val) {
         + 'color-stop(' + val / 100 + ', #E4E62E), '
         + 'color-stop(' + val / 100 + ', #ddd)'
         + ')'
-    )
-    ;
+    );
 }
 
 
