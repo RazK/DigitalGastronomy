@@ -30,6 +30,7 @@ var _options = {spacing: 1, numCircles: 1000, minSize: 3, maxSize: 7, higherAccu
 var _placedCirclesArr = [];
 var tooltype = 'init';
 var ip = "1111";
+var soupFactor;
 var spicyFactor = 0;
 var umamiFactor = 0;
 var herbsFactor = 0;
@@ -814,14 +815,11 @@ var putNoodleCentered = function () {
 };
 
 
-function initPlate() {
 
-    let s = new CanvasState(document.getElementById("BowlCanvas"));
-    document.querySelector("#newTimer")
-}
-
-
-initPlate();
+window.onload = function() {
+    // console.log('canvas: ' + document.getElementById("BowlCanvas"));
+    let s = new CanvasState( document.getElementById("BowlCanvas"));
+};
 
 //
 // function minPress(evt) {
@@ -1025,6 +1023,21 @@ function singlePass(evt, sign) {
 /**
  * Sliders Handlers:
  */
+
+function strucVal(val) {
+    $('#soupVal').text(val + "% \n SOUP");
+    $('#noodleVal').text("  " + (100 - val) + "% \n NOODLE");
+
+    sourFactor = val;
+    $('#structure_slider').css('background-image',
+        '-webkit-gradient(linear, left top, right top, '
+        + 'color-stop(' + val / 100 + ', #fee9cc), '
+        + 'color-stop(' + val / 100 + ', #e8c880)'
+        + ')'
+    );
+
+}
+
 
 
 function spicyVal(val) {
