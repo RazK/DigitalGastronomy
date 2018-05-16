@@ -661,6 +661,7 @@ function CanvasState(canvas) {
     //     }
     //
     // }, true);
+});
 }
 
 CanvasState.prototype.getMouse = function (e) {
@@ -915,12 +916,12 @@ function brushPress(evt) {
     tooltype = "brush";
     restoreButtons(evt);
     evt.currentTarget.src = ("Icons/BrushBlue.png");
-    var flavourTotal = 0;
+    let flavourTotal = 0;
 
-    var spicyVal = (document.getElementById("newSpicySlider")).value;
-    var umamiVal = (document.getElementById("newUmamiSlider")).value;
-    var herbsVal = (document.getElementById("newHerbsSlider")).value;
-    var sourVal = (document.getElementById("newSourSlider")).value;
+    let spicyVal = (document.getElementById("newSpicySlider")).value;
+    let umamiVal = (document.getElementById("newUmamiSlider")).value;
+    let herbsVal = (document.getElementById("newHerbsSlider")).value;
+    let sourVal = (document.getElementById("newSourSlider")).value;
 
     if (spicyVal > 0) {
         flavourTotal += parseInt(spicyVal);
@@ -952,7 +953,7 @@ function brushPress(evt) {
 
 function printSoup() {
     console.log(_placedCirclesArr);
-    var myJsonString = JSON.stringify(_placedCirclesArr);
+    let myJsonString = JSON.stringify(_placedCirclesArr);
     // console.log(myJsonString);
 
 
@@ -966,11 +967,11 @@ function openKitchen(evt, curPage) {
     page = curPage;
 
 
-    var BowlCanvas = document.getElementById("BowlCanvas");
-    var ctx = BowlCanvas.getContext("2d");
-    var x = (BowlCanvas.width) / 2;
-    var y = (BowlCanvas.height) / 2;
-    var i, tabcontent, tablinks;
+    let BowlCanvas = document.getElementById("BowlCanvas");
+    let ctx = BowlCanvas.getContext("2d");
+    let x = (BowlCanvas.width) / 2;
+    let y = (BowlCanvas.height) / 2;
+    let i, tabcontent, tablinks;
 
     // Get all elements with class="tabcontent" and hide them
     tabcontent = document.getElementsByClassName("tabcontent");
