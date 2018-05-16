@@ -16,16 +16,14 @@
     <title>Title</title>
 </head>
 <body>
-<div class="TopBar">
+<header class="TopBar">
     <div class="TopBarTitle">
         NOODLE SOUP
     </div>
-</div>
-<div class="Edit">
+</header>
+<main>
 
-
-    <div class="ToolBar">
-        <div align="center">
+        <!--<div align="center">-->
             <canvas id="BowlCanvas" width='300' height='300'></canvas>
             <script src="app.js"></script>
 
@@ -146,8 +144,8 @@
                     <h1> HEIGHTS</h1>
                     <div class="wrapperHigh">
                         <!--<div class="operation">-->
-                        <button id="minusHigh" onclick="updateAnchorsHigh('-')">-</button>
-                        <button id="plusHigh" onclick="updateAnchorsHigh('+')">+</button>
+                        <button id="minusHigh" onclick="updateAnchorsHigh('-')">&nbsp;-&nbsp;</button>
+                        <button id="plusHigh" onclick="updateAnchorsHigh('+')">&nbsp;+&nbsp;</button>
                         <!--</div>-->
                         <p id="numHigh">0</p>
                         <p id="anchors"> ANCHORS</p>
@@ -168,9 +166,9 @@
                 </div>
 
             </div>
-        </div>
+        <!--</div>-->
+</main>
 
-        <!--<button class="printSoup" onclick="printSoup(event)">Print</button>-->
         <footer class="BottomBar">
             <div class="Navigation">
                 <div class="pagesNum">
@@ -187,7 +185,5 @@
             </div>
         </footer>
 
-    </div>
-</div>
 </body>
 </html>
