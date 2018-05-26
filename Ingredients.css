@@ -483,6 +483,20 @@ input[type='range']::-webkit-slider-thumb {
     border-radius: 30%;
 }
 
+#erase.toErase {
+    background-color: #8c8181;
+    color: white;
+}
+
+.brush {
+    padding: 2%;
+    border-radius: 15vh;
+}
+
+
+.toBrush {
+    background-color: #eae5e5;
+}
 
 /********* page 4 ***********/
 

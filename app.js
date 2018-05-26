@@ -222,7 +222,7 @@ var placeCirclesCentered2 = function () {
 var _makeCircles = function () {
     let circles = [];
 
-    for (let j = 0; j < 15; j++) {
+    for (let j = 0; j < 100; j++) {
         let circle1 = {
             color: ORIGION,
             size: 20 //do random twice to prefer more smaller ones
@@ -887,25 +887,65 @@ var putNoodleCentered = function () {
 function eraserBut() {
     tooltype = "erase";
     console.log("erase presssed");
+
+    let labels = document.getElementsByClassName("brush");
+    // console.log(labels);
+
+    for (let i = 0; i < labels.length; i++) {
+        labels[i].className = labels[i].className.replace(" toBrush", "");
+    }
+
+    let erase = document.getElementById("erase");
+    erase.className += " toErase";
+
+
 }
 
+
+
 function brushbut(flavor) {
+
+    let labels = document.getElementsByClassName("brush");
+    console.log(labels);
+
+    for (let i = 0; i < labels.length; i++) {
+        labels[i].className = labels[i].className.replace(" toBrush", "");
+    }
+
+
+    let erase = document.getElementById("erase");
+    erase.className =  erase.className.replace(" toErase", "");
+
     tooltype = "brush";
     switch (flavor) {
         case OMAMI:
             circleColor = OMAMI;
-            break;
-        case SPICY:
-            circleColor = SPICY;
+            console.log(labels[0]);
+            labels[0].className += " toBrush";
+            labels[1].className += " toBrush";
+
             break;
         case SOUR:
             circleColor = SOUR;
+            labels[2].className += " toBrush";
+            labels[3].className += " toBrush";
+
+            break;
+        case SPICY:
+            circleColor = SPICY;
+            labels[4].className += " toBrush";
+            labels[5].className += " toBrush";
+
             break;
         case HERBS:
-            circleColor = HERBS
+            circleColor = HERBS;
+            labels[6].className += " toBrush";
+            labels[7].className += " toBrush";
             break;
     }
     console.log("brush presssed");
+
+
 
 }
 
