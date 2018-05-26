@@ -1030,14 +1030,12 @@ function brushPress(evt) {
 }
 
 function printSoup() {
-    console.log( "before: " +  _placedCirclesArr[0].x);
     for(let i = 0; i < _placedCirclesArr.length; i++) {
         _placedCirclesArr[i].x = (_placedCirclesArr[i].x - 150) / 20;
         _placedCirclesArr[i].y = (_placedCirclesArr[i].y - 150) / 20;
         _placedCirclesArr[i].size = (_placedCirclesArr[i].size) / 20;
     }
 
-    console.log( "after: " +_placedCirclesArr[0].x);
 
     json_obj = {vessels: _placedCirclesArr.slice(0,15)};
     var myJsonString = JSON.stringify(json_obj);
