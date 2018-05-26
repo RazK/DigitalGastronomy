@@ -213,8 +213,108 @@ var placeCirclesCentered2 = function () {
             }
         }
     }
-
 };
+
+const DEVIATION = 5/8.0;
+const PHI = (Math.sqrt(5)+1)/2 - 1;            // golden ratio
+const GOLDEN_ANGLE = 2 * PHI * Math.PI;        // golden angle
+var placeCirclesSpiral = function () {
+    //console.log(imgData);
+    _placedCirclesArr = [];
+    var big_circ_rad = 20; // sizes: 20, 13, 9
+    var med_circ_rad = 13; // sizes: 20, 13, 9
+    var small_circ_rad = 9; // sizes: 20, 13, 9
+    var spacing_fact = 1.2;
+
+    console.log(_placedCirclesArr);
+
+    var canvas = document.getElementById("BowlCanvas");
+    var canvas_min = 0.3 * Math.min(canvas.width, canvas.height)
+    var targetArea = canvas_min * canvas_min * Math.PI;
+    var curArea = 0;
+    var testArea = curArea;
+    var lastTestArea = curArea;
+
+    // Calc target areas
+    var big_target_area = 0.25 * Math.random() * targetArea;
+    var med_target_area = Math.random() * (targetArea - big_target_area);
+    var small_target_area = targetArea - big_target_area - med_target_area;
+
+    // Init before spiraling
+    var circ_i = 0;
+    var cur_circ;
+    let fudge = 0.1;
+    let cx = 0.5 * _canvasProps.width
+    let cy = 0.5 * _canvasProps.height
+
+    // BIG CIRCLES
+    // TODO: Potential bug - noodle percentage dictates less noodle than the area of center noodle (case unhandled)
+
+    // Place big circles
+    while (curArea + big_circ_rad * big_circ_rad * Math.PI <= big_target_area){
+        cur_circ = _circles[circ_i];
+        let angle = circ_i * GOLDEN_ANGLE;
+
+        let sm_dia = 2 * big_circ_rad;
+        let adj_sm_dia = sm_dia * fudge;
+
+        curArea += big_circ_rad * big_circ_rad * Math.PI;
+        let spiral_rad = spacing_fact*Math.sqrt( curArea / Math.PI );
+
+        cur_circ.x = cx + Math.cos(angle) * spiral_rad;
+        cur_circ.y = cy + Math.sin(angle) * spiral_rad;
+        cur_circ.size = big_circ_rad;
+
+        _placedCirclesArr.push(cur_circ);
+
+        circ_i += 1;
+    }
+
+    // MEDIUM CIRCLES
+
+    // Place medium circles
+    while (curArea + med_circ_rad * med_circ_rad * Math.PI <= big_target_area + med_target_area){ // add big + med targets so that med circles accommodate for big circles breaking before full
+        cur_circ = _circles[circ_i];
+        let angle = circ_i * GOLDEN_ANGLE;
+
+        let sm_dia = 2 * med_circ_rad;
+        let adj_sm_dia = sm_dia * fudge;
+
+        curArea += med_circ_rad * med_circ_rad * Math.PI;
+        let spiral_rad = spacing_fact*Math.sqrt( curArea / Math.PI );
+
+        cur_circ.x = cx + Math.cos(angle) * spiral_rad;
+        cur_circ.y = cy + Math.sin(angle) * spiral_rad;
+        cur_circ.size = med_circ_rad;
+
+        _placedCirclesArr.push(cur_circ);
+
+        circ_i += 1;
+    }
+
+    // SMALL CIRCLES
+
+    // Place small circles
+    while (curArea + small_circ_rad * small_circ_rad * Math.PI <= targetArea){ // add big + med targets so that med circles accommodate for big circles breaking before full
+        cur_circ = _circles[circ_i];
+        let angle = circ_i * GOLDEN_ANGLE;
+
+        let sm_dia = 2 * small_circ_rad;
+        let adj_sm_dia = sm_dia * fudge;
+
+        curArea += small_circ_rad * small_circ_rad * Math.PI;
+        let spiral_rad = spacing_fact*Math.sqrt( curArea / Math.PI );
+
+        cur_circ.x = cx + Math.cos(angle) * spiral_rad;
+        cur_circ.y = cy + Math.sin(angle) * spiral_rad;
+        cur_circ.size = small_circ_rad;
+
+        _placedCirclesArr.push(cur_circ);
+
+        circ_i += 1;
+    }
+};
+
 
 /**
  * create and draw single circle logic
@@ -849,7 +949,8 @@ var putNoodleCentered = function () {
         $canvas = $("#BowlCanvas");
         console.log($canvas);
         let ctx = $canvas[0].getContext('2d');
-        placeCirclesCentered2();
+        //placeCirclesCentered2();
+        placeCirclesSpiral();
         _drawCircles($canvas[0].getContext('2d'));
         //_drawSvg(ctx, 'Try.svg', function () {
         //    var imgData = ctx.getImageData(0, 0, _canvasProps.width, _canvasProps.height);
