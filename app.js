@@ -24,7 +24,7 @@ const ORIGION = "#e8c880";
 
 
 var _canvasProps = {width: 300, height: 300};
-var _options = {spacing: 1, numCircles: 1000, minSize: 3, maxSize: 7, higherAccuracy: false};
+var _options = {spacing: -2.5, numCircles: 1000, minSize: 3, maxSize: 7, higherAccuracy: false};
 var _placedCirclesArr = [];
 var tooltype = 'init';
 var ip = "1111";
@@ -35,6 +35,8 @@ var herbsFactor = 0;
 var sourFactor = 0;
 var circleColor = ORIGION;
 var flag = false;
+
+var drawnFlag = false;
 
 var numOfSpicy = 0;
 var numOfColoredSpicy = 0;
@@ -48,6 +50,7 @@ var numOfColoredSour = 0;
 var page = 1;
 var anchorHighNum = 0
 var numOfColoredHigh = 0
+
 
 
 // use to slow  operation
@@ -140,17 +143,17 @@ var placeCirclesCentered2 = function () {
     console.log(_placedCirclesArr);
 
     let canvas = document.getElementById("BowlCanvas");
-    let canvas_min = 0.3 * Math.min(canvas.width, canvas.height)
+    let canvas_min = 0.3 * Math.min(canvas.width, canvas.height);
     let targetArea = canvas_min * canvas_min * Math.PI;
     let curArea = 0;
     let center_rad = randrange(0.3 * canvas_min, 0.8 * canvas_min);
-    curArea += center_rad * center_rad * Math.PI
+    curArea += center_rad * center_rad * Math.PI;
     let level_1 = 15;
     let testArea = curArea;
     let lastTestArea = curArea;
     let tooBig = false;
     while (!tooBig) {
-        var ring1_rad = Math.min(canvas_min - center_rad, center_rad * Math.sin(Math.PI / level_1) / (1 - Math.sin(Math.PI / level_1)))
+        var ring1_rad = Math.min(canvas_min - center_rad, center_rad * Math.sin(Math.PI / level_1) / (1 - Math.sin(Math.PI / level_1)));
         testArea = curArea + (ring1_rad * ring1_rad) * Math.PI * level_1;
         if (testArea > targetArea) {
             tooBig = true;
@@ -159,11 +162,11 @@ var placeCirclesCentered2 = function () {
         level_1 -= 1; // dec circles number --> inc total size
     }
 
-    var level_2 = 15;
+    let level_2 = 15;
     curArea = lastTestArea;
     tooBig = false;
     while (!tooBig) {
-        var ring2_rad = Math.min(canvas_min - center_rad, ring1_rad * Math.sin(Math.PI / level_2) / (1 - Math.sin(Math.PI / level_2)))
+        var ring2_rad = Math.min(canvas_min - center_rad, ring1_rad * Math.sin(Math.PI / level_2) / (1 - Math.sin(Math.PI / level_2)));
         testArea = curArea + (ring1_rad * ring1_rad) * Math.PI * level_2;
         if (testArea > targetArea) {
             tooBig = true;
@@ -174,7 +177,7 @@ var placeCirclesCentered2 = function () {
     // Center
     var circle = _circles[0];
     circle.x = 0.5 * _canvasProps.width;
-    circle.y = 0.5 * _canvasProps.height
+    circle.y = 0.5 * _canvasProps.height;
     circle.size = center_rad;
     _placedCirclesArr.push(circle);
 
@@ -218,35 +221,28 @@ var placeCirclesCentered2 = function () {
  */
 var _makeCircles = function () {
     let circles = [];
-    for (let j = 0; j < 50; j++) {
-        let circle = {
+
+    for (let j = 0; j < 15; j++) {
+        let circle1 = {
             color: ORIGION,
-            size: 7 //do random twice to prefer more smaller ones
+            size: 20 //do random twice to prefer more smaller ones
         };
-        circles.push(circle);
-    }
+        circles.push(circle1);
 
-    for (let j = 0; j < 100; j++) {
-        let circle = {
+
+        let circle2 = {
             color: ORIGION,
-            size: 6 //do random twice to prefer more smaller ones
+            size: 9 //do random twice to prefer more smaller ones
         };
-        circles.push(circle);
+        circles.push(circle2);
 
-        for (let j = 0; j < 300; j++) {
-            let circle = {
-                color: ORIGION,
-                size: 4 //do random twice to prefer more smaller ones
-            };
-            circles.push(circle);
-        }
 
+        let circle3 = {
+            color: ORIGION,
+            size: 9 //do random twice to prefer more smaller ones
+        };
+        circles.push(circle3);
     }
-
-
-    circles.sort(function (a, b) {
-        return a.size - b.size;
-    });
     return circles;
 };
 
@@ -266,6 +262,30 @@ var _drawCircles = function (ctx) {
 
     ctx.restore();
 };
+
+var _drawPath = function (ctx, points, callback) {
+
+    // let img = new Image(ctx);
+    // img.onload = function () {
+    //     ctx.drawImage(img, 0, 0);
+    // };
+    // img.src = path;
+    ctx.fillStyle = "blue";
+    /** set path */
+    ctx.moveTo(100, 100);
+    ctx.lineTo(100, 200);
+    ctx.lineTo(200, 200);
+    ctx.lineTo(200, 100);
+    ctx.closePath();
+    // ctx.lineTo(200,200);
+
+    /** render */
+    ctx.fill();
+    ctx.stroke();
+    callback();
+
+};
+
 
 var _drawSvg = function (ctx, path, callback) {
 
@@ -329,7 +349,8 @@ function CanvasState(canvas) {
     this.shapes = [];  // the collection of things to be drawn
     this.dragging = false; // Keep track of when we are dragging
     // the current selected object. In the future we could turn this into an array for multiple selection
-    this.coor = [];
+    this.coorVec = [];
+    this.coorCreate = [];
     this.dragoffx = 0; // See mousedown and mousemove events for explanation
     this.dragoffy = 0;
 
@@ -350,10 +371,10 @@ function CanvasState(canvas) {
 
 
     function changeSpecificColor(id, color) {
-        var ctx = canvas.getContext("2d");
+        let ctx = canvas.getContext("2d");
         console.log(ctx);
         _placedCirclesArr[id].color = color;
-        var circle = _placedCirclesArr[id];
+        let circle = _placedCirclesArr[id];
         // ctx.strokeStyle = "rgb(248,170,145)";
         ctx.fillStyle = circle.color;
         ctx.lineWidth = 0;
@@ -364,65 +385,51 @@ function CanvasState(canvas) {
     }
 
 
-    // Up, down, and move are for dragging
-    canvas.addEventListener('mousedown', function (e) {
-        myState.dragging = true;
-        myState.coor = [];
-
-
-        // var mx = mouse.x;
-        // var my = mouse.y;
-        // var shapes = myState.shapes;
-        // var l = shapes.length;
-        // for (var i = l-1; i >= 0; i--) {
-        //     if (shapes[i].contains(mx, my)) {
-        //         var mySel = shapes[i];
-        //         // Keep track of where in the object we clicked
-        //         // so we can move it smoothly (see mousemove)
-        //         myState.dragoffx = mx - mySel.x;
-        //         myState.dragoffy = my - mySel.y;
-        //         myState.dragging = true;
-        //         myState.selection = mySel;
-        //         myState.valid = false;
-        //         return;
-        //     }
-        //
-        // havent returned means we have failed to select anything.
-        // If there was an object selected, we deselect it
-        // if (myState.selection) {
-        //     myState.selection = null;
-        //     myState.valid = false; // Need to clear the old selection border
-        // }
-    }, true);
-    canvas.addEventListener('mousemove', function (e) {
-        if ((myState.dragging) && (tooltype === "vector")) {
+    canvas.addEventListener( 'touchmove', function (e) {
+        if ((myState.dragging) && (tooltype === "vector"))  {
+            // myState.coorVec = [];
             sleep(100);
-            var mouse = myState.getMouse(e);
+            let mouse = myState.getMouse(e);
             // We don't want to drag the object by its top-left corner, we want to drag it
             // from where we clicked. Thats why we saved the offset and use it here
             // myState.selection.x = mouse.x - myState.dragoffx;
             // myState.selection.y = mouse.y - myState.dragoffy;
             myState.valid = false; // Something's dragging so we must redraw
 
-            myState.coor.push(mouse.x);
-            myState.coor.push(mouse.y);
-            console.log(myState.coor);
+            myState.coorVec.push(mouse.x);
+            myState.coorVec.push(mouse.y);
+            console.log(myState.coorVec);
 
         }
+        if ((myState.dragging) && (tooltype === "create")) {
+            // myState.coorCreate = [];
+            // sleep(200);
+            let mouse = myState.getMouse(e);
+            myState.valid = false; // Something's dragging so we must redraw
+            myState.coorCreate.push(mouse.x);
+            myState.coorCreate.push(mouse.y);
+            console.log("array create: " + myState.coorCreate);
+
+        }
+
+
+
     }, true);
-    canvas.addEventListener('mouseup', function (e) {
+
+
+    canvas.addEventListener('touchend', function (e) {
         if (tooltype === "vector") {
             // get 3 points
             let r = 25;
-            let startPx = myState.coor[0];
-            let startPy = myState.coor[1];
+            let startPx = myState.coorVec[0];
+            let startPy = myState.coorVec[1];
 
-            let midId = Math.floor(myState.coor.length / 2);
-            let midPx = myState.coor[midId];
-            let midPy = myState.coor[midId + 1];
+            let midId = Math.floor(myState.coorVec.length / 2);
+            let midPx = myState.coorVec[midId];
+            let midPy = myState.coorVec[midId + 1];
 
-            let endPx = myState.coor[myState.coor.length - 2];
-            let endPy = myState.coor[myState.coor.length - 1];
+            let endPx = myState.coorVec[myState.coorVec.length - 2];
+            let endPy = myState.coorVec[myState.coorVec.length - 1];
 
             let points = [startPx, startPy, midPx, midPy, endPx, endPy];
 
@@ -471,6 +478,26 @@ function CanvasState(canvas) {
                 }
             }
         }
+        if (tooltype === "create") {
+
+            let ctx = canvas.getContext("2d");
+            ctx.fillStyle = "#fee9cc"; // notice: same as background canvas color
+            console.log("array: " + myState.coorCreate);
+            console.log("in mouseop create");
+            ctx.moveTo(myState.coorCreate[0], myState.coorCreate[1]);
+            for (let i = 2; i < myState.coorCreate.length-1; i+=2) {
+                ctx.lineTo(myState.coorCreate[i], myState.coorCreate[i+1]);
+            }
+            ctx.closePath();
+
+            ctx.fill();
+            // ctx.stroke();
+            let imgData = ctx.getImageData(0, 0, _canvasProps.width, _canvasProps.height);
+            placeCircles(imgData);
+            _drawCircles(ctx);
+
+        }
+
     });
 
     function replaceCircle(id, color) {
@@ -510,10 +537,6 @@ function CanvasState(canvas) {
         img.src = 'Images/imagefiles_location_map_pin_navy_blue5.png';
 
         // console.log("pinicon circle.x: " + circle.x + "circle.y: " + circle.y );
-
-
-
-
 
 
     }
@@ -609,9 +632,18 @@ function CanvasState(canvas) {
     }
 
 
-    canvas.addEventListener('click', function (e) {
-        if (tooltype === "vector") {
 
+    canvas.addEventListener('touchstart', function (e) {
+        if (tooltype === "create" ) {
+            myState.dragging = true;
+            myState.coorCoor = [];
+
+        }
+
+
+        if (tooltype === "vector") {
+            myState.dragging = true;
+            myState.coorVec = [];
         }
         if (tooltype === "erase") {
             // update to original color
@@ -672,6 +704,7 @@ function CanvasState(canvas) {
 
 CanvasState.prototype.getMouse = function (e) {
     var element = this.canvas, offsetX = 0, offsetY = 0, mx, my;
+    var touchobj = e.changedTouches[0];
 
     // Compute the total offset
     if (element.offsetParent !== undefined) {
@@ -686,8 +719,10 @@ CanvasState.prototype.getMouse = function (e) {
     offsetX += this.stylePaddingLeft + this.styleBorderLeft + this.htmlLeft;
     offsetY += this.stylePaddingTop + this.styleBorderTop + this.htmlTop;
 
-    mx = e.pageX - offsetX;
-    my = e.pageY - offsetY;
+    mx = parseInt(touchobj.clientX - offsetX);
+    my = parseInt(touchobj.clientY - offsetY);
+
+
 
     // We return a simple javascript object (a hash) with x and y defined
     return {x: mx, y: my};
@@ -786,6 +821,12 @@ function greedyFillColor(color, targetPercentage, isLeftoversEater = false) {
         ctx.fill();
     })
 }
+
+
+var putNoodleEven = function () {
+    flag = true;
+    tooltype = "create";
+};
 
 
 var putNoodleRandom = function () {
@@ -949,13 +990,43 @@ function brushPress(evt) {
 }
 
 function printSoup() {
-    console.log(_placedCirclesArr);
-    let myJsonString = JSON.stringify(_placedCirclesArr);
-    // console.log(myJsonString);
+    console.log( "before: " +  _placedCirclesArr[0].x);
+    for(let i = 0; i < _placedCirclesArr.length; i++) {
+        _placedCirclesArr[i].x = (_placedCirclesArr[i].x - 150) / 20;
+        _placedCirclesArr[i].y = (_placedCirclesArr[i].y - 150) / 20;
+        _placedCirclesArr[i].size = (_placedCirclesArr[i].size) / 20;
+    }
 
+    console.log( "after: " +_placedCirclesArr[0].x);
+
+    json_obj = {vessels: _placedCirclesArr.slice(0,15)};
+    var myJsonString = JSON.stringify(json_obj);
+    console.log(json_obj);
+
+
+
+    xhr = new XMLHttpRequest();
+    var url = "http://192.168.1.102:8888/data";
+    xhr.open("POST", url, true);
+
+    xhr.setRequestHeader("Content-type", "application/json");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            // var json = JSON.parse(xhr.responseText);
+            // console.log(json.email + ", " + json.name)
+            console.log("ok");
+        }
+    }
+    // var data = JSON.stringify({"email":"tomb@raider.com","name":"LaraCroft"});
+    xhr.send(myJsonString);
+
+    // $.post("192.168.1.102:8888/data",
+    //     "hi",
+    //     function(){
+    //         alert("Data: ");
+    //     }).then(response => console.log("GOOD"));
 
 }
-
 
 function openKitchen(curPage) {
 
@@ -993,6 +1064,7 @@ function openKitchen(curPage) {
     console.log(pass);
     if (page === 1) {
         pass[0].className += " disableBut";
+        // tooltype = "create";
     }
 
     if (page !== 1) {
@@ -1023,7 +1095,7 @@ function openKitchen(curPage) {
     if (page === 5) {
         footers[0].style = 'display: none;';
     }
-    if ( page !== 5) {
+    if (page !== 5) {
         footers[0].style = 'display: flex;';
     }
 }
@@ -1133,7 +1205,7 @@ function updateAnchorsHigh(operator) {
             anchorHighNum--;
             document.getElementById("numHigh").innerHTML = anchorHighNum.toString();
             containerHigh.removeChild(containerHigh.lastChild);
-        console.log("in Minus: " + containerHigh);
+            console.log("in Minus: " + containerHigh);
 
         }
     }
