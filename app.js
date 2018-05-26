@@ -1,5 +1,3 @@
-// colors:
-
 // #a28275  omami
 // #b6e079 sour
 // #f97253 spicy
@@ -11,8 +9,118 @@
 // 	#eae5e5 unused page
 
 
+// range bars:
+//
+// $(document).ready(function () {
+//     init();
+// });
+//
+// function init() {
+//     // Init slider 1
+//     var slider = document.getElementById('slider');
+//     var classes = ['c-1-color', 'c-2-color', 'c-3-color'];
+//
+//     noUiSlider.create(slider, {
+//         start: [20, 80],
+//         connect: [true, true, true],
+//         range: {
+//             'min': [0],
+//             'max': [100]
+//         }
+//     });
+
+// var connect = slider.querySelectorAll('.noUi-connect');
+//
+// for (var i = 0; i < connect.length; i++) {
+//     connect[i].classList.add(classes[i]);
+// }
+//
+//
+// // slider 2
+// var tooltipSlider = document.getElementById('slider-tooltips');
+//
+// noUiSlider.create(tooltipSlider, {
+//     start: [20, 80, 120],
+//     tooltips: [ false, true, true ],
+//     tooltips: [ false, true, true ],
+//     range: {
+//         'min': 0,
+//         'max': 100
+//
+//     }
+// });
+// Init slider 2
+// var slider2 = document.getElementById('slider2');
+// slider2.setAttribute("class", "center");
+//
+// var classes2 = ['c-18deg-color', 'c-20deg-color', 'c-22deg-color', 'c-24deg-color', 'c-26deg-color'];
+//
+// noUiSlider.create(slider2, {
+//     start: [20, 40, 60, 80],
+//     connect: [true, true, true, true, true],
+//     range: {
+//         'min': [0],
+//         'max': [100]
+//     }
+//
+// });
+
+// var connect2 = slider2.querySelectorAll('.noUi-connect');
+//
+// for (var i = 0; i < connect2.length; i++) {
+//     connect2[i].classList.add(classes2[i]);
+// }
+
+// Init tabs
+// $('.tabs').tabs();
+// }
+
+
+// canvas control:
+//
+// var w = window.innerWidth;
+// var h = window.innerHeight;
+// var side = w < h ? w : h;
+// side = 0.5 * side;
+
+
+function sleep(milliseconds) {
+    var start = new Date().getTime();
+    for (var i = 0; i < 1e7; i++) {
+        if ((new Date().getTime() - start) > milliseconds) {
+            break;
+        }
+    }
+}
+
+//
+// function drawC(event) {
+//     console.log("clicked")
+//     var canvas = document.getElementById("myCanvas");
+//     if (canvas && canvas.getContext) {
+//         var ctx = canvas.getContext("2d");
+//         if (ctx) {
+//             ctx.strokeStyle = "rgb(248,170,145)";
+//             ctx.fillStyle = "rgb(255,125,131)";
+//             ctx.lineWidth = 3;
+//
+//             ctx.beginPath();
+//             ctx.arc(event.clientX, event.clientY, 10, 0, 2 * Math.PI);
+//             ctx.fill();
+//             ctx.stroke();
+//         }
+//     }
+// }
+//
+//
+// window.onload = function () {
+//     var canvas = document.getElementById("canvas1");
+//     canvas.width = side;
+//     canvas.height = side;
+// }
+//
+
 /**------------------------
- * Global variable:
  ---------------*/
 
 const OMAMI = "#a28275";
@@ -22,21 +130,117 @@ const HERBS = "#a9c0a9";
 const STROKE = "#f2d58b";
 const ORIGION = "#e8c880";
 
+const DEVIATION = 5/8.0;
+const PHI = (Math.sqrt(5)+1)/2 - 1;            // golden ratio
+const GOLDEN_ANGLE = 2 * PHI * Math.PI;        // golden angle
+var placeCirclesSpiral = function () {
+    //console.log(imgData);
+    _placedCirclesArr = [];
+    var big_circ_rad = 20; // sizes: 20, 13, 9
+    var med_circ_rad = 13; // sizes: 20, 13, 9
+    var small_circ_rad = 9; // sizes: 20, 13, 9
+
+    console.log(_placedCirclesArr);
+
+    var canvas = document.getElementById("BowlCanvas");
+    var canvas_min = 0.3 * Math.min(canvas.width, canvas.height)
+    var targetArea = canvas_min * canvas_min * Math.PI;
+    var curArea = 0;
+    var testArea = curArea;
+    var lastTestArea = curArea;
+
+    // Calc target areas
+    var big_target_area = Math.random() * targetArea;
+    var med_target_area = Math.random() * (targetArea - big_target_area);
+    var small_target_area = targetArea - big_target_area - med_target_area;
+
+    // Init before spiraling
+    var circ_i = 0;
+    var cur_circ;
+    let fudge = .87;
+    let cx = 0.5 * _canvasProps.width
+    let cy = 0.5 * _canvasProps.height
+
+    // BIG CIRCLES
+    // TODO: Potential bug - noodle percentage dictates less noodle than the area of center noodle (case unhandled)
+
+    // Place big circles
+    while (curArea + big_circ_rad * big_circ_rad * Math.PI <= big_target_area){
+        cur_circ = _circles[circ_i];
+        let angle = circ_i * GOLDEN_ANGLE;
+
+        let sm_dia = 2 * big_circ_rad;
+        let adj_sm_dia = sm_dia * fudge;
+
+        curArea += big_circ_rad * big_circ_rad * Math.PI;
+        let spiral_rad = Math.sqrt( curArea / Math.PI );
+
+        cur_circ.x = cx + Math.cos(angle) * spiral_rad;
+        cur_circ.y = cy + Math.sin(angle) * spiral_rad;
+        cur_circ.size = big_circ_rad;
+
+        _placedCirclesArr.push(cur_circle);
+
+        circ_i += 1;
+    }
+
+    // MEDIUM CIRCLES
+
+    // Place medium circles
+    while (curArea + med_circ_rad * med_circ_rad * Math.PI <= big_target_area + med_target_area){ // add big + med targets so that med circles accommodate for big circles breaking before full
+        cur_circ = _circles[circ_i];
+        let angle = circ_i * GOLDEN_ANGLE;
+
+        let sm_dia = 2 * med_circ_rad;
+        let adj_sm_dia = sm_dia * fudge;
+
+        curArea += med_circ_rad * med_circ_rad * Math.PI;
+        let spiral_rad = Math.sqrt( curArea / Math.PI );
+
+        cur_circ.x = cx + Math.cos(angle) * spiral_rad;
+        cur_circ.y = cy + Math.sin(angle) * spiral_rad;
+        cur_circ.size = med_circ_rad;
+
+        _placedCirclesArr.push(cur_circle);
+
+        circ_i += 1;
+    }
+
+    // SMALL CIRCLES
+
+    // Place small circles
+    while (curArea + small_circ_rad * small_circ_rad * Math.PI <= targetArea){ // add big + med targets so that med circles accommodate for big circles breaking before full
+        cur_circ = _circles[circ_i];
+        let angle = circ_i * GOLDEN_ANGLE;
+
+        let sm_dia = 2 * small_circ_rad;
+        let adj_sm_dia = sm_dia * fudge;
+
+        curArea += small_circ_rad * small_circ_rad * Math.PI;
+        let spiral_rad = Math.sqrt( curArea / Math.PI );
+
+        cur_circ.x = cx + Math.cos(angle) * spiral_rad;
+        cur_circ.y = cy + Math.sin(angle) * spiral_rad;
+        cur_circ.size = small_circ_rad;
+
+        _placedCirclesArr.push(cur_circle);
+
+        circ_i += 1;
+    }
+};
+
 
 var _canvasProps = {width: 300, height: 300};
-var _options = {spacing: -2.5, numCircles: 1000, minSize: 3, maxSize: 7, higherAccuracy: false};
+var _options = {spacing: 1, numCircles: 1000, minSize: 3, maxSize: 7, higherAccuracy: false};
 var _placedCirclesArr = [];
 var tooltype = 'init';
 var ip = "1111";
-var soupFactor;
 var spicyFactor = 0;
 var umamiFactor = 0;
 var herbsFactor = 0;
 var sourFactor = 0;
 var circleColor = ORIGION;
 var flag = false;
-
-var drawnFlag = false;
 
 var numOfSpicy = 0;
 var numOfColoredSpicy = 0;
@@ -47,39 +251,17 @@ var numOfColoredHerbs = 0;
 var numOfSour = 0;
 var numOfColoredSour = 0;
 
-var page = 1;
+var page = 0;
 var anchorHighNum = 0
 var numOfColoredHigh = 0
 
 
-
-// use to slow  operation
-function sleep(milliseconds) {
-    var start = new Date().getTime();
-    for (var i = 0; i < 1e7; i++) {
-        if ((new Date().getTime() - start) > milliseconds) {
-            break;
-        }
-    }
-}
-
-
-// use to get random number in any range:
-var randrange = function (min, max) {
-    return (max - min) * Math.random() + min;
-};
-
-
-/**
- *  Placed circle logic:
- */
 var _isFilled = function (imgData, imageWidth, x, y) {
     x = Math.round(x);
     y = Math.round(y);
     var a = imgData.data[((imageWidth * y) + x) * 4 + 3];
     return a > 0;
 };
-
 
 var _isCircleInside = function (imgData, imageWidth, x, y, r) {
     //if (!_isFilled(imgData, imageWidth, x, y)) return false;
@@ -134,60 +316,38 @@ var placeCircles = function (imgData) {
             }
         }
     }
+
 };
 
-// circled logic:
-var placeCirclesCentered2 = function () {
+var randrange = function (min, max) {
+    return (max - min) * Math.random() + min;
+};
+
+var placeCirclesCentered = function () {
     //console.log(imgData);
     _placedCirclesArr = [];
     console.log(_placedCirclesArr);
 
-    let canvas = document.getElementById("BowlCanvas");
-    let canvas_min = 0.3 * Math.min(canvas.width, canvas.height);
-    let targetArea = canvas_min * canvas_min * Math.PI;
-    let curArea = 0;
-    let center_rad = randrange(0.3 * canvas_min, 0.8 * canvas_min);
-    curArea += center_rad * center_rad * Math.PI;
-    let level_1 = 15;
-    let testArea = curArea;
-    let lastTestArea = curArea;
-    let tooBig = false;
-    while (!tooBig) {
-        var ring1_rad = Math.min(canvas_min - center_rad, center_rad * Math.sin(Math.PI / level_1) / (1 - Math.sin(Math.PI / level_1)));
-        testArea = curArea + (ring1_rad * ring1_rad) * Math.PI * level_1;
-        if (testArea > targetArea) {
-            tooBig = true;
-        }
-        lastTestArea = testArea;
-        level_1 -= 1; // dec circles number --> inc total size
-    }
-
-    let level_2 = 15;
-    curArea = lastTestArea;
-    tooBig = false;
-    while (!tooBig) {
-        var ring2_rad = Math.min(canvas_min - center_rad, ring1_rad * Math.sin(Math.PI / level_2) / (1 - Math.sin(Math.PI / level_2)));
-        testArea = curArea + (ring1_rad * ring1_rad) * Math.PI * level_2;
-        if (testArea > targetArea) {
-            tooBig = true;
-        }
-        level_1 -= 1; // dec circles number --> inc total size
-    }
+    var canvas_min = 0.3 * Math.min(_canvasProps.width, _canvasProps.height)
+    var center_rad = (0.3 + 0.4 * Math.random()) * canvas_min
+    var ring1_rad = (0.3 + 0.4 * Math.random()) * (canvas_min - center_rad)
+    var ring2_rad = Math.min(0.8 * ring1_rad, ((0.3 + 0.4 * Math.random()) * (canvas_min - center_rad - ring1_rad)))
 
     // Center
     var circle = _circles[0];
     circle.x = 0.5 * _canvasProps.width;
-    circle.y = 0.5 * _canvasProps.height;
+    circle.y = 0.5 * _canvasProps.height
     circle.size = center_rad;
     _placedCirclesArr.push(circle);
 
     // Ring 1
-    for (let i = 1; i < 1 + level_1; i++) {
-        let circle = _circles[i];
-        let frac = i / (level_1);
-        let deg = frac * 2 * Math.PI;
-        let x = _circles[0].x + Math.cos(deg) * (center_rad + ring1_rad + 2);
-        let y = _circles[0].y + Math.sin(deg) * (center_rad + ring1_rad + 2);
+    var level_1 = Math.round(6 + Math.random() * 12);
+    for (var i = 1; i < 1 + level_1; i++) {
+        var circle = _circles[i];
+        var frac = i / level_1;
+        var deg = frac * 2 * Math.PI;
+        var x = _circles[0].x + Math.cos(deg) * (center_rad + ring1_rad + 2);
+        var y = _circles[0].y + Math.sin(deg) * (center_rad + ring1_rad + 2);
         circle.size = ring1_rad;
         if (!_touchesPlacedCircle(x, y, circle.size)) {
             circle.x = x;
@@ -197,14 +357,15 @@ var placeCirclesCentered2 = function () {
     }
 
     // Ring 2
-    for (let i = 0; i < level_1; i++) {
-        for (let j = 0; j < level_2; j++) {
-            let circle = _circles[1 + level_1 + (i * level_2) + j];
-            let ring1 = _circles[1 + i];
-            let frac = j / (level_2);
-            let deg = -frac * 2 * Math.PI;
-            let x = ring1.x + Math.cos(deg) * (ring1_rad + ring2_rad + 2);
-            let y = ring1.y + Math.sin(deg) * (ring1_rad + ring2_rad + 2);
+    var level_2 = Math.round(6 + Math.random() * 12);
+    for (var i = 0; i < level_1; i++) {
+        for (var j = 0; j < level_2; j++) {
+            var circle = _circles[1 + level_1 + (i * level_2) + j];
+            var ring1 = _circles[1 + i];
+            var frac = j / level_2;
+            var deg = -frac * 2 * Math.PI;
+            var x = ring1.x + Math.cos(deg) * (ring1_rad + ring2_rad + 2);
+            var y = ring1.y + Math.sin(deg) * (ring1_rad + ring2_rad + 2);
             circle.size = ring2_rad;
             if (!_touchesPlacedCircle(x, y, circle.size)) {
                 circle.x = x;
@@ -216,33 +377,131 @@ var placeCirclesCentered2 = function () {
 
 };
 
-/**
- * create and draw single circle logic
- */
-var _makeCircles = function () {
-    let circles = [];
 
-    for (let j = 0; j < 15; j++) {
-        let circle1 = {
-            color: ORIGION,
-            size: 20 //do random twice to prefer more smaller ones
-        };
-        circles.push(circle1);
+var placeCirclesCentered2 = function () {
+    //console.log(imgData);
+    _placedCirclesArr = [];
+    console.log(_placedCirclesArr);
 
-
-        let circle2 = {
-            color: ORIGION,
-            size: 9 //do random twice to prefer more smaller ones
-        };
-        circles.push(circle2);
-
-
-        let circle3 = {
-            color: ORIGION,
-            size: 9 //do random twice to prefer more smaller ones
-        };
-        circles.push(circle3);
+    var canvas = document.getElementById("BowlCanvas");
+    var canvas_min = 0.3 * Math.min(canvas.width, canvas.height)
+    var targetArea = canvas_min * canvas_min * Math.PI;
+    var curArea = 0;
+    var center_rad = randrange(0.3 * canvas_min, 0.8 * canvas_min);
+    curArea += center_rad * center_rad * Math.PI
+    var level_1 = 20;
+    var testArea = curArea;
+    var lastTestArea = curArea;
+    var tooBig = false;
+    while (!tooBig) {
+        var ring1_rad = Math.min(canvas_min - center_rad, center_rad * Math.sin(Math.PI / level_1) / (1 - Math.sin(Math.PI / level_1)))
+        testArea = curArea + (ring1_rad * ring1_rad) * Math.PI * level_1;
+        if (testArea > targetArea) {
+            tooBig = true;
+        }
+        lastTestArea = testArea;
+        level_1 -= 1; // dec circles number --> inc total size
     }
+
+    var level_2 = 10;
+    curArea = lastTestArea;
+    tooBig = false;
+    while (!tooBig) {
+        var ring2_rad = Math.min(canvas_min - center_rad, ring1_rad * Math.sin(Math.PI / level_2) / (1 - Math.sin(Math.PI / level_2)))
+        testArea = curArea + (ring1_rad * ring1_rad) * Math.PI * level_2;
+        if (testArea > targetArea) {
+            tooBig = true;
+        }
+        level_1 -= 1; // dec circles number --> inc total size
+    }
+
+    // Center
+    var circle = _circles[0];
+    circle.x = 0.5 * _canvasProps.width;
+    circle.y = 0.5 * _canvasProps.height
+    circle.size = center_rad;
+    _placedCirclesArr.push(circle);
+
+    // Ring 1
+    for (var i = 1; i < 1 + level_1; i++) {
+        var circle = _circles[i];
+        var frac = i / (level_1);
+        var deg = frac * 2 * Math.PI;
+        var x = _circles[0].x + Math.cos(deg) * (center_rad + ring1_rad + 2);
+        var y = _circles[0].y + Math.sin(deg) * (center_rad + ring1_rad + 2);
+        circle.size = ring1_rad;
+        if (!_touchesPlacedCircle(x, y, circle.size)) {
+            circle.x = x;
+            circle.y = y;
+            _placedCirclesArr.push(circle);
+        }
+    }
+
+    // Ring 2
+    for (var i = 0; i < level_1; i++) {
+        for (var j = 0; j < level_2; j++) {
+            var circle = _circles[1 + level_1 + (i * level_2) + j];
+            var ring1 = _circles[1 + i];
+            var frac = j / (level_2);
+            var deg = -frac * 2 * Math.PI;
+            var x = ring1.x + Math.cos(deg) * (ring1_rad + ring2_rad + 2);
+            var y = ring1.y + Math.sin(deg) * (ring1_rad + ring2_rad + 2);
+            circle.size = ring2_rad;
+            if (!_touchesPlacedCircle(x, y, circle.size)) {
+                circle.x = x;
+                circle.y = y;
+                _placedCirclesArr.push(circle);
+            }
+        }
+    }
+
+};
+
+
+var _makeCircles = function () {
+    var circles = [];
+    // for (var i = 0; i < _options.numCircles; i++) {
+    //     var circle = {
+    //         color: _colors[Math.round(Math.random() * _colors.length)],
+    //         size: _options.minSize + Math.random() * Math.random() * (_options.maxSize - _options.minSize) //do random twice to prefer more smaller ones
+    //     };
+    // for (var j = 0; j < 500; j++) {
+    //     var circle = {
+    //         color: _colors[Math.round(Math.random() * _colors.length)],
+    //         size: 2 //do random twice to prefer more smaller ones
+    //     };
+    //     circles.push(circle);
+    // }
+    //
+    for (var j = 0; j < 50; j++) {
+        var circle = {
+            color: ORIGION,
+            size: 8 //do random twice to prefer more smaller ones
+        };
+        circles.push(circle);
+    }
+
+    for (var j = 0; j < 100; j++) {
+        var circle = {
+            color: ORIGION,
+            size: 6 //do random twice to prefer more smaller ones
+        };
+        circles.push(circle);
+
+        for (var j = 0; j < 300; j++) {
+            var circle = {
+                color: ORIGION,
+                size: 4 //do random twice to prefer more smaller ones
+            };
+            circles.push(circle);
+        }
+
+    }
+
+
+    circles.sort(function (a, b) {
+        return a.size - b.size;
+    });
     return circles;
 };
 
@@ -258,42 +517,21 @@ var _drawCircles = function (ctx) {
         ctx.strokeStyle = "#f2d58b";
         ctx.lineWidth = 3;
         ctx.stroke();
+
+
     });
 
     ctx.restore();
 };
 
-var _drawPath = function (ctx, points, callback) {
-
-    // let img = new Image(ctx);
-    // img.onload = function () {
-    //     ctx.drawImage(img, 0, 0);
-    // };
-    // img.src = path;
-    ctx.fillStyle = "blue";
-    /** set path */
-    ctx.moveTo(100, 100);
-    ctx.lineTo(100, 200);
-    ctx.lineTo(200, 200);
-    ctx.lineTo(200, 100);
-    ctx.closePath();
-    // ctx.lineTo(200,200);
-
-    /** render */
-    ctx.fill();
-    ctx.stroke();
-    callback();
-
-};
-
-
 var _drawSvg = function (ctx, path, callback) {
 
-    let img = new Image(ctx);
+    var img = new Image(ctx);
     img.onload = function () {
         ctx.drawImage(img, 0, 0);
         callback();
     };
+    // img.crossOrigin = "Anonymous";
     img.src = path;
 };
 
@@ -301,7 +539,7 @@ var _drawSvg = function (ctx, path, callback) {
 var contain = function (mx, my) {
     console.log("mouse x: " + mx + " mouse y: " + my);
 
-    for (let i = 0; i < _placedCirclesArr.length; i++) {
+    for (var i = 0; i < _placedCirclesArr.length; i++) {
         // console.log("x: " + _placedCirclesArr[i].x + " y: " + _placedCirclesArr[i].y + " r: " + _placedCirclesArr[i].size);
         let dx = Math.abs(_placedCirclesArr[i].x - mx);
         let dy = Math.abs(_placedCirclesArr[i].y - my);
@@ -317,10 +555,6 @@ var contain = function (mx, my) {
 var _circles = _makeCircles();
 
 
-/**
- *  canvas Obj
- *  It's property and method
- */
 function CanvasState(canvas) {
     // **** First some setup! ****
 
@@ -349,8 +583,7 @@ function CanvasState(canvas) {
     this.shapes = [];  // the collection of things to be drawn
     this.dragging = false; // Keep track of when we are dragging
     // the current selected object. In the future we could turn this into an array for multiple selection
-    this.coorVec = [];
-    this.coorCreate = [];
+    this.coor = [];
     this.dragoffx = 0; // See mousedown and mousemove events for explanation
     this.dragoffy = 0;
 
@@ -371,10 +604,10 @@ function CanvasState(canvas) {
 
 
     function changeSpecificColor(id, color) {
-        let ctx = canvas.getContext("2d");
+        var ctx = canvas.getContext("2d");
         console.log(ctx);
         _placedCirclesArr[id].color = color;
-        let circle = _placedCirclesArr[id];
+        var circle = _placedCirclesArr[id];
         // ctx.strokeStyle = "rgb(248,170,145)";
         ctx.fillStyle = circle.color;
         ctx.lineWidth = 0;
@@ -385,51 +618,65 @@ function CanvasState(canvas) {
     }
 
 
-    canvas.addEventListener( 'touchmove', function (e) {
-        if ((myState.dragging) && (tooltype === "vector"))  {
-            // myState.coorVec = [];
+    // Up, down, and move are for dragging
+    canvas.addEventListener('mousedown', function (e) {
+        myState.dragging = true;
+        myState.coor = [];
+
+
+        // var mx = mouse.x;
+        // var my = mouse.y;
+        // var shapes = myState.shapes;
+        // var l = shapes.length;
+        // for (var i = l-1; i >= 0; i--) {
+        //     if (shapes[i].contains(mx, my)) {
+        //         var mySel = shapes[i];
+        //         // Keep track of where in the object we clicked
+        //         // so we can move it smoothly (see mousemove)
+        //         myState.dragoffx = mx - mySel.x;
+        //         myState.dragoffy = my - mySel.y;
+        //         myState.dragging = true;
+        //         myState.selection = mySel;
+        //         myState.valid = false;
+        //         return;
+        //     }
+        //
+        // havent returned means we have failed to select anything.
+        // If there was an object selected, we deselect it
+        // if (myState.selection) {
+        //     myState.selection = null;
+        //     myState.valid = false; // Need to clear the old selection border
+        // }
+    }, true);
+    canvas.addEventListener('mousemove', function (e) {
+        if ((myState.dragging) && (tooltype === "vector")) {
             sleep(100);
-            let mouse = myState.getMouse(e);
+            var mouse = myState.getMouse(e);
             // We don't want to drag the object by its top-left corner, we want to drag it
             // from where we clicked. Thats why we saved the offset and use it here
             // myState.selection.x = mouse.x - myState.dragoffx;
             // myState.selection.y = mouse.y - myState.dragoffy;
             myState.valid = false; // Something's dragging so we must redraw
 
-            myState.coorVec.push(mouse.x);
-            myState.coorVec.push(mouse.y);
-            console.log(myState.coorVec);
+            myState.coor.push(mouse.x);
+            myState.coor.push(mouse.y);
+            console.log(myState.coor);
 
         }
-        if ((myState.dragging) && (tooltype === "create")) {
-            // myState.coorCreate = [];
-            // sleep(200);
-            let mouse = myState.getMouse(e);
-            myState.valid = false; // Something's dragging so we must redraw
-            myState.coorCreate.push(mouse.x);
-            myState.coorCreate.push(mouse.y);
-            console.log("array create: " + myState.coorCreate);
-
-        }
-
-
-
     }, true);
-
-
-    canvas.addEventListener('touchend', function (e) {
+    canvas.addEventListener('mouseup', function (e) {
         if (tooltype === "vector") {
             // get 3 points
             let r = 25;
-            let startPx = myState.coorVec[0];
-            let startPy = myState.coorVec[1];
+            let startPx = myState.coor[0];
+            let startPy = myState.coor[1];
 
-            let midId = Math.floor(myState.coorVec.length / 2);
-            let midPx = myState.coorVec[midId];
-            let midPy = myState.coorVec[midId + 1];
+            let midId = Math.floor(myState.coor.length / 2);
+            let midPx = myState.coor[midId];
+            let midPy = myState.coor[midId + 1];
 
-            let endPx = myState.coorVec[myState.coorVec.length - 2];
-            let endPy = myState.coorVec[myState.coorVec.length - 1];
+            let endPx = myState.coor[myState.coor.length - 2];
+            let endPy = myState.coor[myState.coor.length - 1];
 
             let points = [startPx, startPy, midPx, midPy, endPx, endPy];
 
@@ -446,8 +693,13 @@ function CanvasState(canvas) {
                             console.log(circleColor);
                             numOfColoredSpicy += 1;
 
-                            spicyFactor += ((document.getElementById("spicySlider").value) / 100) / numOfSpicy;
-
+                            spicyFactor += ((document.getElementById("newSpicySlider").value) / 100) / numOfSpicy;
+                            // $('#newSpicySlider').css('background-image',
+                            //     '-webkit-gradient(linear, left top, right top, '
+                            //     + 'color-stop(' + spicyFactor + ', #FF3852), '
+                            //     + 'color-stop(' + spicyFactor + ', #ddd)'
+                            //     + ')'
+                            // );
 
                         }
                         if ((circleColor === "#AC50D3") && (_placedCirclesArr[c].color === "rgb(255,154,131)") && ((numOfUmami - numOfColoredUmami) > 0)) {
@@ -455,8 +707,13 @@ function CanvasState(canvas) {
                             console.log(circleColor);
                             numOfColoredUmami += 1;
 
-                            umamiFactor += ((document.getElementById("omamiSlider").value) / 100) / numOfUmami;
-
+                            umamiFactor += ((document.getElementById("newUmamiSlider").value) / 100) / numOfUmami;
+                            // $('#newUmamiSlider').css('background-image',
+                            //     '-webkit-gradient(linear, left top, right top, '
+                            //     + 'color-stop(' + umamiFactor + ', #AC50D3), '
+                            //     + 'color-stop(' + umamiFactor + ', #ddd)'
+                            //     + ')'
+                            // );
 
                         }
                         if ((circleColor === "#75E039") && (_placedCirclesArr[c].color === "rgb(255,154,131)") && ((numOfHerbs - numOfColoredHerbs) > 0)) {
@@ -464,6 +721,13 @@ function CanvasState(canvas) {
                             console.log(circleColor);
                             numOfColoredHerbs += 1;
 
+                            // herbsFactor += ((document.getElementById("newHerbsSlider").value) / 100) / numOfHerbs;
+                            // $('#newHerbsSlider').css('background-image',
+                            //     '-webkit-gradient(linear, left top, right top, '
+                            //     + 'color-stop(' + herbsFactor + ', #75E039), '
+                            //     + 'color-stop(' + herbsFactor + ', #ddd)'
+                            //     + ')'
+                            // );
 
                         }
                         if ((circleColor === "#E4E62E") && (_placedCirclesArr[c].color === "rgb(255,154,131)") && ((numOfSour - numOfColoredSour) > 0)) {
@@ -471,34 +735,27 @@ function CanvasState(canvas) {
                             changeSpecificColor(c, circleColor);
                             numOfColoredSour += 1;
 
+                            // sourFactor += ((document.getElementById("newSourSlider").value) / 100) / numOfSour;
+                            // $('#newSourSlider').css('background-image',
+                            //     '-webkit-gradient(linear, left top, right top, '
+                            //     + 'color-stop(' + sourFactor + ', #E4E62E), '
+                            //     + 'color-stop(' + sourFactor + ', #ddd)'
+                            //     + ')'
+                            // );
 
                         }
+
                     }
 
                 }
             }
-        }
-        if (tooltype === "create") {
 
-            let ctx = canvas.getContext("2d");
-            ctx.fillStyle = "#fee9cc"; // notice: same as background canvas color
-            console.log("array: " + myState.coorCreate);
-            console.log("in mouseop create");
-            ctx.moveTo(myState.coorCreate[0], myState.coorCreate[1]);
-            for (let i = 2; i < myState.coorCreate.length-1; i+=2) {
-                ctx.lineTo(myState.coorCreate[i], myState.coorCreate[i+1]);
-            }
-            ctx.closePath();
-
-            ctx.fill();
-            // ctx.stroke();
-            let imgData = ctx.getImageData(0, 0, _canvasProps.width, _canvasProps.height);
-            placeCircles(imgData);
-            _drawCircles(ctx);
 
         }
+
 
     });
+
 
     function replaceCircle(id, color) {
 
@@ -506,10 +763,14 @@ function CanvasState(canvas) {
         if (color === SPICY && ((numOfSpicy - numOfColoredSpicy) > 0)) {
             changeSpecificColor(id, color);
             numOfColoredSpicy += 1;
+
+
         }
         if (color === OMAMI && ((numOfUmami - numOfColoredUmami) > 0)) {
             changeSpecificColor(id, color);
             numOfColoredUmami += 1;
+
+
         }
         if (color === HERBS && ((numOfHerbs - numOfColoredHerbs) > 0)) {
             changeSpecificColor(id, color);
@@ -525,42 +786,51 @@ function CanvasState(canvas) {
 
     function setHigh(id) {
         var ctx = canvas.getContext("2d");
-
-        console.log("setHigh");
+        console.log(ctx);
         _placedCirclesArr[id].z = 5;
         var circle = _placedCirclesArr[id];
 
-        var img = new Image();
-        img.onload = function () {
-            ctx.drawImage(img, 0, 0, img.width, img.height, circle.x - 10, circle.y - 38, 20, 40);
-        }
-        img.src = 'Images/imagefiles_location_map_pin_navy_blue5.png';
 
-        // console.log("pinicon circle.x: " + circle.x + "circle.y: " + circle.y );
+
+
+
+        console.log("pinicon");
+
+
+        ctx.strokeStyle = "blue";
+        ctx.fillStyle = circle.color;
+        ctx.lineWidth = 3;
+
+        ctx.beginPath();
+        ctx.arc(circle.x, circle.y, circle.size, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.stroke();
+
+        numOfColoredHigh++;
 
 
     }
 
 
-    // function setMax(id) {
-    //     var ctx = canvas.getContext("2d");
-    //     console.log(ctx);
-    //     _placedCirclesArr[id].z = 2;
-    //     var circle = _placedCirclesArr[id];
-    //     console.log(circle);
-    //
-    //
-    //     ctx.strokeStyle = "blue";
-    //     ctx.fillStyle = circle.color;
-    //     ctx.lineWidth = 3;
-    //
-    //     ctx.beginPath();
-    //     ctx.arc(circle.x, circle.y, circle.size, 0, 2 * Math.PI);
-    //     ctx.fill();
-    //     ctx.stroke();
-    //
-    //
-    // }
+    function setMax(id) {
+        var ctx = canvas.getContext("2d");
+        console.log(ctx);
+        _placedCirclesArr[id].z = 2;
+        var circle = _placedCirclesArr[id];
+        console.log(circle);
+
+
+        ctx.strokeStyle = "blue";
+        ctx.fillStyle = circle.color;
+        ctx.lineWidth = 3;
+
+        ctx.beginPath();
+        ctx.arc(circle.x, circle.y, circle.size, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.stroke();
+
+
+    }
 
     function setOrigin(id) {
         var ctx = canvas.getContext("2d");
@@ -617,7 +887,7 @@ function CanvasState(canvas) {
         }
 
         _placedCirclesArr[id].color = ORIGION;
-        let circle = _placedCirclesArr[id];
+        var circle = _placedCirclesArr[id];
         console.log(circle);
 
 
@@ -629,21 +899,13 @@ function CanvasState(canvas) {
         ctx.fill();
         ctx.stroke();
 
+
     }
 
 
-
-    canvas.addEventListener('touchstart', function (e) {
-        if (tooltype === "create" ) {
-            myState.dragging = true;
-            myState.coorCoor = [];
-
-        }
-
-
+    canvas.addEventListener('click', function (e) {
         if (tooltype === "vector") {
-            myState.dragging = true;
-            myState.coorVec = [];
+
         }
         if (tooltype === "erase") {
             // update to original color
@@ -656,9 +918,10 @@ function CanvasState(canvas) {
         }
 
         if (tooltype === "brush") {
+
             console.log("brush");
-            let mouse = myState.getMouse(e);
-            let id = contain(mouse.x, mouse.y);
+            var mouse = myState.getMouse(e);
+            var id = contain(mouse.x, mouse.y);
             if (id >= 0) {
 
                 replaceCircle(id, circleColor);
@@ -668,43 +931,41 @@ function CanvasState(canvas) {
         if (tooltype === "high") {
             // update z val
             // update stoke
-            let mouse = myState.getMouse(e);
-            let id = contain(mouse.x, mouse.y);
-            // if ((id >= 0) && (0 < anchorHighNum)) {
+            console.log("high");
+            var mouse = myState.getMouse(e);
+            var id = contain(mouse.x, mouse.y);
             if ((id >= 0) && (numOfColoredHigh < anchorHighNum)) {
-
-                console.log("click - high");
-
-
                 setHigh(id);
-                updateProgBar();
-
                 // tooltype = "min";
             }
 
         }
 
-        //     if (tooltype === "max") {
-        //         // update z val
-        //         // update stoke
-        //         // update z val
-        //         // update stoke
-        //         console.log("max");
-        //         let mouse = myState.getMouse(e);
-        //         let id = contain(mouse.x, mouse.y);
-        //         if (id >= 0) {
-        //             setMax(id);
-        //             // tooltype = "min";
-        //         }
-        //     }
-        //
-        // }, true);
-    });
+        if (tooltype === "max") {
+            // update z val
+            // update stoke
+            // update z val
+            // update stoke
+            console.log("max");
+            var mouse = myState.getMouse(e);
+            var id = contain(mouse.x, mouse.y);
+            if (id >= 0) {
+                setMax(id);
+                // tooltype = "min";
+            }
+        }
+
+
+    }, true);
+
+
+    return {}
+
 }
+
 
 CanvasState.prototype.getMouse = function (e) {
     var element = this.canvas, offsetX = 0, offsetY = 0, mx, my;
-    var touchobj = e.changedTouches[0];
 
     // Compute the total offset
     if (element.offsetParent !== undefined) {
@@ -719,24 +980,22 @@ CanvasState.prototype.getMouse = function (e) {
     offsetX += this.stylePaddingLeft + this.styleBorderLeft + this.htmlLeft;
     offsetY += this.stylePaddingTop + this.styleBorderTop + this.htmlTop;
 
-    mx = parseInt(touchobj.clientX - offsetX);
-    my = parseInt(touchobj.clientY - offsetY);
-
-
+    mx = e.pageX - offsetX;
+    my = e.pageY - offsetY;
 
     // We return a simple javascript object (a hash) with x and y defined
     return {x: mx, y: my};
 }
 
 
-function greedyFillColor(color, targetPercentage, isLeftoversEater = false) {
+function greedyFillColor(color, targetPercentage, isLeftoversEater=false) {
 
     // Knapsack algorithm
     // Sort circle by size
     // Remember original id
-    let canvas = document.getElementById("BowlCanvas");
-    let target = (0.3) * canvas.width * canvas.height * targetPercentage / 100;
-    let sortableCircles = [];
+    var canvas = document.getElementById("BowlCanvas");
+    var target = (0.3) * canvas.width * canvas.height * targetPercentage / 100;
+    var sortableCircles = [];
 
     for (let i = 0; i < _placedCirclesArr.length; i++) {
         //_placedCirclesArr[i].color = "black";
@@ -749,13 +1008,13 @@ function greedyFillColor(color, targetPercentage, isLeftoversEater = false) {
 
 
     // Sort tuples of {id, circle} by circle size
-    let sortedCircles = sortableCircles.sort(function (a, b) {
+    var sortedCircles = sortableCircles.sort(function (a, b) {
         return b.size - a.size;
     });
 
     // Collect ids of largest circles still fitting the sack
-    let colored = [];
-    if (isLeftoversEater) {
+    var colored = [];
+    if (isLeftoversEater){
         var idcircle = sortedCircles[0];
         colored.push(idcircle.id);
         target -= (idcircle.size * idcircle.size * Math.PI);
@@ -807,11 +1066,11 @@ function greedyFillColor(color, targetPercentage, isLeftoversEater = false) {
     $.each(colored, function (id, idcircle) {
 
         // ChangeSpecificColor
-        let canvas = document.getElementById("BowlCanvas");
-        let ctx = canvas.getContext("2d");
+        var canvas = document.getElementById("BowlCanvas");
+        var ctx = canvas.getContext("2d");
         console.log(ctx);
         _placedCirclesArr[idcircle].color = color;
-        let circle = _placedCirclesArr[idcircle];
+        var circle = _placedCirclesArr[idcircle];
         // ctx.strokeStyle = "rgb(248,170,145)";
         ctx.fillStyle = circle.color;
         ctx.lineWidth = 0;
@@ -823,33 +1082,28 @@ function greedyFillColor(color, targetPercentage, isLeftoversEater = false) {
 }
 
 
-var putNoodleEven = function () {
-    flag = true;
-    tooltype = "create";
-};
-
-
 var putNoodleRandom = function () {
     flag = true;
     $(function () {
         $canvas = $("#BowlCanvas")
         console.log($canvas);
-        let ctx = $canvas[0].getContext('2d');
+        var ctx = $canvas[0].getContext('2d');
         _drawSvg(ctx, 'Try.svg', function () {
-            let imgData = ctx.getImageData(0, 0, _canvasProps.width, _canvasProps.height);
+            var imgData = ctx.getImageData(0, 0, _canvasProps.width, _canvasProps.height);
             placeCircles(imgData);
             _drawCircles($canvas[0].getContext('2d'));
         });
     })
-};
+}
 
 
 var putNoodleCentered = function () {
     $(function () {
-        $canvas = $("#BowlCanvas");
+        $canvas = $("#BowlCanvas")
         console.log($canvas);
-        let ctx = $canvas[0].getContext('2d');
-        placeCirclesCentered2();
+        var ctx = $canvas[0].getContext('2d');
+        //placeCirclesCentered2();
+        placeCirclesSpiral();
         _drawCircles($canvas[0].getContext('2d'));
         //_drawSvg(ctx, 'Try.svg', function () {
         //    var imgData = ctx.getImageData(0, 0, _canvasProps.width, _canvasProps.height);
@@ -858,31 +1112,130 @@ var putNoodleCentered = function () {
         //});
 
     })
-};
+
+}
+
+
+function initPlate() {
+
+    var s = new CanvasState(document.getElementById("BowlCanvas"));
+    document.querySelector("#newTimer")
+    // var btn = document.querySelector("#random").addEventListener("click", putNoodleRandom, false);
+
+}
+
+
+initPlate();
 
 
 //
-// function minPress(evt) {
-//     document.getElementById("min").src = "Icons/MinWhite.png";
-//     document.getElementById("max").src = "Icons/MaxWhite.png";
-//     evt.currentTarget.src = ("Icons/MinBlue.png");
-//     tooltype = "min";
+// console.log(document.getElementById('s3').getAttribute('d'));
+// sleep(1000);
+// let c = "M10 250 Q 80 50, 95 300 T 180 80";
+// document.getElementById('s3').setAttribute('d', c);
+// console.log(document.getElementById('s3').getAttribute('d'));
+
+
+//     $canvas.attr({"id": "canvas1"});
+//     var $canvas2 = $('<canvas>').attr(_canvasProps).appendTo('main');
+//     $canvas2.attr({"id": "canvas2"});
+//     var ctx = $canvas[0].getContext('2d');
+//     console.log('note.svg');
+//     _drawSvg(ctx, 'note.svg', function () {
+//         var imgData = ctx.getImageData(0, 0, _canvasProps.width, _canvasProps.height);
+//         placeCircles(imgData);
+//         _drawCircles($canvas2[0].getContext('2d'));
+//     });
+//     initPlate();
 //
+// });
+// //
+
+
+//
+// function getMousePos(e) {
+//     return {x: e.clientX, y: e.clientY};
 // }
 //
 //
-// function maxPress(evt) {
-//     document.getElementById("min").src = "Icons/MinWhite.png";
-//     document.getElementById("max").src = "Icons/MaxWhite.png";
-//     evt.currentTarget.src = ("Icons/MaxBlue.png");
-//     tooltype = "max";
+// document.onmousemove = function (e) {
+//     var mousecoords = getMousePos(e);
+//     // console.log("x: " + mousecoords.x + " y: " + mousecoords.y);
+// };
+//
+// let coor = [];
+//
+//
+// $(document).ready(function () {
+//     $('<svg>').addEventListener("mousedown", function (e) { coor.push(getMousePos(e));}, true);
+//
+// });
+//
+//
+// console.log(coor);
+//
+// jQuery(document).ready(function(){
+//     // This button will increment the value
+//     $('.qtyplus').click(function(e){
+//         // Stop acting like a button
+//         e.preventDefault();
+//         // Get the field name
+//         fieldName = $(this).attr('field');
+//         // Get its current value
+//         var currentVal = parseInt($('input[name='+fieldName+']').val());
+//         // If is not undefined
+//         if (!isNaN(currentVal)) {
+//             // Increment
+//             $('input[name='+fieldName+']').val(currentVal + 1);
+//         } else {
+//             // Otherwise put a 0 there
+//             $('input[name='+fieldName+']').val(0);
+//         }
+//     });
+//     // This button will decrement the value till 0
+//     $(".qtyminus").click(function(e) {
+//         // Stop acting like a button
+//         e.preventDefault();
+//         // Get the field name
+//         fieldName = $(this).attr('field');
+//         // Get its current value
+//         var currentVal = parseInt($('input[name='+fieldName+']').val());
+//         // If it isn't undefined or its greater than 0
+//         if (!isNaN(currentVal) && currentVal > 0) {
+//             // Decrement one
+//             $('input[name='+fieldName+']').val(currentVal - 1);
+//         } else {
+//             // Otherwise put a 0 there
+//             $('input[name='+fieldName+']').val(0);
+//         }
+//     });
+// });
+
+
+function minPress(evt) {
+    document.getElementById("min").src = "Icons/MinWhite.png";
+    document.getElementById("max").src = "Icons/MaxWhite.png";
+    evt.currentTarget.src = ("Icons/MinBlue.png");
+    tooltype = "min";
+
+}
+
+
+function maxPress(evt) {
+    document.getElementById("min").src = "Icons/MinWhite.png";
+    document.getElementById("max").src = "Icons/MaxWhite.png";
+    evt.currentTarget.src = ("Icons/MaxBlue.png");
+    tooltype = "max";
+
+}
+
+//
+// function eraserPress(evt) {
+//     restoreButtons(evt);
+//     evt.currentTarget.src = ("Icons/EraserBlue.png");
+//     tooltype = "erase";
 //
 // }
-
-
-/**
- * Buttons Handlers:
- */
 
 function eraserBut() {
     tooltype = "erase";
@@ -914,12 +1267,12 @@ function vectorPress(evt) {
     restoreButtons(evt);
     evt.currentTarget.src = ("Icons/VectorBlue.png");
     tooltype = "vector";
-    let flavourTotal = 0;
+    var flavourTotal = 0;
 
-    let spicyVal = (document.getElementById("spicySlider")).value;
-    let umamiVal = (document.getElementById("omamiSlider")).value;
-    let herbsVal = (document.getElementById("herbSlider")).value;
-    let sourVal = (document.getElementById("sourSlider")).value;
+    var spicyVal = (document.getElementById("newSpicySlider")).value;
+    var umamiVal = (document.getElementById("newUmamiSlider")).value;
+    var herbsVal = (document.getElementById("newHerbsSlider")).value;
+    var sourVal = (document.getElementById("newSourSlider")).value;
 
     if (spicyVal > 0) {
         flavourTotal += parseInt(spicyVal);
@@ -954,12 +1307,12 @@ function brushPress(evt) {
     tooltype = "brush";
     restoreButtons(evt);
     evt.currentTarget.src = ("Icons/BrushBlue.png");
-    let flavourTotal = 0;
+    var flavourTotal = 0;
 
-    let spicyVal = (document.getElementById("spicySlider")).value;
-    let umamiVal = (document.getElementById("omamiSlider")).value;
-    let herbsVal = (document.getElementById("herbSlider")).value;
-    let sourVal = (document.getElementById("sourSlider")).value;
+    var spicyVal = (document.getElementById("newSpicySlider")).value;
+    var umamiVal = (document.getElementById("newUmamiSlider")).value;
+    var herbsVal = (document.getElementById("newHerbsSlider")).value;
+    var sourVal = (document.getElementById("newSourSlider")).value;
 
     if (spicyVal > 0) {
         flavourTotal += parseInt(spicyVal);
@@ -990,51 +1343,26 @@ function brushPress(evt) {
 }
 
 function printSoup() {
-    console.log( "before: " +  _placedCirclesArr[0].x);
-    for(let i = 0; i < _placedCirclesArr.length; i++) {
-        _placedCirclesArr[i].x = (_placedCirclesArr[i].x - 150) / 20;
-        _placedCirclesArr[i].y = (_placedCirclesArr[i].y - 150) / 20;
-        _placedCirclesArr[i].size = (_placedCirclesArr[i].size) / 20;
-    }
+    console.log(_placedCirclesArr);
+    var myJsonString = JSON.stringify(_placedCirclesArr);
+    // console.log(myJsonString);
 
-    console.log( "after: " +_placedCirclesArr[0].x);
-
-    json_obj = {vessels: _placedCirclesArr.slice(0,15)};
-    var myJsonString = JSON.stringify(json_obj);
-    console.log(json_obj);
-
-
-
-    xhr = new XMLHttpRequest();
-    var url = "http://192.168.1.102:8888/data";
-    xhr.open("POST", url, true);
-
-    xhr.setRequestHeader("Content-type", "application/json");
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            // var json = JSON.parse(xhr.responseText);
-            // console.log(json.email + ", " + json.name)
-            console.log("ok");
-        }
-    }
-    // var data = JSON.stringify({"email":"tomb@raider.com","name":"LaraCroft"});
-    xhr.send(myJsonString);
-
-    // $.post("192.168.1.102:8888/data",
-    //     "hi",
-    //     function(){
-    //         alert("Data: ");
-    //     }).then(response => console.log("GOOD"));
 
 }
 
-function openKitchen(curPage) {
 
 
-    // console.log('openKitchen', evt, curPage);
+function openKitchen(evt, curPage) {
+
+    console.log('openKitchen', evt, curPage);
     page = curPage;
-    let i, tabcontent, tablinks;
 
+
+    var BowlCanvas = document.getElementById("BowlCanvas");
+    var ctx = BowlCanvas.getContext("2d");
+    var x = (BowlCanvas.width) / 2;
+    var y = (BowlCanvas.height) / 2;
+    var i, tabcontent, tablinks;
 
     // Get all elements with class="tabcontent" and hide them
     tabcontent = document.getElementsByClassName("tabcontent");
@@ -1050,129 +1378,77 @@ function openKitchen(curPage) {
 
     // Show the current tab, and add an "active" class to the button that opened the tab
     console.log('page' + curPage);
-    let p = document.getElementById('page' + curPage);
-    console.log(p);
-    p.style.display = "block";
-    p.className += " active";
-    // evt.currentTarget.className += " active";
-
-    let l = document.getElementById('tablink' + curPage);
-    l.className += ' active';
-
-    let pass = document.getElementsByClassName("passPage");
-
-    console.log(pass);
-    if (page === 1) {
-        pass[0].className += " disableBut";
-        // tooltype = "create";
-    }
-
-    if (page !== 1) {
-        console.log('page: ' + page);
-        // pass[0].disabled = false;
-        pass[0].className = pass[0].className.replace(" disableBut", "");
-        console.log(pass[0]);
-    }
+    document.getElementById('page' + curPage).style.display = "block";
+    // var p =  document.getElementById('page' + curPage);
+    // console.log(p);
+    // p.className += " active";
+    // console.log(p);
+    evt.currentTarget.className += " active";
 
 
     if (page === 3) {
-        var era = document.getElementById("erase");
-        era.style.display = "block";
-
         greedyFillColor('#f97253', spicyFactor * 0.25); // spicy
         greedyFillColor("#a28275", umamiFactor * 0.25); // omami
         greedyFillColor("#a9c0a9", herbsFactor * 0.25); // herb
         greedyFillColor("#b6e079", sourFactor * 0.25, true); // sour
-
-    }
-
-    if (page !== 3) {
         var era = document.getElementById("erase");
-        era.style.display = "none";
+        era.style.display = "block";
+    }
+    else {
+
     }
 
-    let footers = document.getElementsByTagName('footer');
-    if (page === 5) {
-        footers[0].style = 'display: none;';
-    }
-    if (page !== 5) {
-        footers[0].style = 'display: flex;';
-    }
+
 }
 
 
-function singlePass(sign) {
-    if ((sign === 'next') && (page < 5)) {
-        openKitchen(page + 1);
+function singlePass(evt, sign) {
+    if ((sign === 'next') && (page < 3)) {
+        openKitchen(evt, page + 1);
     }
     if ((sign === 'prev') && (page > 1)) {
-        openKitchen(page - 1);
+        openKitchen(evt, page - 1);
     }
 
 }
 
 
-/**
- * Sliders Handlers:
- */
-
-function strucVal(val) {
-    $('#soupVal').text(val + "% \n SOUP");
-    $('#noodleVal').text("  " + (100 - val) + "% \n NOODLE");
-
-    sourFactor = val;
-    $('#structure_slider').css('background-image',
-        '-webkit-gradient(linear, left top, right top, '
-        + 'color-stop(' + val / 100 + ', #fee9cc), '
-        + 'color-stop(' + val / 100 + ', #e8c880)'
-        + ')'
-    );
-
-}
+// sliders control:
 
 
 function spicyVal(val) {
     $('#spicyValue').text(val + "%");
     spicyFactor = val;
-    $('#spicySlider').css({
-            'background-image':
-            '-webkit-gradient(linear, left top, right top, '
-            + 'color-stop(' + val / 100 + ', #f97253), '
-            + 'color-stop(' + val / 100 + ', #fff)'
-            + ')',
-            // 'border-image':
-            // '-webkit-gradient(linear, left top, right top, '
-            // + 'color-stop(' + val / 100 + ', #f97253), '
-            // + 'color-stop(' + val / 100 + ', black)'
-            // + ')',
-
-        }
-    );
-}
-
-
-function umamiVal(val) {
-    $('#omamiValue').text(val + "%");
-    umamiFactor = val;
-    $('#omamiSlider').css('background-image',
+    $('#newSpicySlider').css('background-image',
         '-webkit-gradient(linear, left top, right top, '
-        + 'color-stop(' + val / 100 + ', #a28275), '
-        + 'color-stop(' + val / 100 + ', #fff)'
+        + 'color-stop(' + val / 100 + ', #f97253), '
+        + 'color-stop(' + val / 100 + ', #ddd)'
         + ')'
     );
 }
 
 
-function herbVal(val) {
-    console.log("in herbsilder")
+function umamiVal(val) {
+    $('#umamivalue').text(val + "%");
+    umamiFactor = val;
+    $('#newUmamiSlider').css('background-image',
+        '-webkit-gradient(linear, left top, right top, '
+        + 'color-stop(' + val / 100 + ', #a28275), '
+        + 'color-stop(' + val / 100 + ', #ddd)'
+        + ')'
+    );
+}
+
+
+function herbval(val) {
 
     $('#herbValue').text(val + "%");
     herbsFactor = val;
 
-    $('#herbSlider').css('background-image',
+    $('#newHerbsSlider').css('background-image',
         '-webkit-gradient(linear, left top, right top, '
         + 'color-stop(' + val / 100 + ', #a9c0a9), '
-        + 'color-stop(' + val / 100 + ', #fff)'
+        + 'color-stop(' + val / 100 + ', #ddd)'
         + ')'
     );
 }
@@ -1181,87 +1457,34 @@ function herbVal(val) {
 function sourVal(val) {
     $('#sourValue').text(val + "%");
     sourFactor = val;
-    $('#sourSlider').css('background-image',
+    $('#newSourSlider').css('background-image',
         '-webkit-gradient(linear, left top, right top, '
         + 'color-stop(' + val / 100 + ', #b6e079), '
-        + 'color-stop(' + val / 100 + ', #fff)'
+        + 'color-stop(' + val / 100 + ', #ddd)'
         + ')'
     );
 }
 
-/**
- * Heights handlers:
- */
-
-
-
 function updateAnchorsHigh(operator) {
-    console.log("in operator: " + anchorHighNum);
-    let containerHigh = document.getElementById("containerHigh");
+    console.log("in operator")
+
 
     if (operator === '-') {
 
         if (anchorHighNum > 0) {
             anchorHighNum--;
             document.getElementById("numHigh").innerHTML = anchorHighNum.toString();
-            containerHigh.removeChild(containerHigh.lastChild);
-            console.log("in Minus: " + containerHigh);
-
         }
     }
     if (operator === '+') {
         if (anchorHighNum < _placedCirclesArr.length) {
             anchorHighNum++;
             document.getElementById("numHigh").innerHTML = anchorHighNum.toString();
-
-            // add new units
-            let progBarUnit = document.createElement('div');
-            progBarUnit.setAttribute('class', 'progBarUnit');
-            progBarUnit.style.width = (100 / (anchorHighNum)) + '%';
-
-            // append it:
-            containerHigh.appendChild(progBarUnit);
         }
     }
     if (anchorHighNum > 0) {
         tooltype = "high";
     }
 
-    // update all units width
-    for (let i = 0; i < containerHigh.children.length; i++) {
-        console.log(containerHigh.children[i]);
-        containerHigh.children[i].style.width = (100 / (anchorHighNum)) + '%';
-    }
-
-
-    // decorate the first and last units
-    if (anchorHighNum === 1) {
-        containerHigh.children[0].className += ' firstProgBarUnit lastProgBarUnit';
-    }
-    if (containerHigh.children.length > 1) {
-        console.log(containerHigh.children);
-        let unitName = containerHigh.children[containerHigh.children.length - 2].className.replace(' lastProgBarUnit', '');
-        containerHigh.children[containerHigh.children.length - 2].className = unitName;
-        containerHigh.children[containerHigh.children.length - 1].className += " lastProgBarUnit";
-        console.log(containerHigh.children);
-    }
-
-
 }
 
-function updateProgBar() {
-    // get containerHigh elem
-    let containerHigh = document.getElementById("containerHigh");
-    console.log("in updateProg");
-    containerHigh.removeChild(containerHigh.lastChild);
-    // containerHigh.children[anchorHighNum].style.display = "none";
-    numOfColoredHigh++;
-
-}
-
-window.onload = function () {
-    // console.log('canvas: ' + document.getElementById("BowlCanvas"));
-    let s = new CanvasState(document.getElementById("BowlCanvas"));
-    openKitchen(1);
-    // putNoodleCentered();
-};
