@@ -1,4 +1,3 @@
-
 // colors:
 
 // #a28275  omami
@@ -10,7 +9,6 @@
 // #8c8181 letter
 // #fee9cc soup
 // 	#eae5e5 unused page
-
 
 
 /**------------------------
@@ -47,11 +45,9 @@ var numOfColoredHerbs = 0;
 var numOfSour = 0;
 var numOfColoredSour = 0;
 
-var page = 0;
+var page = 1;
 var anchorHighNum = 0
 var numOfColoredHigh = 0
-
-
 
 
 // use to slow  operation
@@ -71,7 +67,6 @@ var randrange = function (min, max) {
 };
 
 
-
 /**
  *  Placed circle logic:
  */
@@ -81,7 +76,6 @@ var _isFilled = function (imgData, imageWidth, x, y) {
     var a = imgData.data[((imageWidth * y) + x) * 4 + 3];
     return a > 0;
 };
-
 
 
 var _isCircleInside = function (imgData, imageWidth, x, y, r) {
@@ -445,7 +439,7 @@ function CanvasState(canvas) {
                             console.log(circleColor);
                             numOfColoredSpicy += 1;
 
-                            spicyFactor += ((document.getElementById("newSpicySlider").value) / 100) / numOfSpicy;
+                            spicyFactor += ((document.getElementById("spicySlider").value) / 100) / numOfSpicy;
 
 
                         }
@@ -454,7 +448,7 @@ function CanvasState(canvas) {
                             console.log(circleColor);
                             numOfColoredUmami += 1;
 
-                            umamiFactor += ((document.getElementById("newUmamiSlider").value) / 100) / numOfUmami;
+                            umamiFactor += ((document.getElementById("omamiSlider").value) / 100) / numOfUmami;
 
 
                         }
@@ -504,19 +498,24 @@ function CanvasState(canvas) {
 
     function setHigh(id) {
         var ctx = canvas.getContext("2d");
-        console.log(ctx);
+
+        console.log("setHigh");
         _placedCirclesArr[id].z = 5;
         var circle = _placedCirclesArr[id];
 
-        console.log("pinicon");
-        ctx.strokeStyle = "blue";
-        ctx.fillStyle = circle.color;
-        ctx.lineWidth = 3;
-        ctx.beginPath();
-        ctx.arc(circle.x, circle.y, circle.size, 0, 2 * Math.PI);
-        ctx.fill();
-        ctx.stroke();
-        numOfColoredHigh++;
+        var img = new Image();
+        img.onload = function () {
+            ctx.drawImage(img, 0, 0, img.width, img.height, circle.x - 10, circle.y - 38, 20, 40);
+        }
+        img.src = 'Images/imagefiles_location_map_pin_navy_blue5.png';
+
+        // console.log("pinicon circle.x: " + circle.x + "circle.y: " + circle.y );
+
+
+
+
+
+
     }
 
 
@@ -637,32 +636,38 @@ function CanvasState(canvas) {
         if (tooltype === "high") {
             // update z val
             // update stoke
-            console.log("high");
             let mouse = myState.getMouse(e);
             let id = contain(mouse.x, mouse.y);
+            // if ((id >= 0) && (0 < anchorHighNum)) {
             if ((id >= 0) && (numOfColoredHigh < anchorHighNum)) {
+
+                console.log("click - high");
+
+
                 setHigh(id);
+                updateProgBar();
+
                 // tooltype = "min";
             }
 
         }
 
-    //     if (tooltype === "max") {
-    //         // update z val
-    //         // update stoke
-    //         // update z val
-    //         // update stoke
-    //         console.log("max");
-    //         let mouse = myState.getMouse(e);
-    //         let id = contain(mouse.x, mouse.y);
-    //         if (id >= 0) {
-    //             setMax(id);
-    //             // tooltype = "min";
-    //         }
-    //     }
-    //
-    // }, true);
-});
+        //     if (tooltype === "max") {
+        //         // update z val
+        //         // update stoke
+        //         // update z val
+        //         // update stoke
+        //         console.log("max");
+        //         let mouse = myState.getMouse(e);
+        //         let id = contain(mouse.x, mouse.y);
+        //         if (id >= 0) {
+        //             setMax(id);
+        //             // tooltype = "min";
+        //         }
+        //     }
+        //
+        // }, true);
+    });
 }
 
 CanvasState.prototype.getMouse = function (e) {
@@ -689,7 +694,7 @@ CanvasState.prototype.getMouse = function (e) {
 }
 
 
-function greedyFillColor(color, targetPercentage, isLeftoversEater=false) {
+function greedyFillColor(color, targetPercentage, isLeftoversEater = false) {
 
     // Knapsack algorithm
     // Sort circle by size
@@ -715,7 +720,7 @@ function greedyFillColor(color, targetPercentage, isLeftoversEater=false) {
 
     // Collect ids of largest circles still fitting the sack
     let colored = [];
-    if (isLeftoversEater){
+    if (isLeftoversEater) {
         var idcircle = sortedCircles[0];
         colored.push(idcircle.id);
         target -= (idcircle.size * idcircle.size * Math.PI);
@@ -815,12 +820,6 @@ var putNoodleCentered = function () {
 };
 
 
-
-window.onload = function() {
-    // console.log('canvas: ' + document.getElementById("BowlCanvas"));
-    let s = new CanvasState( document.getElementById("BowlCanvas"));
-};
-
 //
 // function minPress(evt) {
 //     document.getElementById("min").src = "Icons/MinWhite.png";
@@ -876,10 +875,10 @@ function vectorPress(evt) {
     tooltype = "vector";
     let flavourTotal = 0;
 
-    let spicyVal = (document.getElementById("newSpicySlider")).value;
-    let umamiVal = (document.getElementById("newUmamiSlider")).value;
-    let herbsVal = (document.getElementById("newHerbsSlider")).value;
-    let sourVal = (document.getElementById("newSourSlider")).value;
+    let spicyVal = (document.getElementById("spicySlider")).value;
+    let umamiVal = (document.getElementById("omamiSlider")).value;
+    let herbsVal = (document.getElementById("herbSlider")).value;
+    let sourVal = (document.getElementById("sourSlider")).value;
 
     if (spicyVal > 0) {
         flavourTotal += parseInt(spicyVal);
@@ -916,10 +915,10 @@ function brushPress(evt) {
     evt.currentTarget.src = ("Icons/BrushBlue.png");
     let flavourTotal = 0;
 
-    let spicyVal = (document.getElementById("newSpicySlider")).value;
-    let umamiVal = (document.getElementById("newUmamiSlider")).value;
-    let herbsVal = (document.getElementById("newHerbsSlider")).value;
-    let sourVal = (document.getElementById("newSourSlider")).value;
+    let spicyVal = (document.getElementById("spicySlider")).value;
+    let umamiVal = (document.getElementById("omamiSlider")).value;
+    let herbsVal = (document.getElementById("herbSlider")).value;
+    let sourVal = (document.getElementById("sourSlider")).value;
 
     if (spicyVal > 0) {
         flavourTotal += parseInt(spicyVal);
@@ -958,18 +957,13 @@ function printSoup() {
 }
 
 
+function openKitchen(curPage) {
 
-function openKitchen(evt, curPage) {
 
-    console.log('openKitchen', evt, curPage);
+    // console.log('openKitchen', evt, curPage);
     page = curPage;
-
-
-    let BowlCanvas = document.getElementById("BowlCanvas");
-    let ctx = BowlCanvas.getContext("2d");
-    let x = (BowlCanvas.width) / 2;
-    let y = (BowlCanvas.height) / 2;
     let i, tabcontent, tablinks;
+
 
     // Get all elements with class="tabcontent" and hide them
     tabcontent = document.getElementsByClassName("tabcontent");
@@ -985,36 +979,62 @@ function openKitchen(evt, curPage) {
 
     // Show the current tab, and add an "active" class to the button that opened the tab
     console.log('page' + curPage);
-    document.getElementById('page' + curPage).style.display = "block";
-    // var p =  document.getElementById('page' + curPage);
-    // console.log(p);
-    // p.className += " active";
-    // console.log(p);
-    evt.currentTarget.className += " active";
+    let p = document.getElementById('page' + curPage);
+    console.log(p);
+    p.style.display = "block";
+    p.className += " active";
+    // evt.currentTarget.className += " active";
+
+    let l = document.getElementById('tablink' + curPage);
+    l.className += ' active';
+
+    let pass = document.getElementsByClassName("passPage");
+
+    console.log(pass);
+    if (page === 1) {
+        pass[0].className += " disableBut";
+    }
+
+    if (page !== 1) {
+        console.log('page: ' + page);
+        // pass[0].disabled = false;
+        pass[0].className = pass[0].className.replace(" disableBut", "");
+        console.log(pass[0]);
+    }
 
 
     if (page === 3) {
+        var era = document.getElementById("erase");
+        era.style.display = "block";
+
         greedyFillColor('#f97253', spicyFactor * 0.25); // spicy
         greedyFillColor("#a28275", umamiFactor * 0.25); // omami
         greedyFillColor("#a9c0a9", herbsFactor * 0.25); // herb
         greedyFillColor("#b6e079", sourFactor * 0.25, true); // sour
+
+    }
+
+    if (page !== 3) {
         var era = document.getElementById("erase");
-        era.style.display = "block";
-    }
-    else {
-
+        era.style.display = "none";
     }
 
-
+    let footers = document.getElementsByTagName('footer');
+    if (page === 5) {
+        footers[0].style = 'display: none;';
+    }
+    if ( page !== 5) {
+        footers[0].style = 'display: flex;';
+    }
 }
 
 
-function singlePass(evt, sign) {
-    if ((sign === 'next') && (page < 3)) {
-        openKitchen(evt, page + 1);
+function singlePass(sign) {
+    if ((sign === 'next') && (page < 5)) {
+        openKitchen(page + 1);
     }
     if ((sign === 'prev') && (page > 1)) {
-        openKitchen(evt, page - 1);
+        openKitchen(page - 1);
     }
 
 }
@@ -1039,40 +1059,48 @@ function strucVal(val) {
 }
 
 
-
 function spicyVal(val) {
     $('#spicyValue').text(val + "%");
     spicyFactor = val;
-    $('#newSpicySlider').css('background-image',
-        '-webkit-gradient(linear, left top, right top, '
-        + 'color-stop(' + val / 100 + ', #f97253), '
-        + 'color-stop(' + val / 100 + ', #ddd)'
-        + ')'
+    $('#spicySlider').css({
+            'background-image':
+            '-webkit-gradient(linear, left top, right top, '
+            + 'color-stop(' + val / 100 + ', #f97253), '
+            + 'color-stop(' + val / 100 + ', #fff)'
+            + ')',
+            // 'border-image':
+            // '-webkit-gradient(linear, left top, right top, '
+            // + 'color-stop(' + val / 100 + ', #f97253), '
+            // + 'color-stop(' + val / 100 + ', black)'
+            // + ')',
+
+        }
     );
 }
 
 
 function umamiVal(val) {
-    $('#umamivalue').text(val + "%");
+    $('#omamiValue').text(val + "%");
     umamiFactor = val;
-    $('#newUmamiSlider').css('background-image',
+    $('#omamiSlider').css('background-image',
         '-webkit-gradient(linear, left top, right top, '
         + 'color-stop(' + val / 100 + ', #a28275), '
-        + 'color-stop(' + val / 100 + ', #ddd)'
+        + 'color-stop(' + val / 100 + ', #fff)'
         + ')'
     );
 }
 
 
-function herbval(val) {
+function herbVal(val) {
+    console.log("in herbsilder")
 
     $('#herbValue').text(val + "%");
     herbsFactor = val;
 
-    $('#newHerbsSlider').css('background-image',
+    $('#herbSlider').css('background-image',
         '-webkit-gradient(linear, left top, right top, '
         + 'color-stop(' + val / 100 + ', #a9c0a9), '
-        + 'color-stop(' + val / 100 + ', #ddd)'
+        + 'color-stop(' + val / 100 + ', #fff)'
         + ')'
     );
 }
@@ -1081,9 +1109,10 @@ function herbval(val) {
 function sourVal(val) {
     $('#sourValue').text(val + "%");
     sourFactor = val;
-    $('#newSourSlider').css('background-image',
-        '-webkit-gradient(linear, left top, right top, '        + 'color-stop(' + val / 100 + ', #b6e079), '
-        + 'color-stop(' + val / 100 + ', #ddd)'
+    $('#sourSlider').css('background-image',
+        '-webkit-gradient(linear, left top, right top, '
+        + 'color-stop(' + val / 100 + ', #b6e079), '
+        + 'color-stop(' + val / 100 + ', #fff)'
         + ')'
     );
 }
@@ -1092,25 +1121,75 @@ function sourVal(val) {
  * Heights handlers:
  */
 
-function updateAnchorsHigh(operator) {
-    console.log("in operator");
 
+
+function updateAnchorsHigh(operator) {
+    console.log("in operator: " + anchorHighNum);
+    let containerHigh = document.getElementById("containerHigh");
 
     if (operator === '-') {
 
         if (anchorHighNum > 0) {
             anchorHighNum--;
             document.getElementById("numHigh").innerHTML = anchorHighNum.toString();
+            containerHigh.removeChild(containerHigh.lastChild);
+        console.log("in Minus: " + containerHigh);
+
         }
     }
     if (operator === '+') {
         if (anchorHighNum < _placedCirclesArr.length) {
             anchorHighNum++;
             document.getElementById("numHigh").innerHTML = anchorHighNum.toString();
+
+            // add new units
+            let progBarUnit = document.createElement('div');
+            progBarUnit.setAttribute('class', 'progBarUnit');
+            progBarUnit.style.width = (100 / (anchorHighNum)) + '%';
+
+            // append it:
+            containerHigh.appendChild(progBarUnit);
         }
     }
     if (anchorHighNum > 0) {
         tooltype = "high";
     }
+
+    // update all units width
+    for (let i = 0; i < containerHigh.children.length; i++) {
+        console.log(containerHigh.children[i]);
+        containerHigh.children[i].style.width = (100 / (anchorHighNum)) + '%';
+    }
+
+
+    // decorate the first and last units
+    if (anchorHighNum === 1) {
+        containerHigh.children[0].className += ' firstProgBarUnit lastProgBarUnit';
+    }
+    if (containerHigh.children.length > 1) {
+        console.log(containerHigh.children);
+        let unitName = containerHigh.children[containerHigh.children.length - 2].className.replace(' lastProgBarUnit', '');
+        containerHigh.children[containerHigh.children.length - 2].className = unitName;
+        containerHigh.children[containerHigh.children.length - 1].className += " lastProgBarUnit";
+        console.log(containerHigh.children);
+    }
+
+
 }
 
+function updateProgBar() {
+    // get containerHigh elem
+    let containerHigh = document.getElementById("containerHigh");
+    console.log("in updateProg");
+    containerHigh.removeChild(containerHigh.lastChild);
+    // containerHigh.children[anchorHighNum].style.display = "none";
+    numOfColoredHigh++;
+
+}
+
+window.onload = function () {
+    // console.log('canvas: ' + document.getElementById("BowlCanvas"));
+    let s = new CanvasState(document.getElementById("BowlCanvas"));
+    openKitchen(1);
+    // putNoodleCentered();
+};

@@ -26,36 +26,35 @@
 
         <div class="Bowl">
             <canvas id="BowlCanvas" width='300' height='300'>h</canvas>
+            <button id="erase" style="display: none" onclick="eraserBut()">erase</button>
         </div>
 
         <div id="page1" class="tabcontent">
-            <!--<div class="pageTitle">-->
             <h1> STRUCTURE</h1>
-            <!--</div>-->
             <div class="Tools">
                 <div class="structure_slider">
                     <p id="soupVal" class="structure_label">100%<br/>SOUP</p>
                     <input type="range" min="0" max="100" value="100" id="structure_slider" oninput="strucVal(value)">
                     <p id="noodleVal" class="structure_label"> &nbsp;0%<br/>NOODLE</p>
                 </div>
-                <div class="wrapperHigh">
-                    <button class="minusHigh" onclick="updateAnchorsHigh('-')">&nbsp;-&nbsp;</button>
-                    <button class="plusHigh" onclick="updateAnchorsHigh('+')">&nbsp;+&nbsp;</button>
-                    <p class="numHigh">0</p>
-                    <p class="anchors"> ANCHORS</p>
+                <!--<div class="wrapperHigh">-->
+                <!--<button class="minusHigh" onclick="updateAnchorsHigh('-')">&nbsp;-&nbsp;</button>-->
+                <!--<button class="plusHigh" onclick="updateAnchorsHigh('+')">&nbsp;+&nbsp;</button>-->
+                <!--<p class="numHigh">0</p>-->
+                <!--<p class="anchors"> ANCHORS</p>-->
 
-                    <div class="containerHigh">
+                <!--<div class="containerHigh">-->
 
-                        <div class="progBarHigh theline">&nbsp;</div>
-                    </div>
+                <!--<div class="progBarUnit theline">&nbsp;</div>-->
+                <!--</div>-->
 
 
-                </div>
+                <!--</div>-->
                 <div class="structure_button">
-                    <div class="bbb">
-                    <button class="NoodleOutline" onclick="putNoodleCentered()">CENTERED <br> ANCHORS</button>
-                    <button class="NoodleOutline" onclick="putNoodleRandom()">EVEN <br> SCATTERING</button>
-                    <button class="NoodleOutline" onclick="putNoodleRandom()">RANDOM <br> SCATTERING</button>
+                    <div class="outlineWrapper">
+                        <button class="NoodleOutline" onclick="putNoodleCentered()">CENTERED <br> ANCHORS</button>
+                        <button class="NoodleOutline" onclick="putNoodleRandom()">EVEN <br> SCATTERING</button>
+                        <button class="NoodleOutline" onclick="putNoodleRandom()">RANDOM <br> SCATTERING</button>
                     </div>
                     <button class="NoodleOutline" id="generate" onclick="putNoodleRandom()">GENERATE</button>
                 </div>
@@ -67,105 +66,140 @@
 
 
         <div class="Tools">
-            <h1> FLAVOURS</h1>
+            <div align="center">
+                <h1> FLAVOURS</h1>
+                <!--<table class="flavours_slideres_container">-->
+                <!--<tr class="omami">-->
+                <!--<td class="label"><p id="umamiLabel" class="flavor_slider_label">OMAMI</p></td>-->
+                <!--<td class="slider"><input type="range" class="flavour_slider" id="omamiSlider" min="0" max="100" value="0"-->
+                <!--oninput="umamiVal(value)"></td>-->
+                <!--<td class="label"><p class="flavor_slider_label" id="omamiValue"> 0% </p></td>-->
+                <!--</tr>-->
+                <!--<tr class="sour">-->
+
+                <!--<td class="label"><p id="sourLabel" class="flavor_slider_label">SOUR</p></td>-->
+                <!--<td class="slider"><input type="range" class="flavour_slider" id="sourSlider" min="0" max="100" value="0"-->
+                <!--oninput="sourVal(value)"></td>-->
+                <!--<td class="label"><p class="flavor_slider_label" id="sourValue"> 0% </p></td>-->
+                <!--</tr>-->
+                <!--<tr class="spicy">-->
+                <!--<td class="label"><p id="spicyLabel" class="flavor_slider_label">SPICY</p></td>-->
+                <!--<td class="slider"><input type="range" class="flavour_slider" id="spicySlider" min="0" max="100" value="0"-->
+                <!--oninput="spicyVal(value)"></td>-->
+                <!--<td class="label"><p class="flavor_slider_label" id="spicyValue"> 0% </p></td>-->
+                <!--</tr>-->
+                <!--<tr class="herbs">-->
+                <!--<td class="label"><p id="herbsLabel" class="flavor_slider_label">HERBS</p></td>-->
+                <!--<td class="slider"> <input type="range" class="flavour_slider" id="herbSlider" min="0" max="100" value="0"-->
+                <!--oninput="herbVal(value)"></td>-->
+                <!--<td class="label"><p class="flavor_slider_label" id="herbValue"> 0% </p></td>-->
+                <!--</tr>-->
+
+                <!--</table>-->
 
 
-            <div class="SlidersContainer" align="center" width="55%">
+                <div class="flavours_slideres_container">
+                    <!--OMAMI-->
+                    <div class="flavor omami">
+                        <p id="umamiLabel" class="flavor_slider_label">OMAMI</p>
+                        <input type="range" class="flavour_slider" id="omamiSlider" min="0" max="100" value="0"
+                               oninput="umamiVal(value)">
+                        <p class="flavor_slider_label" id="omamiValue"> 0% </p>
+                    </div>
+                    <!--SOUR-->
+                    <div class="flavor sour">
+                        <p id="sourLabel" class="flavor_slider_label">SOUR</p>
+                        <input type="range" class="flavour_slider" id="sourSlider" min="0" max="100" value="0"
+                               oninput="sourVal(value)">
+                        <p class="flavor_slider_label" id="sourValue"> 0% </p>
+                    </div>
+                    <!--SPICY-->
+                    <div class="flavor spicy">
+                        <p id="spicyLabel" class="flavor_slider_label">SPICY</p>
+                        <input type="range" class="flavour_slider" id="spicySlider" min="0" max="100" value="0"
+                               oninput="spicyVal(value)">
+                        <p class="flavor_slider_label" id="spicyValue"> 0% </p>
+                    </div>
+                    <!--HERBS-->
+                    <div class="flavor herbs">
+                        <p id="herbsLabel" class="flavor_slider_label">HERBS</p>
+                        <input type="range" class="flavour_slider" id="herbSlider" min="0" max="100" value="0"
+                               oninput="herbVal(value)">
+                        <p class="flavor_slider_label" id="herbValue"> 0% </p>
+                    </div>
 
-                <div class="flavor">
-                    <p id="spicyValue"> 0% </p>
-                    <div id="spicyLabel" class="SliderLabel" onclick="spicyPress()">Spicy</div>
-                    <input type="range" min="0" max="100" value="0" id="newSpicySlider"
-                           oninput="spicyVal(value)">
+
                 </div>
 
-                <div class="flavor">
-                    <p id="umamivalue"> 0% </p>
-                    <div id="umamiLabel" class="SliderLabel" onclick="umamiPress()">Umami</div>
-                    <input type="range" id="newUmamiSlider" min="0" max="100" value="0"
-                           oninput="umamiVal(value)">
-
-                </div>
-                <div class="flavor">
-                    <p id="herbValue"> 0% </p>
-                    <div class="SliderLabel" onclick="herbsPress()" id="herbsLabel">Herbs</div>
-                    <input type="range" min="0" max="100" value="0" id="newHerbsSlider"
-                           oninput="herbval(value)">
-                </div>
-                <div class="flavor">
-                    <p id="sourValue"> 0% </p>
-                    <div class="SliderLabel" onclick="sourPress()" id="sourLabel">Sour</div>
-                    <input type="range" min="0" max="100" value="0" id="newSourSlider" oninput="sourVal(value)">
-                </div>
             </div>
-
-
         </div>
     </div>
 
     <div id="page3" class="tabcontent">
 
         <div class="Tools">
-            <h1> FINE TUNINIG</h1>
-            <button id="erase" style="display: none" onclick="eraserBut()">erase</button>
-            <div class="wrapperBars">
-                <div class="ContainterBar" onclick="brushbut('#a28275')">
-                    <p class="omamiColor">OMAMI</p>
-                    <div class="bar omamiFrame">
-                        <div class="progBar" id="progBarOmami"></div>
-                    </div>
-                    <p id="omamiVal" class="omamiColor">0%</p>
-                </div>
+            <div align="center">
+                <h1> FINE TUNINIG</h1>
 
-                <div class="ContainterBar" onClick="brushbut('#b6e079')">
-                    <p class="sourColor">SOUR</p>
-                    <div class="bar sourFrame">
-                        <div class="progBar" id="progBarSour"></div>
+                <div class="wrapperBars">
+                    <div class="ContainterBar" onclick="brushbut('#a28275')">
+                        <p class="omamiColor">OMAMI</p>
+                        <div class="bar omamiFrame">
+                            <div class="progBar" id="progBarOmami"></div>
+                        </div>
+                        <p id="omamiVal" class="omamiColor">0%</p>
                     </div>
-                    <p id="sourVal" class="sourColor">0%</p>
-                </div>
 
-                <div class="ContainterBar" onClick="brushbut('#f97253')">
-                    <p class="spicyColor">SPICY</p>
-                    <div class="bar spicyFrame">
-                        <div class="progBar" id="progBarSpicy"></div>
+                    <div class="ContainterBar" onClick="brushbut('#b6e079')">
+                        <p class="sourColor">SOUR</p>
+                        <div class="bar sourFrame">
+                            <div class="progBar" id="progBarSour"></div>
+                        </div>
+                        <p id="sourVal" class="sourColor">0%</p>
                     </div>
-                    <p id="spicyVal" class="spicyColor">0%</p>
-                </div>
 
-
-                <div class="ContainterBar" onClick="brushbut('#a9c0a9')">
-                    <p class="herbsColor">HERBS</p>
-                    <div class="bar herbsFrame">
-                        <div class="progBar" id="progBarHerbs"></div>
+                    <div class="ContainterBar" onClick="brushbut('#f97253')">
+                        <p class="spicyColor">SPICY</p>
+                        <div class="bar spicyFrame">
+                            <div class="progBar" id="progBarSpicy"></div>
+                        </div>
+                        <p id="spicyVal" class="spicyColor">0%</p>
                     </div>
-                    <p id="herbsVal" class="herbsColor">0%</p>
+
+
+                    <div class="ContainterBar" onClick="brushbut('#a9c0a9')">
+                        <p class="herbsColor">HERBS</p>
+                        <div class="bar herbsFrame">
+                            <div class="progBar" id="progBarHerbs"></div>
+                        </div>
+                        <p id="herbsVal" class="herbsColor">0%</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <div id="page4" class="tabcontent">
-        <div class="Tools">
-            <h1> HEIGHTS</h1>
-            <div class="wrapperHigh">
-                <button class="minusHigh" onclick="updateAnchorsHigh('-')">&nbsp;-&nbsp;</button>
-                <button class="plusHigh" onclick="updateAnchorsHigh('+')">&nbsp;+&nbsp;</button>
-                <p class="numHigh">0</p>
-                <p class="anchors"> ANCHORS</p>
-
-                <div class="containerHigh">
-                    <div class="progBarHigh theline">&nbsp;</div>
+        <div align="center">
+            <div class="Tools">
+                <h1> HEIGHTS</h1>
+                <div class="wrapperHigh">
+                    <button class="minusHigh" onclick="updateAnchorsHigh('-')">&nbsp;-&nbsp;</button>
+                    <button class="plusHigh" onclick="updateAnchorsHigh('+')">&nbsp;+&nbsp;</button>
+                    <p id="numHigh">0</p>
+                    <p class="anchors"> ANCHORS</p>
+                    <div id="containerHigh">
+                    </div>
                 </div>
-
 
             </div>
         </div>
     </div>
 
     <div id="page5" class="tabcontent">
-        <div class="Tools">
-            READY
+        <div align="center">
+            <button id="printSoup" class="Tools" onclick="printSoup()"> READY</button>
+            <button class="tablinks" id="goBack" onclick="openKitchen(4)">GO BACK</button>
         </div>
 
     </div>
@@ -175,16 +209,19 @@
 <footer class="BottomBar">
     <div class="Navigation">
         <div class="pagesNum">
-            <button class="tablinks passPage" onclick="singlePass(event, 'prev')">&nbsp;<&nbsp;</button>
-            <button class="tablinks" onclick="openKitchen(event, 1)">1</button>
-            <button class="tablinks" onclick="openKitchen(event, 2)">2</button>
-            <button class="tablinks" onclick="openKitchen(event, 3)">3</button>
-            <button class="tablinks" onclick="openKitchen(event, 4)">4</button>
-            <button class="tablinks" onclick="openKitchen(event, 5)">5</button>
-            <button class="tablinks passPage" onclick="singlePass(event, 'next')">&nbsp;>&nbsp;</button>
+            <button class="tablinks passPage" onclick="singlePass('prev')">&#60;</button>
+            <button class="tablinks" id="tablink1" onclick="openKitchen(1)">1</button>
+            <button class="tablinks" id="tablink2" onclick="openKitchen(2)">2</button>
+            <button class="tablinks" id="tablink3" onclick="openKitchen(3)">3</button>
+            <button class="tablinks" id="tablink4" onclick="openKitchen(4)">4</button>
+            <button class="tablinks" id="tablink5" onclick="openKitchen(5)">5</button>
+            <button class="tablinks passPage" onclick="singlePass('next')">&#62;</button>
         </div>
     </div>
 </footer>
 
 </body>
 </html>
+
+<!--<div class="progBarUnit theline">&nbsp;</div>-->
+<!--<div class="progBarUnit">&nbsp;</div>-->
