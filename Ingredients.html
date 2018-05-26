@@ -53,10 +53,10 @@
                 <div class="structure_button">
                     <div class="outlineWrapper">
                         <button class="NoodleOutline" onclick="putNoodleCentered()">CENTERED <br> ANCHORS</button>
-                        <button class="NoodleOutline" onclick="putNoodleEven()">EVEN <br> SCATTERING</button>
+                        <button class="NoodleOutline" onclick="putNoodleGenerate()">EVEN <br> SCATTERING</button>
                         <button class="NoodleOutline" onclick="putNoodleRandom()">RANDOM <br> SCATTERING</button>
                     </div>
-                    <button class="NoodleOutline" id="generate" onclick="putNoodleRandom()">GENERATE</button>
+                    <button class="NoodleOutline" id="generate" onclick="putNoodleGenerate()">GENERATE</button>
                 </div>
             </div>
         </div>
@@ -179,16 +179,37 @@
         </div>
     </div>
 
+    <!--<div id="page4" class="tabcontent">-->
+    <!--<div align="center">-->
+    <!--<div class="Tools">-->
+    <!--<h1> HEIGHTS</h1>-->
+    <!--<div class="wrapperHigh">-->
+    <!--<button class="minusHigh" onclick="updateAnchorsHigh('-')">&nbsp;-&nbsp;</button>-->
+    <!--<button class="plusHigh" onclick="updateAnchorsHigh('+')">&nbsp;+&nbsp;</button>-->
+    <!--<p id="numHigh">0</p>-->
+    <!--<p class="anchors"> ANCHORS</p>-->
+    <!--<div id="containerHigh">-->
+    <!--</div>-->
+    <!--</div>-->
+
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+
     <div id="page4" class="tabcontent">
         <div align="center">
             <div class="Tools">
                 <h1> HEIGHTS</h1>
                 <div class="wrapperHigh">
-                    <button class="minusHigh" onclick="updateAnchorsHigh('-')">&nbsp;-&nbsp;</button>
-                    <button class="plusHigh" onclick="updateAnchorsHigh('+')">&nbsp;+&nbsp;</button>
-                    <p id="numHigh">0</p>
-                    <p class="anchors"> ANCHORS</p>
-                    <div id="containerHigh">
+                    <p class="anchors" id="minHigh"  onclick="minPress()">MIN</p>
+                    <!--<p id="numHigh">0</p>-->
+                    <div id="containerMin">
+
+                    </div>
+                    <p class="anchors" id="maxHigh" onclick="maxPress()">MAX</p>
+                    <!--<p id="numHigh">0</p>-->
+                    <div id="containerMax">
+                        <div class="progBarUnit firstProgBarUnit lastProgBarUnit" style="width: 100%"></div>
                     </div>
                 </div>
 
