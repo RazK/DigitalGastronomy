@@ -1018,8 +1018,8 @@ function minPress() {
 //
 //
 function maxPress() {
-    let erase = document.getElementById("maxHigh");
-    erase.className += " toHigh";
+    let max = document.getElementById("maxHigh");
+    max.className += " toHigh";
     anchorMaxNum = 1;
     tooltype = "max";
 
@@ -1041,9 +1041,9 @@ function eraserBut() {
         labels[i].className = labels[i].className.replace(" toBrush", "");
     }
 
-    // erase.className += " toErase";
     let erase = document.getElementById("erase");
     erase.src = "images/preesEraseButton.png";
+    erase.className += " toErase";
 
 
 }
@@ -1063,6 +1063,8 @@ function brushbut(flavor) {
 
     let erase = document.getElementById("erase");
     erase.src = "images/eraseButton.png";
+    erase.className = erase.className.replace(" toErase", "");
+
 
     tooltype = "brush";
     switch (flavor) {

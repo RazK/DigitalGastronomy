@@ -6,9 +6,12 @@ body {
     padding: 0;
     height: 100vh;
     color: #8c8181;
-    font-family: Helvetica, sans-serif;
+    font-family: Futura, Helvetica, sans-serif;
     font-weight: bold;
 }
+
+
+
 
 header {
     /*position: absolute;*/
@@ -486,6 +489,9 @@ input[type='range']::-webkit-slider-thumb {
 #erase.toErase {
     /*background-color: #8c8181;*/
     /*color: white;*/
+    /*right: 19%;*/
+    padding: 1%;
+
 }
 
 .brush {
