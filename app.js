@@ -231,7 +231,7 @@ var placeCirclesCentered2 = function () {
     }
 };
 
-const PHI = (Math.sqrt(5)+1)/2 - 1;            // golden ratio
+const PHI = (Math.sqrt(5) + 1) / 2 - 1;            // golden ratio
 const GOLDEN_ANGLE = 0.5 * 2 * PHI * Math.PI;        // golden angle
 var placeCirclesSpiral = function () {
     //console.log(imgData);
@@ -272,11 +272,11 @@ var placeCirclesSpiral = function () {
     // TODO: Potential bug - noodle percentage dictates less noodle than the area of center noodle (case unhandled)
 
     // Place big circles
-    while (curArea + big_circ_rad * big_circ_rad * Math.PI <= big_target_area){
+    while (curArea + big_circ_rad * big_circ_rad * Math.PI <= big_target_area) {
         cur_circ = _circles[circ_i];
         let angle = circ_i * GOLDEN_RANDOM;
 
-        let spiral_rad = spacing_fact*Math.sqrt( curArea / Math.PI );
+        let spiral_rad = spacing_fact * Math.sqrt(curArea / Math.PI);
         curArea += big_circ_rad * big_circ_rad * Math.PI;
 
         cur_circ.x = cx + Math.cos(angle) * spiral_rad;
@@ -291,11 +291,11 @@ var placeCirclesSpiral = function () {
     // MEDIUM CIRCLES
 
     // Place medium circles
-    while (curArea + med_circ_rad * med_circ_rad * Math.PI <= big_target_area + med_target_area){ // add big + med targets so that med circles accommodate for big circles breaking before full
+    while (curArea + med_circ_rad * med_circ_rad * Math.PI <= big_target_area + med_target_area) { // add big + med targets so that med circles accommodate for big circles breaking before full
         cur_circ = _circles[circ_i];
         let angle = circ_i * GOLDEN_RANDOM;
 
-        let spiral_rad = spacing_fact*Math.sqrt( curArea / Math.PI );
+        let spiral_rad = spacing_fact * Math.sqrt(curArea / Math.PI);
         curArea += med_circ_rad * med_circ_rad * Math.PI;
 
         cur_circ.x = cx + Math.cos(angle) * spiral_rad;
@@ -310,11 +310,11 @@ var placeCirclesSpiral = function () {
     // SMALL CIRCLES
 
     // Place small circles
-    while (curArea + small_circ_rad * small_circ_rad * Math.PI <= targetArea){ // add big + med targets so that med circles accommodate for big circles breaking before full
+    while (curArea + small_circ_rad * small_circ_rad * Math.PI <= targetArea) { // add big + med targets so that med circles accommodate for big circles breaking before full
         cur_circ = _circles[circ_i];
         let angle = circ_i * GOLDEN_RANDOM;
 
-        let spiral_rad = spacing_fact*Math.sqrt( curArea / Math.PI );
+        let spiral_rad = spacing_fact * Math.sqrt(curArea / Math.PI);
         curArea += small_circ_rad * small_circ_rad * Math.PI;
 
         cur_circ.x = cx + Math.cos(angle) * spiral_rad;
@@ -485,20 +485,23 @@ function CanvasState(canvas) {
     function changeSpecificColor(id, color) {
         let ctx = canvas.getContext("2d");
         console.log(ctx);
-        _placedCirclesArr[id].color = color;
-        let circle = _placedCirclesArr[id];
-        // ctx.strokeStyle = "rgb(248,170,145)";
-        ctx.fillStyle = circle.color;
-        ctx.lineWidth = 0;
+        if (_placedCirclesArr[id].color === ORIGION) {
 
-        ctx.beginPath();
-        ctx.arc(circle.x, circle.y, circle.size, 0, 2 * Math.PI);
-        ctx.fill();
+            _placedCirclesArr[id].color = color;
+            let circle = _placedCirclesArr[id];
+            // ctx.strokeStyle = "rgb(248,170,145)";
+            ctx.fillStyle = circle.color;
+            ctx.lineWidth = 0;
+
+            ctx.beginPath();
+            ctx.arc(circle.x, circle.y, circle.size, 0, 2 * Math.PI);
+            ctx.fill();
+        }
     }
 
 
-    canvas.addEventListener( 'touchmove', function (e) {
-        if ((myState.dragging) && (tooltype === "vector"))  {
+    canvas.addEventListener('touchmove', function (e) {
+        if ((myState.dragging) && (tooltype === "vector")) {
             // myState.coorVec = [];
             sleep(100);
             let mouse = myState.getMouse(e);
@@ -523,7 +526,6 @@ function CanvasState(canvas) {
             console.log("array create: " + myState.coorCreate);
 
         }
-
 
 
     }, true);
@@ -597,8 +599,8 @@ function CanvasState(canvas) {
             console.log("array: " + myState.coorCreate);
             console.log("in mouseop create");
             ctx.moveTo(myState.coorCreate[0], myState.coorCreate[1]);
-            for (let i = 2; i < myState.coorCreate.length-1; i+=2) {
-                ctx.lineTo(myState.coorCreate[i], myState.coorCreate[i+1]);
+            for (let i = 2; i < myState.coorCreate.length - 1; i += 2) {
+                ctx.lineTo(myState.coorCreate[i], myState.coorCreate[i + 1]);
             }
             ctx.closePath();
 
@@ -616,25 +618,25 @@ function CanvasState(canvas) {
 
     function replaceCircle(id, color) {
         let circle = _placedCirclesArr[id];
-        let area = circle.size *circle.size *Math.PI;
+        let area = circle.size * circle.size * Math.PI;
 
         console.log("replaceCircle");
-        if (color === SPICY && ((spicyColoredArea - area) >= 0)) {
+        if (color === SPICY && ((spicyColoredArea + area) <= spicyArea)) {
             changeSpecificColor(id, color);
-            spicyColoredArea -= area;
+            spicyColoredArea += area;
         }
-        if (color === OMAMI && ((umamiColoredArea - area) > 0)) {
+        if (color === OMAMI && ((umamiColoredArea + area) <= umamiArea)) {
             changeSpecificColor(id, color);
-            umamiColoredArea -= area;
+            umamiColoredArea += area;
         }
-        if (color === HERBS && ((herbsColoredArea - area) > 0)) {
+        if (color === HERBS && ((herbsColoredArea + area) <= herbsArea)) {
             changeSpecificColor(id, color);
-            herbsColoredArea -= area;
+            herbsColoredArea += area;
 
         }
-        if (color === SOUR && ((sourColoredArea - area) > 0)) {
+        if (color === SOUR && ((sourColoredArea + area) <= sourArea)) {
             changeSpecificColor(id, color);
-            sourColoredArea -= area;
+            sourColoredArea += area;
         }
     }
 
@@ -673,7 +675,6 @@ function CanvasState(canvas) {
         numOfColoredMax++;
 
         //#0000f7
-
 
 
     }
@@ -726,7 +727,7 @@ function CanvasState(canvas) {
 
             default:
                 return;
-                //alert("ERROR! INVALID COLOR");
+            //alert("ERROR! INVALID COLOR");
 
         }
         fixedFactor = Math.ceil(100 * factor);
@@ -756,11 +757,10 @@ function CanvasState(canvas) {
     }
 
 
-
     canvas.addEventListener('touchstart', function (e) {
-    // canvas.addEventListener('click', function (e) {
+        // canvas.addEventListener('click', function (e) {
 
-            if (tooltype === "create" ) {
+        if (tooltype === "create") {
             myState.dragging = true;
             myState.coorCoor = [];
 
@@ -782,7 +782,7 @@ function CanvasState(canvas) {
         }
 
         if (tooltype === "brush") {
-            let bar, val, hi,factor,fixedFactor;
+            let bar, val, hi, factor, fixedFactor;
             //console.log("brush");
             let mouseMe = myState.getMouse(e);
             let id = contain(mouseMe.x, mouseMe.y);
@@ -796,28 +796,28 @@ function CanvasState(canvas) {
                         val = document.getElementById("omamiVal");
                         hi = $("#progBarOmami").height();
                         console.log('hi: ' + hi);
-                        factor = umamiColoredArea / umamiArea;
+                        factor = 1 - (umamiColoredArea / umamiArea);
                         break;
 
                     case SPICY:
                         bar = document.getElementById("progBarSpicy");
                         val = document.getElementById("spicyVal");
                         hi = $("#progBarSpicy").height();
-                        factor = spicyColoredArea / spicyArea  ;
+                        factor = 1 - (spicyColoredArea / spicyArea);
                         break;
 
                     case HERBS:
                         bar = document.getElementById("progBarHerbs");
                         val = document.getElementById("herbsVal");
                         hi = $("#progBarHerbs").height();
-                        factor = herbsColoredArea / herbsArea;
+                        factor = 1 - (herbsColoredArea / herbsArea);
                         break;
 
                     case SOUR:
                         bar = document.getElementById("progBarSour");
                         val = document.getElementById("sourVal");
                         hi = $("#progBarSour").height();
-                        factor = sourColoredArea / sourArea;
+                        factor = 1 - (sourColoredArea / sourArea);
                         break;
 
                 }
@@ -900,7 +900,6 @@ CanvasState.prototype.getMouse = function (e) {
 
     mx = parseInt(touchobj.clientX - offsetX);
     my = parseInt(touchobj.clientY - offsetY);
-
 
 
     // We return a simple javascript object (a hash) with x and y defined
@@ -1014,7 +1013,7 @@ function greedyFillColor(color, targetPercentage, isLeftoversEater = false) {
 var putNoodleGenerate = function () {
     flag = true;
     tooltype = "create";
-    if(drawnFlag === true)  {
+    if (drawnFlag === true) {
         console.log("clearBowl");
         clearBowl();
     }
@@ -1032,7 +1031,7 @@ function clearBowl() {
 
 var putNoodleRandom = function () {
     flag = true;
-    if(drawnFlag === true)  {
+    if (drawnFlag === true) {
         console.log("clearBowl");
         clearBowl();
     }
@@ -1053,7 +1052,7 @@ var putNoodleRandom = function () {
 
 
 var putNoodleCentered = function () {
-    if(drawnFlag === true)  {
+    if (drawnFlag === true) {
         console.log("clearBowl");
         clearBowl();
     }
@@ -1077,12 +1076,12 @@ var putNoodleCentered = function () {
 };
 
 
-
 function minPress() {
     let min = document.getElementById("minHigh");
     min.className += " toHigh";
     tooltype = "min";
 }
+
 //
 //
 function maxPress() {
@@ -1115,8 +1114,6 @@ function eraserBut() {
 
 
 }
-
-
 
 
 function brushbut(flavor) {
@@ -1162,7 +1159,6 @@ function brushbut(flavor) {
             break;
     }
     console.log("brush presssed");
-
 
 
 }
@@ -1248,17 +1244,16 @@ function brushPress(evt) {
 }
 
 function printSoup() {
-    for(let i = 0; i < _placedCirclesArr.length; i++) {
+    for (let i = 0; i < _placedCirclesArr.length; i++) {
         _placedCirclesArr[i].x = (_placedCirclesArr[i].x - 150) / 20;
         _placedCirclesArr[i].y = (_placedCirclesArr[i].y - 150) / 20;
         _placedCirclesArr[i].size = (_placedCirclesArr[i].size) / 20;
     }
 
 
-    json_obj = {vessels: _placedCirclesArr.slice(0,15)};
+    json_obj = {vessels: _placedCirclesArr.slice(0, 15)};
     var myJsonString = JSON.stringify(json_obj);
     console.log(json_obj);
-
 
 
     xhr = new XMLHttpRequest();
@@ -1348,7 +1343,7 @@ function openKitchen(curPage) {
     }
 
 
-    if(page === 4) {
+    if (page === 4) {
         updateAnchorsHigh('+');
     }
 
