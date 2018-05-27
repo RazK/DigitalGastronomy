@@ -475,17 +475,17 @@ input[type='range']::-webkit-slider-thumb {
 
 #erase {
     position: absolute;
-    right: 10%;
-    background-color: #eae5e5;
+    right: 20%;
+    /*background-color: #eae5e5;*/
     padding: 2%;
     /*outline:none;*/
-    color: #8c8181;
-    border-radius: 30%;
+    /*color: #8c8181;*/
+    /*border-radius: 30%;*/
 }
 
 #erase.toErase {
-    background-color: #8c8181;
-    color: white;
+    /*background-color: #8c8181;*/
+    /*color: white;*/
 }
 
 .brush {
@@ -605,13 +605,23 @@ input[type='range']::-webkit-slider-thumb {
 
 /*}*/
 
+
+.maxColor {
+    background-color: #0000f7;
+}
+
+
+.minColor {
+    background-color: #f90000;
+}
+
 .progBarUnit {
     display: inline-block;
     float: left;
     height: 5vh;
 
     /*width: 100%;*/
-    background-color: #8c8181;
+    /*background-color: #8c8181;*/
     border: 3px solid white;
     /*border-radius: 0;*/
 
