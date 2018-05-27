@@ -217,7 +217,7 @@ var placeCirclesCentered2 = function () {
 
 const DEVIATION = 5/8.0;
 const PHI = (Math.sqrt(5)+1)/2 - 1;            // golden ratio
-const GOLDEN_ANGLE = 2 * PHI * Math.PI;        // golden angle
+const GOLDEN_ANGLE = 0.5 * 2 * PHI * Math.PI;        // golden angle
 var placeCirclesSpiral = function () {
     //console.log(imgData);
     _placedCirclesArr = [];
@@ -225,6 +225,7 @@ var placeCirclesSpiral = function () {
     var med_circ_rad = 13; // sizes: 20, 13, 9
     var small_circ_rad = 9; // sizes: 20, 13, 9
     var spacing_fact = 1.2;
+    var GOLDEN_RANDOM = (0.7 + 0.3 * Math.random()) * GOLDEN_ANGLE
 
     console.log(_placedCirclesArr);
 
@@ -236,7 +237,7 @@ var placeCirclesSpiral = function () {
     var lastTestArea = curArea;
 
     // Calc target areas
-    var big_target_area = 0.25 * Math.random() * targetArea;
+    var big_target_area = 0.2 + 0.2 * Math.random() * targetArea;
     var med_target_area = Math.random() * (targetArea - big_target_area);
     var small_target_area = targetArea - big_target_area - med_target_area;
 
@@ -253,13 +254,13 @@ var placeCirclesSpiral = function () {
     // Place big circles
     while (curArea + big_circ_rad * big_circ_rad * Math.PI <= big_target_area){
         cur_circ = _circles[circ_i];
-        let angle = circ_i * GOLDEN_ANGLE;
+        let angle = circ_i * GOLDEN_RANDOM;
 
         let sm_dia = 2 * big_circ_rad;
         let adj_sm_dia = sm_dia * fudge;
 
-        curArea += big_circ_rad * big_circ_rad * Math.PI;
         let spiral_rad = spacing_fact*Math.sqrt( curArea / Math.PI );
+        curArea += big_circ_rad * big_circ_rad * Math.PI;
 
         cur_circ.x = cx + Math.cos(angle) * spiral_rad;
         cur_circ.y = cy + Math.sin(angle) * spiral_rad;
@@ -275,13 +276,13 @@ var placeCirclesSpiral = function () {
     // Place medium circles
     while (curArea + med_circ_rad * med_circ_rad * Math.PI <= big_target_area + med_target_area){ // add big + med targets so that med circles accommodate for big circles breaking before full
         cur_circ = _circles[circ_i];
-        let angle = circ_i * GOLDEN_ANGLE;
+        let angle = circ_i * GOLDEN_RANDOM;
 
         let sm_dia = 2 * med_circ_rad;
         let adj_sm_dia = sm_dia * fudge;
 
-        curArea += med_circ_rad * med_circ_rad * Math.PI;
         let spiral_rad = spacing_fact*Math.sqrt( curArea / Math.PI );
+        curArea += med_circ_rad * med_circ_rad * Math.PI;
 
         cur_circ.x = cx + Math.cos(angle) * spiral_rad;
         cur_circ.y = cy + Math.sin(angle) * spiral_rad;
@@ -297,13 +298,13 @@ var placeCirclesSpiral = function () {
     // Place small circles
     while (curArea + small_circ_rad * small_circ_rad * Math.PI <= targetArea){ // add big + med targets so that med circles accommodate for big circles breaking before full
         cur_circ = _circles[circ_i];
-        let angle = circ_i * GOLDEN_ANGLE;
+        let angle = circ_i * GOLDEN_RANDOM;
 
         let sm_dia = 2 * small_circ_rad;
         let adj_sm_dia = sm_dia * fudge;
 
-        curArea += small_circ_rad * small_circ_rad * Math.PI;
         let spiral_rad = spacing_fact*Math.sqrt( curArea / Math.PI );
+        curArea += small_circ_rad * small_circ_rad * Math.PI;
 
         cur_circ.x = cx + Math.cos(angle) * spiral_rad;
         cur_circ.y = cy + Math.sin(angle) * spiral_rad;
