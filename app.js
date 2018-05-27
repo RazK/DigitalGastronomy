@@ -782,10 +782,10 @@ function CanvasState(canvas) {
         }
 
         if (tooltype === "brush") {
-                let bar, val, hi,factor,fixedFactor,
-            console.log("brush");
-            let mouse = myState.getMouse(e);
-            let id = contain(mouse.x, mouse.y);
+            let bar, val, hi,factor,fixedFactor;
+            //console.log("brush");
+            let mouseMe = myState.getMouse(e);
+            let id = contain(mouseMe.x, mouseMe.y);
             if (id >= 0) {
 
                 replaceCircle(id, circleColor);
