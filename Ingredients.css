@@ -218,7 +218,7 @@ table {
 
     -webkit-appearance: none; /* Override default CSS styles */
     /*appearance: none;*/
-    background: #e8c880;
+    background: #fee9cc;
     outline: none; /* Remove outline */
     opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
     -webkit-transition: .2s; /* 0.2 seconds transition on hover */
@@ -546,9 +546,22 @@ input[type='range']::-webkit-slider-thumb {
 }
 
 .anchors {
-    display: inline-block;
-    padding: 1%;
+    /*display: inline-block;*/
+    /*padding: 3%;*/
+    /**********/
+    width: 7%;
+    padding: 2%;
+    font-weight: bold;
+    background: #eae5e5;
+    border-radius: 25%;
 }
+
+
+.anchors.toHigh {
+    background-color: #8c8181;
+    color: white;
+}
+
 
 #numHigh {
     display: inline-block;
@@ -561,8 +574,19 @@ input[type='range']::-webkit-slider-thumb {
 
 
 
-#containerHigh {
-    display: inline-block;
+#containerMin {
+    /*display: inline-block;*/
+    /*margin: 3vh;*/
+    width: 25%;
+    height: 5vh;
+    border: 2px solid #eae5e5;
+    border-radius: 10px;
+
+}
+
+
+#containerMax {
+    /*display: inline-block;*/
     /*margin: 3vh;*/
     width: 25%;
     height: 5vh;
