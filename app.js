@@ -615,24 +615,26 @@ function CanvasState(canvas) {
     });
 
     function replaceCircle(id, color) {
+        let circle = _placedCirclesArr[id];
+        let area = circle.size *circle.size *Math.PI;
 
         console.log("replaceCircle");
-        if (color === SPICY && ((numOfSpicy - numOfColoredSpicy) > 0)) {
+        if (color === SPICY && ((spicyColoredArea - area) >= 0)) {
             changeSpecificColor(id, color);
-            numOfColoredSpicy += 1;
+            spicyColoredArea -= area;
         }
-        if (color === OMAMI && ((numOfUmami - numOfColoredUmami) > 0)) {
+        if (color === OMAMI && ((umamiColoredArea - area) > 0)) {
             changeSpecificColor(id, color);
-            numOfColoredUmami += 1;
+            umamiColoredArea -= area;
         }
-        if (color === HERBS && ((numOfHerbs - numOfColoredHerbs) > 0)) {
+        if (color === HERBS && ((herbsColoredArea - area) > 0)) {
             changeSpecificColor(id, color);
-            numOfColoredHerbs += 1;
+            herbsColoredArea -= area;
 
         }
-        if (color === SOUR && ((numOfSour - numOfColoredSour) > 0)) {
+        if (color === SOUR && ((sourColoredArea - area) > 0)) {
             changeSpecificColor(id, color);
-            numOfColoredSour += 1;
+            sourColoredArea -= area;
         }
     }
 
@@ -723,6 +725,7 @@ function CanvasState(canvas) {
                 break;
 
         }
+        factor *= 100;
         fixedFactor = Math.ceil(factor);
         if (hi < 100) {
             hi += fixedFactor;
@@ -776,12 +779,56 @@ function CanvasState(canvas) {
         }
 
         if (tooltype === "brush") {
+                let bar, val, hi,factor,fixedFactor,
             console.log("brush");
             let mouse = myState.getMouse(e);
             let id = contain(mouse.x, mouse.y);
             if (id >= 0) {
 
                 replaceCircle(id, circleColor);
+                switch (circleColor) {
+                    case OMAMI:
+                        //update bar:
+                        bar = document.getElementById("progBarOmami");
+                        val = document.getElementById("omamiVal");
+                        hi = $("#progBarOmami").height();
+                        console.log('hi: ' + hi);
+                        factor = umamiColoredArea / umamiArea;
+                        break;
+
+                    case SPICY:
+                        bar = document.getElementById("progBarSpicy");
+                        val = document.getElementById("spicyVal");
+                        hi = $("#progBarSpicy").height();
+                        factor = spicyColoredArea / spicyArea  ;
+                        break;
+
+                    case HERBS:
+                        bar = document.getElementById("progBarHerbs");
+                        val = document.getElementById("herbsVal");
+                        hi = $("#progBarHerbs").height();
+                        factor = herbsColoredArea / herbsArea;
+                        break;
+
+                    case SOUR:
+                        bar = document.getElementById("progBarSour");
+                        val = document.getElementById("sourVal");
+                        hi = $("#progBarSour").height();
+                        factor = sourColoredArea / sourArea;
+                        break;
+
+                }
+                factor *= 100;
+                fixedFactor = Math.ceil(factor);
+                if (hi < 100) {
+                    hi = fixedFactor;
+                    bar.style.height = hi + '%';
+                    val.innerHTML = hi + '%';
+                    if (hi >= 95) {
+                        bar.style.borderBottomRightRadius = 5 + "px";
+                        bar.style.borderBottomLeftRadius = 5 + "px";
+                    }
+                }
             }
         }
 
@@ -797,9 +844,6 @@ function CanvasState(canvas) {
 
 
                 setMin(id);
-
-
-
                 updateProgBar();
 
                 let min = document.getElementById("minHigh");
@@ -1331,7 +1375,7 @@ function singlePass(sign) {
  */
 
 function strucVal(val) {
-    $('#soupVal').text(val + "% \n SOUP");
+    $('#soupVal').text(" " + val + "% \n SOUP");
     $('#noodleVal').text("  " + (100 - val) + "% \n NOODLE");
 
     soupFactor = val;

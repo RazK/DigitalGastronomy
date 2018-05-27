@@ -221,7 +221,7 @@ table {
 
     -webkit-appearance: none; /* Override default CSS styles */
     /*appearance: none;*/
-    background: #fee9cc;
+    background: #f2d58b;
     outline: none; /* Remove outline */
     opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
     -webkit-transition: .2s; /* 0.2 seconds transition on hover */
