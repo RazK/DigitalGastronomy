@@ -796,28 +796,28 @@ function CanvasState(canvas) {
                         val = document.getElementById("omamiVal");
                         hi = $("#progBarOmami").height();
                         console.log('hi: ' + hi);
-                        factor = umamiColoredArea / umamiArea;
+                        factor = 1 - (umamiColoredArea / umamiArea);
                         break;
 
                     case SPICY:
                         bar = document.getElementById("progBarSpicy");
                         val = document.getElementById("spicyVal");
                         hi = $("#progBarSpicy").height();
-                        factor = spicyColoredArea / spicyArea  ;
+                        factor = 1- (spicyColoredArea / spicyArea ) ;
                         break;
 
                     case HERBS:
                         bar = document.getElementById("progBarHerbs");
                         val = document.getElementById("herbsVal");
                         hi = $("#progBarHerbs").height();
-                        factor = herbsColoredArea / herbsArea;
+                        factor = 1- (herbsColoredArea / herbsArea);
                         break;
 
                     case SOUR:
                         bar = document.getElementById("progBarSour");
                         val = document.getElementById("sourVal");
                         hi = $("#progBarSour").height();
-                        factor = sourColoredArea / sourArea;
+                        factor = 1 - (sourColoredArea / sourArea);
                         break;
 
                 }
