@@ -635,18 +635,18 @@ function CanvasState(canvas) {
         img.onload = function () {
             ctx.drawImage(img, 0, 0, img.width, img.height, circle.x - 10, circle.y - 38, 20, 40);
         }
-        img.src = 'Images/imagefiles_location_map_pin_red5.png';
+        img.src = 'images/minIcon.png';
 
         // console.log("pinicon circle.x: " + circle.x + "circle.y: " + circle.y );
 
-
+        // #f90000
     }
 
 
     function setMax(id) {
         var ctx = canvas.getContext("2d");
 
-        console.log("setMin");
+        console.log("minI");
         _placedCirclesArr[id].z = 2;
         var circle = _placedCirclesArr[id];
 
@@ -654,8 +654,10 @@ function CanvasState(canvas) {
         img.onload = function () {
             ctx.drawImage(img, 0, 0, img.width, img.height, circle.x - 10, circle.y - 38, 20, 40);
         }
-        img.src = 'Images/imagefiles_location_map_pin_navy_blue5.png';
+        img.src = 'images/maxIcon.png';
         numOfColoredMax++;
+
+        //#0000f7
 
 
 
@@ -733,7 +735,9 @@ function CanvasState(canvas) {
 
 
     canvas.addEventListener('touchstart', function (e) {
-        if (tooltype === "create" ) {
+    // canvas.addEventListener('click', function (e) {
+
+            if (tooltype === "create" ) {
             myState.dragging = true;
             myState.coorCoor = [];
 
@@ -776,6 +780,9 @@ function CanvasState(canvas) {
 
 
                 setMin(id);
+
+
+
                 updateProgBar();
 
                 let min = document.getElementById("minHigh");
@@ -1005,11 +1012,10 @@ function minPress() {
 }
 //
 //
-function maxPress(evt) {
-    let erase = document.getElementById("maxHigh");
-    erase.className += " toHigh";
+function maxPress() {
+    let max = document.getElementById("maxHigh");
+    max.className += " toHigh";
     anchorMaxNum = 1;
-
     tooltype = "max";
 
 }
@@ -1031,6 +1037,7 @@ function eraserBut() {
     }
 
     let erase = document.getElementById("erase");
+    erase.src = "images/preesEraseButton.png";
     erase.className += " toErase";
 
 
@@ -1050,7 +1057,9 @@ function brushbut(flavor) {
 
 
     let erase = document.getElementById("erase");
-    erase.className =  erase.className.replace(" toErase", "");
+    erase.src = "images/eraseButton.png";
+    erase.className = erase.className.replace(" toErase", "");
+
 
     tooltype = "brush";
     switch (flavor) {
@@ -1415,7 +1424,7 @@ function updateAnchorsHigh(operator) {
 
     // decorate the first and last units
     if (anchorMinNum === 1) {
-        containerHigh.children[0].className += ' firstProgBarUnit lastProgBarUnit';
+        containerHigh.children[0].className += ' firstProgBarUnit lastProgBarUnit minColor';
     }
     if (containerHigh.children.length > 1) {
         console.log(containerHigh.children);

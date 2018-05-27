@@ -26,7 +26,10 @@
 
         <div class="Bowl">
             <canvas id="BowlCanvas" width='300' height='300'>h</canvas>
-            <button id="erase" style="display: none" onclick="eraserBut()">erase</button>
+            <!--<button id="erase" style="display: none" onclick="eraserBut()">erase</button>-->
+            <!--<button >erase</button>-->
+            <img src="images/eraseButton.png" id="erase" style="display: none" onclick="eraserBut()">
+
         </div>
 
         <div id="page1" class="tabcontent">
@@ -209,7 +212,7 @@
                     <p class="anchors" id="maxHigh" onclick="maxPress()">MAX</p>
                     <!--<p id="numHigh">0</p>-->
                     <div id="containerMax">
-                        <div class="progBarUnit firstProgBarUnit lastProgBarUnit" style="width: 100%"></div>
+                        <div class="progBarUnit firstProgBarUnit lastProgBarUnit maxColor" style="width: 100%"></div>
                     </div>
                 </div>
 
