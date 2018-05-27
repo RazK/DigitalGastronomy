@@ -694,7 +694,7 @@ function CanvasState(canvas) {
                 val = document.getElementById("omamiVal");
                 hi = $("#progBarOmami").height();
                 console.log('hi: ' + hi);
-                factor = umamiColoredArea / umamiArea;
+                factor = 1 - (umamiColoredArea / umamiArea);
                 break;
 
             case SPICY:
@@ -703,32 +703,35 @@ function CanvasState(canvas) {
                 bar = document.getElementById("progBarSpicy");
                 val = document.getElementById("spicyVal");
                 hi = $("#progBarSpicy").height();
-                factor = spicyColoredArea / spicyArea  ;
+                factor = 1 - (spicyColoredArea / spicyArea);
                 break;
 
             case HERBS:
                 numOfColoredHerbs--;
-                herbsColoredArea -= herbsArea;
+                herbsColoredArea -= area;
                 bar = document.getElementById("progBarHerbs");
                 val = document.getElementById("herbsVal");
                 hi = $("#progBarHerbs").height();
-                factor = herbsColoredArea / herbsArea;
+                factor = 1 - (herbsColoredArea / herbsArea);
                 break;
 
             case SOUR:
                 numOfColoredSour--;
-                sourColoredArea -= spicyArea;
+                sourColoredArea -= area;
                 bar = document.getElementById("progBarSour");
                 val = document.getElementById("sourVal");
                 hi = $("#progBarSour").height();
-                factor = sourColoredArea / sourArea;
+                factor = 1 - (sourColoredArea / sourArea);
                 break;
 
+            default:
+                return;
+                //alert("ERROR! INVALID COLOR");
+
         }
-        factor *= 100;
-        fixedFactor = Math.ceil(factor);
+        fixedFactor = Math.ceil(100 * factor);
         if (hi < 100) {
-            hi += fixedFactor;
+            hi = fixedFactor;
             bar.style.height = hi + '%';
             val.innerHTML = hi + '%';
             if (hi >= 95) {
