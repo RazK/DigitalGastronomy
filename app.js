@@ -54,6 +54,19 @@ var numOfColoredMin = 0;
 var anchorMaxNum = 0;
 var numOfColoredMax = 0;
 
+var targetArea = 0;
+var umamiArea = 0;
+var umamiColoredArea = 0;
+
+var spicyArea = 0;
+var spicyColoredArea = 0;
+var herbsArea = 0;
+var herbsColoredArea = 0;
+
+var sourArea = 0;
+var sourColoredArea = 0;
+
+var actualArea = 0;
 
 
 // use to slow  operation
@@ -233,8 +246,8 @@ var placeCirclesSpiral = function () {
 
     var canvas = document.getElementById("BowlCanvas");
     var canvas_min = 0.3 * Math.min(canvas.width, canvas.height)
-    let targetFactor = (100 - soupFactor) / 100;
-    var targetArea = canvas_min * canvas_min * Math.PI * targetFactor;
+    let noodleFactor = (100 - soupFactor) / 100;
+    targetArea = canvas_min * canvas_min * Math.PI * noodleFactor;
     var curArea = 0;
 
     // Calc target areas
@@ -665,44 +678,48 @@ function CanvasState(canvas) {
 
     function setOrigin(id) {
         var ctx = canvas.getContext("2d");
-        let bar, val, hi, factor, fixedFactor;
+        let bar, val, hi, factor, fixedFactor, area;
         console.log(ctx);
+        area = _placedCirclesArr[id].size * _placedCirclesArr[id].size * Math.PI;
 
         switch (_placedCirclesArr[id].color) {
             case OMAMI:
                 numOfColoredUmami--;
+                umamiColoredArea -= area;
                 console.log("numOfColoredUmami" + numOfColoredUmami);
                 //update bar:
                 bar = document.getElementById("progBarOmami");
                 val = document.getElementById("omamiVal");
                 hi = $("#progBarOmami").height();
                 console.log('hi: ' + hi);
-                factor = umamiFactor / numOfUmami;
+                factor = umamiColoredArea / umamiArea;
                 break;
 
             case SPICY:
                 numOfColoredSpicy--;
+                spicyColoredArea -= area;
                 bar = document.getElementById("progBarSpicy");
                 val = document.getElementById("spicyVal");
                 hi = $("#progBarSpicy").height();
-                factor = spicyFactor / numOfSpicy;
+                factor = spicyColoredArea / spicyArea  ;
                 break;
 
             case HERBS:
                 numOfColoredHerbs--;
+                herbsColoredArea -= herbsArea;
                 bar = document.getElementById("progBarHerbs");
                 val = document.getElementById("herbsVal");
                 hi = $("#progBarHerbs").height();
-                factor = herbsFactor / numOfHerbs;
+                factor = herbsColoredArea / herbsArea;
                 break;
 
             case SOUR:
                 numOfColoredSour--;
+                sourColoredArea -= spicyArea;
                 bar = document.getElementById("progBarSour");
                 val = document.getElementById("sourVal");
                 hi = $("#progBarSour").height();
-                factor = sourFactor / numOfSour;
-                ;
+                factor = sourColoredArea / sourArea;
                 break;
 
         }
@@ -850,7 +867,7 @@ function greedyFillColor(color, targetPercentage, isLeftoversEater = false) {
     // Sort circle by size
     // Remember original id
     let canvas = document.getElementById("BowlCanvas");
-    let target = (0.3) * canvas.width * canvas.height * targetPercentage / 100;
+    let target = targetArea * targetPercentage / 100;
     let sortableCircles = [];
 
     for (let i = 0; i < _placedCirclesArr.length; i++) {
@@ -869,48 +886,57 @@ function greedyFillColor(color, targetPercentage, isLeftoversEater = false) {
     });
 
     // Collect ids of largest circles still fitting the sack
-    let colored = [];
-    if (isLeftoversEater) {
-        var idcircle = sortedCircles[0];
-        colored.push(idcircle.id);
-        target -= (idcircle.size * idcircle.size * Math.PI);
-        switch (color) {
-            case OMAMI:
-                numOfColoredUmami++;
-                numOfUmami++;
-                break;
-            case SPICY:
-                numOfColoredSpicy++;
-                numOfSpicy++;
-                break;
-            case SOUR:
-                numOfSour++;
-                numOfColoredSour++;
-                break;
-            case HERBS:
-                numOfColoredHerbs++;
-                numOfHerbs++;
-                break;
-        }
-    }
+    let toColor = [];
+    // if (isLeftoversEater) {
+    //     var idcircle = sortedCircles[0];
+    //     colored.push(idcircle.id);
+    //     target -= (idcircle.size * idcircle.size * Math.PI);
+    //     switch (color) {
+    //         case OMAMI:
+    //             numOfColoredUmami++;
+    //             numOfUmami++;
+    //             break;
+    //         case SPICY:
+    //             numOfColoredSpicy++;
+    //             numOfSpicy++;
+    //             break;
+    //         case SOUR:
+    //             numOfSour++;
+    //             numOfColoredSour++;
+    //             break;
+    //         case HERBS:
+    //             numOfColoredHerbs++;
+    //             numOfHerbs++;
+    //             break;
+    //     }
+    // }
     $.each(sortedCircles, function (i, idcircle) {
         if ((idcircle.size * idcircle.size * Math.PI) < target) {
-            colored.push(idcircle.id);
-            target -= (idcircle.size * idcircle.size * Math.PI);
+            toColor.push(idcircle.id);
+            let circleArea = (idcircle.size * idcircle.size * Math.PI);
+            target -= circleArea;
             switch (color) {
                 case OMAMI:
+                    umamiArea += circleArea;
+                    umamiColoredArea += circleArea;
                     numOfColoredUmami++;
                     numOfUmami++;
                     break;
                 case SPICY:
+                    spicyArea += circleArea;
+                    spicyColoredArea += circleArea;
                     numOfColoredSpicy++;
                     numOfSpicy++;
                     break;
                 case SOUR:
+                    sourArea += circleArea;
+                    sourColoredArea += circleArea;
                     numOfSour++;
                     numOfColoredSour++;
                     break;
                 case HERBS:
+                    herbsArea += circleArea;
+                    herbsColoredArea += circleArea;
                     numOfColoredHerbs++;
                     numOfHerbs++;
                     break;
@@ -919,7 +945,7 @@ function greedyFillColor(color, targetPercentage, isLeftoversEater = false) {
     });
 
     // Color all selected circles
-    $.each(colored, function (id, idcircle) {
+    $.each(toColor, function (id, idcircle) {
 
         // ChangeSpecificColor
         let canvas = document.getElementById("BowlCanvas");
