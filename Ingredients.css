@@ -1,24 +1,49 @@
 /*GLobal Area
 -----------------*/
+@font-face {
+    font-family: "Futura";
+    src: url("fonts/futur.ttf"),
+        url("fonts/Futura Bold font.ttf");
+        url("fonts/Futura Bold italic font.ttf");
+        url("fonts/Futura Book font.ttf");
+        url("fonts/Futura Book italic font.ttf");
+        url("fonts/Futura Extra italic font.ttf");
+        url("fonts/Futura Heavy font.ttf");
+        url("fonts/Futura Heavy font.ttf");
+        url("fonts/Futura Heavy italic font.ttf");
+        url("fonts/Futura light bt.ttf");
+        url("fonts/Futura Light font.ttf");
+        url("fonts/Futura Light italic font.ttf");
+        url("fonts/futura medium bt.ttf");
+        url("fonts/futura medium condensed bt.ttf");
+        url("fonts/futura Medium italic font.ttf");
+        url("fonts/futura XBlk BT.ttf");
+        url("fonts/futura-CondensedLight.otf");
+        url("fonts/tt0205m_.ttf");
+        url("fonts/unicode.futurab.ttf");
+        url("fonts/unicode.futurabb.ttf");
+
+
+;
+}
+
+html {
+    font-family: Futura, Helvetica, sans-serif;
+}
 
 body {
     margin: 0;
     padding: 0;
     height: 100vh;
     color: #8c8181;
-    font-family: Futura, Helvetica, sans-serif;
     font-weight: bold;
 }
-
-
-
 
 header {
     /*position: absolute;*/
 
     height: 4vh;
     width: 100%; /* Full width */
-    font-family: Helvetica, sans-serif;
     font-weight: bold;
 
     color: white;
@@ -40,7 +65,7 @@ main {
 
 footer {
     position: fixed;
-    font-family: Helvetica, sans-serif;
+    font-family: Futura, Helvetica, sans-serif;
     color: #eae5e5;
     overflow: hidden;
     /*background-color: 	#fdefee;*/
@@ -59,8 +84,11 @@ footer {
 
 button {
     background-color: transparent;
-    outline:none;
+    outline: none;
     border: none;
+    font-family: Futura, Helvetica, sans-serif;
+
+
 }
 
 h1 {
@@ -91,7 +119,7 @@ table {
 .Bowl {
     text-align: center;
     display: flex;
-    height: 50vh;
+    height: 40vh;
     justify-content: center;
     align-items: center;
 }
@@ -103,14 +131,12 @@ table {
     background-color: #fee9cc;
 }
 
-
 /*colors
 ----------------*/
 
 .omami {
     color: #a28275;
 }
-
 
 .sour {
     color: #b6e079;
@@ -124,12 +150,7 @@ table {
     color: #a9c0a9;
 }
 
-
-
-
-
-
- /*Navigation
+/*Navigation
 ----------------*/
 
 .Navigation {
@@ -166,19 +187,17 @@ table {
     background-color: #eae5e5;
     color: #fff;
 
-
 }
 
 #goBack {
     display: block;
     float: none;
-    background-color: #eae5e5 ;
+    background-color: #eae5e5;
     color: #fff;
     font-size: 1rem;
     border-radius: 1.5vh;
     margin: auto;
 }
-
 
 /* Create an active/current tablink class */
 .Navigation button.active {
@@ -186,7 +205,6 @@ table {
     font-weight: bold;
     /*background-color: #cc4f76;*/
 }
-
 
 /*Pages:
 ------------*/
@@ -221,14 +239,17 @@ table {
 
     -webkit-appearance: none; /* Override default CSS styles */
     /*appearance: none;*/
-    background: #f2d58b;
     outline: none; /* Remove outline */
     opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
     -webkit-transition: .2s; /* 0.2 seconds transition on hover */
     transition: opacity .2s;
     border-radius: 1vh;
     margin: 2%;
-
+    background-image: -webkit-gradient(linear,
+    left top,
+    right top,
+    color-stop(0.5, #fee9cc),
+    color-stop(0.5, #e8c880));
 
 }
 
@@ -261,8 +282,6 @@ table {
 
 }
 
-
-
 .NoodleOutline {
 
     text-align: center; /* Center-align text */
@@ -292,7 +311,6 @@ table {
     width: 45%;
     margin: auto;
 
-
 }
 
 #generate {
@@ -304,7 +322,6 @@ table {
     margin: 3% 3% 3% 0%;
     border-radius: 15%;
 
-
 }
 
 #generate:hover {
@@ -313,7 +330,6 @@ table {
 }
 
 /**********page 2*******/
-
 
 .flavours_slideres_container {
     position: inherit;
@@ -324,14 +340,12 @@ table {
 
 }
 
-
 .flavor {
     width: 80%;
     height: 6vh;
     margin: auto;
     /*border: 1px solid black;*/
 }
-
 
 .flavour_slider {
     display: inline-block;
@@ -350,7 +364,6 @@ table {
     border: 6px solid #eae5e5;
 }
 
-
 /* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
 .flavour_slider::-webkit-slider-thumb {
     -webkit-appearance: none; /* Override default look */
@@ -363,7 +376,6 @@ table {
     border: #d3c9c9;
 
 }
-
 
 input[type='range']::-webkit-slider-thumb {
     -webkit-appearance: none !important;
@@ -382,7 +394,6 @@ input[type='range']::-webkit-slider-thumb {
 }
 
 /*************page 3 **************/
-
 
 .wrapperBars {
     display: block;
@@ -475,7 +486,6 @@ input[type='range']::-webkit-slider-thumb {
 /*text-align: center;*/
 /*}*/
 
-
 #erase {
     position: absolute;
     right: 20%;
@@ -498,7 +508,6 @@ input[type='range']::-webkit-slider-thumb {
     padding: 2%;
     border-radius: 15vh;
 }
-
 
 .toBrush {
     background-color: #eae5e5;
@@ -547,7 +556,7 @@ input[type='range']::-webkit-slider-thumb {
     border-top-right-radius: 30%;
     border-bottom-right-radius: 30%;
 
-    margin: 3% 0.5% ;
+    margin: 3% 0.5%;
 
 }
 
@@ -562,12 +571,10 @@ input[type='range']::-webkit-slider-thumb {
     border-radius: 25%;
 }
 
-
 .anchors.toHigh {
     background-color: #8c8181;
     color: white;
 }
-
 
 #numHigh {
     display: inline-block;
@@ -578,8 +585,6 @@ input[type='range']::-webkit-slider-thumb {
 
 }
 
-
-
 #containerMin {
     /*display: inline-block;*/
     /*margin: 3vh;*/
@@ -589,7 +594,6 @@ input[type='range']::-webkit-slider-thumb {
     border-radius: 10px;
 
 }
-
 
 #containerMax {
     /*display: inline-block;*/
@@ -602,20 +606,17 @@ input[type='range']::-webkit-slider-thumb {
 }
 
 /*.theline {*/
-    /*text-align: right;*/
-    /*!*padding-right: 20px;*!*/
-    /*line-height: 40px;*/
-    /*color: #8c8181;*/
-    /*!*color: #000000;*!*/
-
+/*text-align: right;*/
+/*!*padding-right: 20px;*!*/
+/*line-height: 40px;*/
+/*color: #8c8181;*/
+/*!*color: #000000;*!*/
 
 /*}*/
-
 
 .maxColor {
     background-color: #0000f7;
 }
-
 
 .minColor {
     background-color: #f90000;
@@ -638,14 +639,10 @@ input[type='range']::-webkit-slider-thumb {
     border-bottom-left-radius: 1.5vh;
 }
 
-
 .lastProgBarUnit {
     border-top-right-radius: 1.5vh;
     border-bottom-right-radius: 1.5vh;
 }
-
-
-
 
 /****************page 5 ******************/
 

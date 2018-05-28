@@ -23,7 +23,10 @@ const STROKE = "#f2d58b";
 const ORIGION = "#e8c880";
 
 
-var _canvasProps = {width: 300, height: 300};
+var _canvasProps = {width: 500, height: 500};
+// var canvas_min = 0.3 * Math.min(_canvasProps.width, _canvasProps.height);
+var canvas_min = 0.3 * 500;  // canvas width and height = 500
+
 var _options = {spacing: -2.5, numCircles: 1000, minSize: 3, maxSize: 7, higherAccuracy: false};
 var _placedCirclesArr = [];
 var tooltype = 'init';
@@ -34,8 +37,8 @@ var umamiFactor = 0;
 var herbsFactor = 0;
 var sourFactor = 0;
 var circleColor = ORIGION;
-var flag = false;
 
+var flag = false;
 var drawnFlag = false;
 
 var numOfSpicy = 0;
@@ -48,16 +51,17 @@ var numOfSour = 0;
 var numOfColoredSour = 0;
 
 var page = 1;
+
 var anchorMinNum = 0;
 var numOfColoredMin = 0;
-
 var anchorMaxNum = 0;
 var numOfColoredMax = 0;
 
-var targetArea = 0;
+var noodleFactor = 0.5;
+var targetArea = canvas_min * canvas_min * Math.PI * noodleFactor;
+
 var umamiArea = 0;
 var umamiColoredArea = 0;
-
 var spicyArea = 0;
 var spicyColoredArea = 0;
 var herbsArea = 0;
@@ -66,7 +70,6 @@ var herbsColoredArea = 0;
 var sourArea = 0;
 var sourColoredArea = 0;
 
-var actualArea = 0;
 
 
 // use to slow  operation
@@ -153,101 +156,102 @@ var placeCircles = function (imgData) {
 };
 
 // circled logic:
-var placeCirclesCentered2 = function () {
+// var placeCirclesCentered2 = function () {
     //console.log(imgData);
-    _placedCirclesArr = [];
-    console.log(_placedCirclesArr);
-
-    let canvas = document.getElementById("BowlCanvas");
-    let canvas_min = 0.3 * Math.min(canvas.width, canvas.height);
-    let targetArea = canvas_min * canvas_min * Math.PI;
-    let curArea = 0;
-    let center_rad = randrange(0.3 * canvas_min, 0.8 * canvas_min);
-    curArea += center_rad * center_rad * Math.PI;
-    let level_1 = 15;
-    let testArea = curArea;
-    let lastTestArea = curArea;
-    let tooBig = false;
-    while (!tooBig) {
-        var ring1_rad = Math.min(canvas_min - center_rad, center_rad * Math.sin(Math.PI / level_1) / (1 - Math.sin(Math.PI / level_1)));
-        testArea = curArea + (ring1_rad * ring1_rad) * Math.PI * level_1;
-        if (testArea > targetArea) {
-            tooBig = true;
-        }
-        lastTestArea = testArea;
-        level_1 -= 1; // dec circles number --> inc total size
-    }
-
-    let level_2 = 15;
-    curArea = lastTestArea;
-    tooBig = false;
-    while (!tooBig) {
-        var ring2_rad = Math.min(canvas_min - center_rad, ring1_rad * Math.sin(Math.PI / level_2) / (1 - Math.sin(Math.PI / level_2)));
-        testArea = curArea + (ring1_rad * ring1_rad) * Math.PI * level_2;
-        if (testArea > targetArea) {
-            tooBig = true;
-        }
-        level_1 -= 1; // dec circles number --> inc total size
-    }
-
-    // Center
-    var circle = _circles[0];
-    circle.x = 0.5 * _canvasProps.width;
-    circle.y = 0.5 * _canvasProps.height;
-    circle.size = center_rad;
-    _placedCirclesArr.push(circle);
-
-    // Ring 1
-    for (let i = 1; i < 1 + level_1; i++) {
-        let circle = _circles[i];
-        let frac = i / (level_1);
-        let deg = frac * 2 * Math.PI;
-        let x = _circles[0].x + Math.cos(deg) * (center_rad + ring1_rad + 2);
-        let y = _circles[0].y + Math.sin(deg) * (center_rad + ring1_rad + 2);
-        circle.size = ring1_rad;
-        if (!_touchesPlacedCircle(x, y, circle.size)) {
-            circle.x = x;
-            circle.y = y;
-            _placedCirclesArr.push(circle);
-        }
-    }
-
-    // Ring 2
-    for (let i = 0; i < level_1; i++) {
-        for (let j = 0; j < level_2; j++) {
-            let circle = _circles[1 + level_1 + (i * level_2) + j];
-            let ring1 = _circles[1 + i];
-            let frac = j / (level_2);
-            let deg = -frac * 2 * Math.PI;
-            let x = ring1.x + Math.cos(deg) * (ring1_rad + ring2_rad + 2);
-            let y = ring1.y + Math.sin(deg) * (ring1_rad + ring2_rad + 2);
-            circle.size = ring2_rad;
-            if (!_touchesPlacedCircle(x, y, circle.size)) {
-                circle.x = x;
-                circle.y = y;
-                _placedCirclesArr.push(circle);
-            }
-        }
-    }
-};
+//     _placedCirclesArr = [];
+//     console.log(_placedCirclesArr);
+//
+//     let canvas = document.getElementById("BowlCanvas");
+//     let canvas_min = 0.3 * Math.min(canvas.width, canvas.height);
+//     let targetArea = canvas_min * canvas_min * Math.PI;
+//     let curArea = 0;
+//     let center_rad = randrange(0.3 * canvas_min, 0.8 * canvas_min);
+//     curArea += center_rad * center_rad * Math.PI;
+//     let level_1 = 15;
+//     let testArea = curArea;
+//     let lastTestArea = curArea;
+//     let tooBig = false;
+//     while (!tooBig) {
+//         var ring1_rad = Math.min(canvas_min - center_rad, center_rad * Math.sin(Math.PI / level_1) / (1 - Math.sin(Math.PI / level_1)));
+//         testArea = curArea + (ring1_rad * ring1_rad) * Math.PI * level_1;
+//         if (testArea > targetArea) {
+//             tooBig = true;
+//         }
+//         lastTestArea = testArea;
+//         level_1 -= 1; // dec circles number --> inc total size
+//     }
+//
+//     let level_2 = 15;
+//     curArea = lastTestArea;
+//     tooBig = false;
+//     while (!tooBig) {
+//         var ring2_rad = Math.min(canvas_min - center_rad, ring1_rad * Math.sin(Math.PI / level_2) / (1 - Math.sin(Math.PI / level_2)));
+//         testArea = curArea + (ring1_rad * ring1_rad) * Math.PI * level_2;
+//         if (testArea > targetArea) {
+//             tooBig = true;
+//         }
+//         level_1 -= 1; // dec circles number --> inc total size
+//     }
+//
+//     // Center
+//     var circle = _circles[0];
+//     circle.x = 0.5 * _canvasProps.width;
+//     circle.y = 0.5 * _canvasProps.height;
+//     circle.size = center_rad;
+//     _placedCirclesArr.push(circle);
+//
+//     // Ring 1
+//     for (let i = 1; i < 1 + level_1; i++) {
+//         let circle = _circles[i];
+//         let frac = i / (level_1);
+//         let deg = frac * 2 * Math.PI;
+//         let x = _circles[0].x + Math.cos(deg) * (center_rad + ring1_rad + 2);
+//         let y = _circles[0].y + Math.sin(deg) * (center_rad + ring1_rad + 2);
+//         circle.size = ring1_rad;
+//         if (!_touchesPlacedCircle(x, y, circle.size)) {
+//             circle.x = x;
+//             circle.y = y;
+//             _placedCirclesArr.push(circle);
+//         }
+//     }
+//
+//     // Ring 2
+//     for (let i = 0; i < level_1; i++) {
+//         for (let j = 0; j < level_2; j++) {
+//             let circle = _circles[1 + level_1 + (i * level_2) + j];
+//             let ring1 = _circles[1 + i];
+//             let frac = j / (level_2);
+//             let deg = -frac * 2 * Math.PI;
+//             let x = ring1.x + Math.cos(deg) * (ring1_rad + ring2_rad + 2);
+//             let y = ring1.y + Math.sin(deg) * (ring1_rad + ring2_rad + 2);
+//             circle.size = ring2_rad;
+//             if (!_touchesPlacedCircle(x, y, circle.size)) {
+//                 circle.x = x;
+//                 circle.y = y;
+//                 _placedCirclesArr.push(circle);
+//             }
+//         }
+//     }
+// };
 
 const PHI = (Math.sqrt(5) + 1) / 2 - 1;            // golden ratio
 const GOLDEN_ANGLE = 0.5 * 2 * PHI * Math.PI;        // golden angle
 var placeCirclesSpiral = function () {
     //console.log(imgData);
     _placedCirclesArr = [];
-    var big_circ_rad = 20; // sizes: 20, 13, 9
-    var med_circ_rad = 13; // sizes: 20, 13, 9
-    var small_circ_rad = 9; // sizes: 20, 13, 9
+    var big_circ_rad = 40; // sizes: 20, 13, 9
+    var med_circ_rad = 28; // sizes: 20, 13, 9
+    var small_circ_rad = 18; // sizes: 20, 13, 9
     var spacing_fact = 1.4;
-    var GOLDEN_RANDOM = (0.7 + 0.3 * Math.random()) * GOLDEN_ANGLE
+    var GOLDEN_RANDOM = (0.7 + 0.3 * Math.random()) * GOLDEN_ANGLE;
 
     // console.log(_placedCirclesArr);
 
     var canvas = document.getElementById("BowlCanvas");
-    var canvas_min = 0.3 * Math.min(canvas.width, canvas.height)
-    let noodleFactor = (100 - soupFactor) / 100;
-    targetArea = canvas_min * canvas_min * Math.PI * noodleFactor;
+    canvas_min = 0.3 * Math.min(canvas.width, canvas.height);
+
+    // noodleFactor = (100 - soupFactor) / 100;
+    // targetArea = canvas_min * canvas_min * Math.PI * noodleFactor;
     var curArea = 0;
 
     // Calc target areas
@@ -258,15 +262,18 @@ var placeCirclesSpiral = function () {
     let med_min = 0.4;
     let med_max = 0.8;
     // small = entire leftover (target - big - med)
+    console.log("targetArea: " + targetArea);
     var big_target_area = (big_min + (big_max - big_min) * Math.random()) * (targetArea);
     var med_target_area = (med_min + (med_max - med_min) * Math.random()) * (targetArea - big_target_area);
+
+    console.log("big_target: " + big_target_area + " , " + "med_target: " + med_target_area);
 
     // Init before spiraling
     var circ_i = 0;
     var cur_circ;
     let fudge = 0.1;
-    let cx = 0.5 * _canvasProps.width
-    let cy = 0.5 * _canvasProps.height
+    let cx = 0.5 * _canvasProps.width;
+    let cy = 0.5 * _canvasProps.height;
 
     // BIG CIRCLES
     // TODO: Potential bug - noodle percentage dictates less noodle than the area of center noodle (case unhandled)
@@ -337,21 +344,21 @@ var _makeCircles = function () {
     for (let j = 0; j < 100; j++) {
         let circle1 = {
             color: ORIGION,
-            size: 20 //do random twice to prefer more smaller ones
+            size: 40 //do random twice to prefer more smaller ones
         };
         circles.push(circle1);
 
 
         let circle2 = {
             color: ORIGION,
-            size: 9 //do random twice to prefer more smaller ones
+            size: 28 //do random twice to prefer more smaller ones
         };
         circles.push(circle2);
 
 
         let circle3 = {
             color: ORIGION,
-            size: 9 //do random twice to prefer more smaller ones
+            size: 18 //do random twice to prefer more smaller ones
         };
         circles.push(circle3);
     }
@@ -485,20 +492,19 @@ function CanvasState(canvas) {
 
 
     function changeSpecificColor(id, color) {
+        console.log("changeSpecificColor");
+
         let ctx = canvas.getContext("2d");
-        // console.log(ctx);
-        if (_placedCirclesArr[id].color === ORIGION) {
+        _placedCirclesArr[id].color = color;
+        let circle = _placedCirclesArr[id];
 
-            _placedCirclesArr[id].color = color;
-            let circle = _placedCirclesArr[id];
-            // ctx.strokeStyle = "rgb(248,170,145)";
-            ctx.fillStyle = circle.color;
-            ctx.lineWidth = 0;
-
-            ctx.beginPath();
-            ctx.arc(circle.x, circle.y, circle.size, 0, 2 * Math.PI);
-            ctx.fill();
-        }
+        ctx.strokeStyle = STROKE;
+        ctx.fillStyle = circle.color;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.arc(circle.x, circle.y, circle.size, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.stroke();
     }
 
 
@@ -681,82 +687,94 @@ function CanvasState(canvas) {
 
     }
 
-    function setOrigin(id) {
-        var ctx = canvas.getContext("2d");
-        let bar, val, hi, factor, fixedFactor, area;
-        // console.log(ctx);
-        area = _placedCirclesArr[id].size * _placedCirclesArr[id].size * Math.PI;
+    function updateFlavours(color, area, status) {
+        let bar, val, hi, factor, fixedFactor, numFactor = 1;
 
-        switch (_placedCirclesArr[id].color) {
+        if (status === "origin") {
+            area = (-1) * area;
+            numFactor = -1;
+        }
+
+        switch (color) {
             case OMAMI:
-                numOfColoredUmami--;
-                umamiColoredArea -= area;
-                console.log("numOfColoredUmami" + numOfColoredUmami);
-                //update bar:
-                bar = document.getElementById("progBarOmami");
-                val = document.getElementById("omamiVal");
-                hi = $("#progBarOmami").height();
-                console.log('omami hi before: ' + hi);
-                factor = 1 - (umamiColoredArea / umamiArea);
+                if ((umamiColoredArea + area <= umamiArea) && (umamiColoredArea + area >= 0)) {
+                    numOfColoredUmami += numFactor;
+                    umamiColoredArea += area;
+                    // console.log("numOfColoredUmami" + numOfColoredUmami);
+                    //update bar:
+                    bar = document.getElementById("progBarOmami");
+                    val = document.getElementById("omamiVal");
+                    hi = $("#progBarOmami").height();
+                    console.log('omami hi before: ' + hi);
+                    factor = 1 - (umamiColoredArea / umamiArea);
+
+                }
                 break;
 
             case SPICY:
-                numOfColoredSpicy--;
-                spicyColoredArea -= area;
-                bar = document.getElementById("progBarSpicy");
-                val = document.getElementById("spicyVal");
-                hi = $("#progBarSpicy").height();
-                factor = 1 - (spicyColoredArea / spicyArea);
+                if ((spicyColoredArea + area <= spicyArea) && (spicyColoredArea + area >= 0)) {
+                    numOfColoredSpicy += numFactor;
+                    spicyColoredArea += area;
+                    bar = document.getElementById("progBarSpicy");
+                    val = document.getElementById("spicyVal");
+                    hi = $("#progBarSpicy").height();
+                    factor = 1 - (spicyColoredArea / spicyArea);
+                }
                 break;
 
             case HERBS:
-                numOfColoredHerbs--;
-                herbsColoredArea -= area;
-                bar = document.getElementById("progBarHerbs");
-                val = document.getElementById("herbsVal");
-                hi = $("#progBarHerbs").height();
-                factor = 1 - (herbsColoredArea / herbsArea);
+                if ((herbsColoredArea + area <= herbsArea) && (herbsColoredArea + area >= 0)) {
+                    numOfColoredHerbs += numFactor;
+                    herbsColoredArea += area;
+                    bar = document.getElementById("progBarHerbs");
+                    val = document.getElementById("herbsVal");
+                    hi = $("#progBarHerbs").height();
+                    factor = 1 - (herbsColoredArea / herbsArea);
+                }
                 break;
 
             case SOUR:
-                numOfColoredSour--;
-                sourColoredArea -= area;
-                bar = document.getElementById("progBarSour");
-                val = document.getElementById("sourVal");
-                hi = $("#progBarSour").height();
-                factor = 1 - (sourColoredArea / sourArea);
+                if ((sourColoredArea + area <= sourArea) && (sourColoredArea + area >= 0)) {
+                    numOfColoredSour += numFactor;
+                    sourColoredArea += area;
+                    bar = document.getElementById("progBarSour");
+                    val = document.getElementById("sourVal");
+                    hi = $("#progBarSour").height();
+                    factor = 1 - (sourColoredArea / sourArea);
+                }
                 break;
 
             default:
-                return;
+                return -1;
             //alert("ERROR! INVALID COLOR");
 
         }
-        fixedFactor = Math.ceil(100 * factor);
-        if (fixedFactor < 100) {
+        fixedFactor = Math.floor(100 * factor);
+        if ((fixedFactor < 100) && (fixedFactor >= 0)) {
             hi = fixedFactor;
-            console.log('hi after: ' + hi );
+            console.log('hi after: ' + hi);
             bar.style.height = hi + '%';
             val.innerHTML = hi + '%';
             if (hi >= 95) {
                 bar.style.borderBottomRightRadius = 5 + "px";
                 bar.style.borderBottomLeftRadius = 5 + "px";
             }
+            return 0;
         }
+        else {
+            return -1;
+        }
+    }
 
-        _placedCirclesArr[id].color = ORIGION;
-        let circle = _placedCirclesArr[id];
-        console.log(circle);
 
-
-        ctx.strokeStyle = STROKE;
-        ctx.fillStyle = circle.color;
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.arc(circle.x, circle.y, circle.size, 0, 2 * Math.PI);
-        ctx.fill();
-        ctx.stroke();
-
+    function setOrigin(id) {
+        console.log("setOrigion");
+        let area = _placedCirclesArr[id].size * _placedCirclesArr[id].size * Math.PI;
+        if (_placedCirclesArr[id].color !== ORIGION) {
+            if (updateFlavours(_placedCirclesArr[id].color, area, "origin") === 0) {
+                changeSpecificColor(id, ORIGION);
+            }
+        }
     }
 
 
@@ -790,56 +808,17 @@ function CanvasState(canvas) {
             let mouseMe = myState.getMouse(e);
             let id = contain(mouseMe.x, mouseMe.y);
             if (id >= 0) {
+                let circle = _placedCirclesArr[id];
+                let area = circle.size * circle.size * Math.PI;
+                if (_placedCirclesArr[id].color === ORIGION) {
 
-                replaceCircle(id, circleColor);
-                switch (circleColor) {
-                    case OMAMI:
-                        //update bar:
-                        bar = document.getElementById("progBarOmami");
-                        val = document.getElementById("omamiVal");
-                        hi = $("#progBarOmami").height();
-                        console.log(' omami hi before: ' + hi);
-                        factor = 1 - (umamiColoredArea / umamiArea);
-                        break;
-
-                    case SPICY:
-                        bar = document.getElementById("progBarSpicy");
-                        val = document.getElementById("spicyVal");
-                        hi = $("#progBarSpicy").height();
-                        factor = 1 - (spicyColoredArea / spicyArea);
-                        break;
-
-                    case HERBS:
-                        bar = document.getElementById("progBarHerbs");
-                        val = document.getElementById("herbsVal");
-                        hi = $("#progBarHerbs").height();
-                        factor = 1 - (herbsColoredArea / herbsArea);
-                        break;
-
-                    case SOUR:
-                        bar = document.getElementById("progBarSour");
-                        val = document.getElementById("sourVal");
-                        hi = $("#progBarSour").height();
-                        factor = 1 - (sourColoredArea / sourArea);
-                        break;
-
-                }
-                factor *= 100;
-                fixedFactor = Math.ceil(factor);
-                if (fixedFactor < 100) {
-
-                    hi = fixedFactor;
-                    console.log(' hi after: ' + hi);
-                    bar.style.height = hi + '%';
-                    val.innerHTML = hi + '%';
-                    if (hi >= 95) {
-                        bar.style.borderBottomRightRadius = 5 + "px";
-                        bar.style.borderBottomLeftRadius = 5 + "px";
+                    if (updateFlavours(circleColor, area, "brush") === 0) {
+                        changeSpecificColor(id, circleColor);
                     }
                 }
+
             }
         }
-
         if (tooltype === "min") {
             // update z val
             // update stoke
@@ -919,6 +898,7 @@ function greedyFillColor(color, targetPercentage, isLeftoversEater = false) {
     // Remember original id
     let canvas = document.getElementById("BowlCanvas");
     let target = targetArea * targetPercentage / 100;
+    console.log("targetArea: " + targetArea  + " , target: " + target);
     let sortableCircles = [];
 
     for (let i = 0; i < _placedCirclesArr.length; i++) {
@@ -1029,7 +1009,7 @@ var putNoodleGenerate = function () {
 function clearBowl() {
     _placedCirclesArr = [];
     _circles = _makeCircles();
-    $canvas = $("#BowlCanvas");
+    let $canvas = $("#BowlCanvas");
     let ctx = $canvas[0].getContext('2d');
     ctx.clearRect(0, 0, _canvasProps.width, _canvasProps.height);
 }
@@ -1040,12 +1020,14 @@ var putNoodleRandom = function () {
         console.log("clearBowl");
         clearBowl();
     }
+    let num = randrange(1,11);
+    let shape = "images/shapes/shape" + 11 + ".svg";
 
     $(function () {
         $canvas = $("#BowlCanvas");
         console.log($canvas);
         let ctx = $canvas[0].getContext('2d');
-        _drawSvg(ctx, 'Try.svg', function () {
+        _drawSvg(ctx, shape, function () {
             let imgData = ctx.getImageData(0, 0, _canvasProps.width, _canvasProps.height);
             placeCircles(imgData);
             _drawCircles($canvas[0].getContext('2d'));
@@ -1250,8 +1232,8 @@ function brushPress(evt) {
 
 function printSoup() {
     for (let i = 0; i < _placedCirclesArr.length; i++) {
-        _placedCirclesArr[i].x = (_placedCirclesArr[i].x - 150) / 20;
-        _placedCirclesArr[i].y = (_placedCirclesArr[i].y - 150) / 20;
+        _placedCirclesArr[i].x = (_placedCirclesArr[i].x - 250) / 20;
+        _placedCirclesArr[i].y = (_placedCirclesArr[i].y - 250) / 20;
         _placedCirclesArr[i].size = (_placedCirclesArr[i].size) / 20;
     }
 
@@ -1379,6 +1361,8 @@ function singlePass(sign) {
  */
 
 function strucVal(val) {
+
+
     $('#soupVal').text(" " + val + "% \n SOUP");
     $('#noodleVal').text("  " + (100 - val) + "% \n NOODLE");
 
@@ -1389,6 +1373,11 @@ function strucVal(val) {
         + 'color-stop(' + val / 100 + ', #e8c880)'
         + ')'
     );
+
+    noodleFactor = (100 - soupFactor) / 100;
+    targetArea = canvas_min * canvas_min * Math.PI * noodleFactor;
+    console.log("noodleFactor: " + noodleFactor);
+    console.log("tagetArea: " + targetArea);
 
 }
 
