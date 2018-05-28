@@ -242,7 +242,7 @@ var placeCirclesSpiral = function () {
     var spacing_fact = 1.4;
     var GOLDEN_RANDOM = (0.7 + 0.3 * Math.random()) * GOLDEN_ANGLE
 
-    console.log(_placedCirclesArr);
+    // console.log(_placedCirclesArr);
 
     var canvas = document.getElementById("BowlCanvas");
     var canvas_min = 0.3 * Math.min(canvas.width, canvas.height)
@@ -419,6 +419,8 @@ var contain = function (mx, my) {
         let dy = Math.abs(_placedCirclesArr[i].y - my);
         let r = _placedCirclesArr[i].size;
         if (dx ** 2 + dy ** 2 <= r ** 2) {
+            console.log("circle x: " + _placedCirclesArr[i].x + " circle y: " + _placedCirclesArr[i].y);
+
             return i;
         }
     }
@@ -484,7 +486,7 @@ function CanvasState(canvas) {
 
     function changeSpecificColor(id, color) {
         let ctx = canvas.getContext("2d");
-        console.log(ctx);
+        // console.log(ctx);
         if (_placedCirclesArr[id].color === ORIGION) {
 
             _placedCirclesArr[id].color = color;
@@ -682,7 +684,7 @@ function CanvasState(canvas) {
     function setOrigin(id) {
         var ctx = canvas.getContext("2d");
         let bar, val, hi, factor, fixedFactor, area;
-        console.log(ctx);
+        // console.log(ctx);
         area = _placedCirclesArr[id].size * _placedCirclesArr[id].size * Math.PI;
 
         switch (_placedCirclesArr[id].color) {
@@ -694,7 +696,7 @@ function CanvasState(canvas) {
                 bar = document.getElementById("progBarOmami");
                 val = document.getElementById("omamiVal");
                 hi = $("#progBarOmami").height();
-                console.log('hi: ' + hi);
+                console.log('omami hi before: ' + hi);
                 factor = 1 - (umamiColoredArea / umamiArea);
                 break;
 
@@ -731,8 +733,9 @@ function CanvasState(canvas) {
 
         }
         fixedFactor = Math.ceil(100 * factor);
-        if (hi < 100) {
+        if (fixedFactor < 100) {
             hi = fixedFactor;
+            console.log('hi after: ' + hi );
             bar.style.height = hi + '%';
             val.innerHTML = hi + '%';
             if (hi >= 95) {
@@ -795,7 +798,7 @@ function CanvasState(canvas) {
                         bar = document.getElementById("progBarOmami");
                         val = document.getElementById("omamiVal");
                         hi = $("#progBarOmami").height();
-                        console.log('hi: ' + hi);
+                        console.log(' omami hi before: ' + hi);
                         factor = 1 - (umamiColoredArea / umamiArea);
                         break;
 
@@ -823,8 +826,10 @@ function CanvasState(canvas) {
                 }
                 factor *= 100;
                 fixedFactor = Math.ceil(factor);
-                if (hi < 100) {
+                if (fixedFactor < 100) {
+
                     hi = fixedFactor;
+                    console.log(' hi after: ' + hi);
                     bar.style.height = hi + '%';
                     val.innerHTML = hi + '%';
                     if (hi >= 95) {
@@ -996,7 +1001,7 @@ function greedyFillColor(color, targetPercentage, isLeftoversEater = false) {
         // ChangeSpecificColor
         let canvas = document.getElementById("BowlCanvas");
         let ctx = canvas.getContext("2d");
-        console.log(ctx);
+        // console.log(ctx);
         _placedCirclesArr[idcircle].color = color;
         let circle = _placedCirclesArr[idcircle];
         // ctx.strokeStyle = "rgb(248,170,145)";
@@ -1059,7 +1064,7 @@ var putNoodleCentered = function () {
 
     $(function () {
         $canvas = $("#BowlCanvas");
-        console.log($canvas);
+        // console.log($canvas);
         let ctx = $canvas[0].getContext('2d');
         //placeCirclesCentered2();
         placeCirclesSpiral();
@@ -1119,7 +1124,7 @@ function eraserBut() {
 function brushbut(flavor) {
 
     let labels = document.getElementsByClassName("brush");
-    console.log(labels);
+    // console.log(labels);
 
     for (let i = 0; i < labels.length; i++) {
         labels[i].className = labels[i].className.replace(" toBrush", "");
@@ -1282,7 +1287,8 @@ function printSoup() {
 function openKitchen(curPage) {
 
 
-    // console.log('openKitchen', evt, curPage);
+    let era;
+// console.log('openKitchen', evt, curPage);
     page = curPage;
     let i, tabcontent, tablinks;
 
@@ -1302,7 +1308,7 @@ function openKitchen(curPage) {
     // Show the current tab, and add an "active" class to the button that opened the tab
     console.log('page' + curPage);
     let p = document.getElementById('page' + curPage);
-    console.log(p);
+    // console.log(p);
     p.style.display = "block";
     p.className += " active";
     // evt.currentTarget.className += " active";
@@ -1312,22 +1318,22 @@ function openKitchen(curPage) {
 
     let pass = document.getElementsByClassName("passPage");
 
-    console.log(pass);
+    // console.log(pass);
     if (page === 1) {
         pass[0].className += " disableBut";
         // tooltype = "create";
     }
 
     if (page !== 1) {
-        console.log('page: ' + page);
+        // console.log('page: ' + page);
         // pass[0].disabled = false;
         pass[0].className = pass[0].className.replace(" disableBut", "");
-        console.log(pass[0]);
+        // console.log(pass[0]);
     }
 
 
     if (page === 3) {
-        var era = document.getElementById("erase");
+        era = document.getElementById("erase");
         era.style.display = "block";
 
         greedyFillColor('#f97253', spicyFactor * 0.25); // spicy
@@ -1338,7 +1344,7 @@ function openKitchen(curPage) {
     }
 
     if (page !== 3) {
-        var era = document.getElementById("erase");
+        era = document.getElementById("erase");
         era.style.display = "none";
     }
 
