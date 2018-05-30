@@ -37,6 +37,7 @@ body {
     height: 100vh;
     color: #8c8181;
     font-weight: bold;
+    font-size: 1.5rem;
 }
 
 header {
@@ -94,8 +95,8 @@ button {
 h1 {
     /*margin-top: auto;*/
     margin: auto;
-    height: 8vh;
-    font-size: 2.0rem;
+    height: 6vh;
+    font-size: 3rem;
     vertical-align: center;
     /*text-align: center;*/
     /*border: 1px solid black;*/
@@ -120,12 +121,15 @@ table {
     text-align: center;
     display: flex;
     height: 40vh;
+    margin-top: 3vh;
+    margin-bottom: 3vh;
     justify-content: center;
     align-items: center;
 }
 
 #BowlCanvas {
     /*padding-top: 3%;*/
+
     border: 25px solid #d3c9c9;
     border-radius: 50%;
     background-color: #fee9cc;
@@ -194,8 +198,8 @@ table {
     float: none;
     background-color: #eae5e5;
     color: #fff;
-    font-size: 1rem;
-    border-radius: 1.5vh;
+    font-size: 1.8rem;
+    border-radius: 2vh;
     margin: auto;
 }
 
@@ -285,16 +289,16 @@ table {
 .NoodleOutline {
 
     text-align: center; /* Center-align text */
-    padding: 2%; /* Some top and bottom padding */
+    padding: 3%; /* Some top and bottom padding */
     transition: all 0.3s ease; /* Add transition for hover effects */
-    font-size: 0.5em; /* Increased font size */
+    font-size: 1.5rem; /* Increased font size */
     font-weight: bold;
     border-radius: 10%;
     overflow: hidden;
     text-overflow: clip;
     color: #8c8181;
     background-color: #eae5e5;
-    margin: 1%;
+    margin: 2%;
     /*border: 1px solid black;*/
 
 }
@@ -308,24 +312,30 @@ table {
 
 .outlineWrapper {
     display: inline-block;
-    width: 45%;
-    margin: auto;
+    width: 50%;
+    /*margin: auto;*/
 
 }
 
+
 #generate {
+    /*float: left;*/
+    display: block;
+    /*margin-top: 5vh;*/
     color: #8c8181;
     background-color: #ffd095;
-    font-size: 0.5em; /* Increased font size */
+    font-size: 1.8em; /* Increased font size */
     font-weight: bold;
-    padding: 3%;
-    margin: 3% 3% 3% 0%;
+    /*padding: 3%;*/
+    /*margin: 3% 0% 3% 0%;*/
     border-radius: 15%;
 
 }
 
 #generate:hover {
-    padding: 4%;
+    padding: 3.5%;
+    background-color: #fee9cc;
+
 
 }
 
@@ -386,7 +396,7 @@ input[type='range']::-webkit-slider-thumb {
     display: inline-block;
     /*width: 5%;*/
     padding: 2%;
-    font-size: 1.4em;
+    font-size: 2.2rem;
     margin: auto;
     /*text-align: center;*/
 
@@ -488,7 +498,7 @@ input[type='range']::-webkit-slider-thumb {
 
 #erase {
     position: absolute;
-    right: 20%;
+    right: 10%;
     /*background-color: #eae5e5;*/
     padding: 2%;
     /*outline:none;*/
@@ -507,6 +517,7 @@ input[type='range']::-webkit-slider-thumb {
 .brush {
     padding: 2%;
     border-radius: 15vh;
+    font-size:1.6rem;
 }
 
 .toBrush {
@@ -520,6 +531,7 @@ input[type='range']::-webkit-slider-thumb {
     /*only for 1 page decorate    */
     /*height: 7vh;*/
     width: 100%;
+    margin-top:  5vh;
 }
 
 .operation {
@@ -561,19 +573,31 @@ input[type='range']::-webkit-slider-thumb {
 }
 
 .anchors {
-    /*display: inline-block;*/
-    /*padding: 3%;*/
+    display: inline-block;
+    padding: 2% 4%;
+    margin: 2%;
+
     /**********/
-    width: 7%;
-    padding: 2%;
+    /*width: 7%;*/
+    /*padding: 2%;*/
+    color: #8c8181;
     font-weight: bold;
+    font-size: 2rem;
     background: #eae5e5;
     border-radius: 25%;
+    text-align: center;
+
 }
 
 .anchors.toHigh {
     background-color: #8c8181;
     color: white;
+}
+
+.highPress {
+    display: inline-block;
+    border: 1vh solid #d3c9c9 ;
+    background-color: white;
 }
 
 #numHigh {
@@ -616,10 +640,12 @@ input[type='range']::-webkit-slider-thumb {
 
 .maxColor {
     background-color: #0000f7;
+    color:white;
 }
 
 .minColor {
     background-color: #f90000;
+    color:white;
 }
 
 .progBarUnit {
@@ -651,12 +677,12 @@ input[type='range']::-webkit-slider-thumb {
     border: none;
     outline: none;
     cursor: pointer;
-    font-size: 3rem;
-    border-radius: 1.5vh;
-    padding: 1% 3%;
+    font-size: 4.5rem;
+    border-radius: 2.5vh;
+    padding: 1.5% 4%;
     transition: 0.3s;
     color: white;
-    margin: 3%;
+    margin: 7%;
 }
 
 

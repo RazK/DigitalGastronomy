@@ -52,9 +52,9 @@ var numOfColoredSour = 0;
 
 var page = 1;
 
-var anchorMinNum = 0;
+var anchorMinNum = 1;
 var numOfColoredMin = 0;
-var anchorMaxNum = 0;
+var anchorMaxNum = 1;
 var numOfColoredMax = 0;
 
 var noodleFactor = 0.5;
@@ -69,7 +69,6 @@ var herbsColoredArea = 0;
 
 var sourArea = 0;
 var sourColoredArea = 0;
-
 
 
 // use to slow  operation
@@ -147,6 +146,7 @@ var placeCircles = function (imgData) {
                 if (!_touchesPlacedCircle(x, y, circle.size)) {
                     circle.x = x;
                     circle.y = y;
+                    circle.z = 0; // default high
                     _placedCirclesArr.push(circle);
 
                 }
@@ -157,7 +157,7 @@ var placeCircles = function (imgData) {
 
 // circled logic:
 // var placeCirclesCentered2 = function () {
-    //console.log(imgData);
+//console.log(imgData);
 //     _placedCirclesArr = [];
 //     console.log(_placedCirclesArr);
 //
@@ -288,6 +288,7 @@ var placeCirclesSpiral = function () {
 
         cur_circ.x = cx + Math.cos(angle) * spiral_rad;
         cur_circ.y = cy + Math.sin(angle) * spiral_rad;
+        cur_circ.z = 0; // default high
         cur_circ.size = big_circ_rad;
 
         _placedCirclesArr.push(cur_circ);
@@ -307,6 +308,8 @@ var placeCirclesSpiral = function () {
 
         cur_circ.x = cx + Math.cos(angle) * spiral_rad;
         cur_circ.y = cy + Math.sin(angle) * spiral_rad;
+        cur_circ.z = 0; // default high
+
         cur_circ.size = med_circ_rad;
 
         _placedCirclesArr.push(cur_circ);
@@ -326,6 +329,8 @@ var placeCirclesSpiral = function () {
 
         cur_circ.x = cx + Math.cos(angle) * spiral_rad;
         cur_circ.y = cy + Math.sin(angle) * spiral_rad;
+        cur_circ.z = 0; // default high
+
         cur_circ.size = small_circ_rad;
 
         _placedCirclesArr.push(cur_circ);
@@ -619,6 +624,7 @@ function CanvasState(canvas) {
             _drawCircles(ctx);
 
             drawnFlag = true;
+            tooltype = "init";
 
         }
 
@@ -650,6 +656,7 @@ function CanvasState(canvas) {
 
 
     function setMin(id) {
+        ++numOfColoredMin;
         var ctx = canvas.getContext("2d");
 
         console.log("setMin");
@@ -658,8 +665,8 @@ function CanvasState(canvas) {
 
         var img = new Image();
         img.onload = function () {
-            ctx.drawImage(img, 0, 0, img.width, img.height, circle.x - 10, circle.y - 38, 20, 40);
-        }
+            ctx.drawImage(img, 0, 0, img.width, img.height, circle.x - 15, circle.y - 56, 30, 60);
+        };
         img.src = 'images/minIcon.png';
 
         // console.log("pinicon circle.x: " + circle.x + "circle.y: " + circle.y );
@@ -669,6 +676,7 @@ function CanvasState(canvas) {
 
 
     function setMax(id) {
+        numOfColoredMax++;
         var ctx = canvas.getContext("2d");
 
         console.log("minI");
@@ -677,10 +685,9 @@ function CanvasState(canvas) {
 
         var img = new Image();
         img.onload = function () {
-            ctx.drawImage(img, 0, 0, img.width, img.height, circle.x - 10, circle.y - 38, 20, 40);
-        }
+            ctx.drawImage(img, 0, 0, img.width, img.height, circle.x - 15, circle.y - 58, 30, 60);
+        };
         img.src = 'images/maxIcon.png';
-        numOfColoredMax++;
 
         //#0000f7
 
@@ -826,15 +833,16 @@ function CanvasState(canvas) {
             let id = contain(mouse.x, mouse.y);
             // if ((id >= 0) && (0 < anchorMinNum)) {
             if ((id >= 0) && (numOfColoredMin < anchorMinNum)) {
+                console.log("z: " +_placedCirclesArr[id].z);
+                if (_placedCirclesArr[id].z === 0) {
+                    console.log("click - min");
 
-                console.log("click - min");
+                    setMin(id);
+                    // updateProgBar();
 
-
-                setMin(id);
-                updateProgBar();
-
-                let min = document.getElementById("minHigh");
-                min.className = min.className.replace(" toHigh", "");
+                    let min = document.getElementById("minHigh");
+                    min.className = min.className.replace(" minColor", "");
+                }
             }
 
         }
@@ -846,19 +854,23 @@ function CanvasState(canvas) {
             let id = contain(mouse.x, mouse.y);
             // if ((id >= 0) && (0 < anchorMinNum)) {
             if ((id >= 0) && (numOfColoredMax < anchorMaxNum)) {
+                console.log("z: " +_placedCirclesArr[id].z);
+                if (_placedCirclesArr[id].z === 0) {
+                    setMax(id);
+                    // numOfColoredMax++;
 
-                setMax(id);
+                    //update prog max bar
+                    let maxContainer = document.getElementById("containerMax");
+                    // console.log(maxContainer);
 
-                //update prog max bar
-                let maxContainer = document.getElementById("containerMax");
-                console.log(maxContainer);
+                    // maxContainer.removeChild(maxContainer.lastElementChild);
+                    // console.log(maxContainer);
 
-                maxContainer.removeChild(maxContainer.lastElementChild);
-                console.log(maxContainer);
+                    // clear max button
+                    let max = document.getElementById("maxHigh");
+                    max.className = max.className.replace(" maxColor", "");
 
-                // clear max button
-                let max = document.getElementById("maxHigh");
-                max.className = max.className.replace(" toHigh", "");
+                }
             }
 
         }
@@ -898,7 +910,7 @@ function greedyFillColor(color, targetPercentage, isLeftoversEater = false) {
     // Remember original id
     let canvas = document.getElementById("BowlCanvas");
     let target = targetArea * targetPercentage / 100;
-    console.log("targetArea: " + targetArea  + " , target: " + target);
+    console.log("targetArea: " + targetArea + " , target: " + target);
     let sortableCircles = [];
 
     for (let i = 0; i < _placedCirclesArr.length; i++) {
@@ -1020,7 +1032,7 @@ var putNoodleRandom = function () {
         console.log("clearBowl");
         clearBowl();
     }
-    let num = randrange(1,11);
+    let num = randrange(1, 11);
     let shape = "images/shapes/shape" + 11 + ".svg";
 
     $(function () {
@@ -1065,7 +1077,9 @@ var putNoodleCentered = function () {
 
 function minPress() {
     let min = document.getElementById("minHigh");
-    min.className += " toHigh";
+    min.className += " highPress";
+
+    // min.className += " toHigh";
     tooltype = "min";
 }
 
@@ -1073,8 +1087,9 @@ function minPress() {
 //
 function maxPress() {
     let max = document.getElementById("maxHigh");
-    max.className += " toHigh";
-    anchorMaxNum = 1;
+    max.className += " highPress";
+    // max.className += " toHigh";
+    // anchorMaxNum = 1;
     tooltype = "max";
 
 }
@@ -1311,10 +1326,12 @@ function openKitchen(curPage) {
         // pass[0].disabled = false;
         pass[0].className = pass[0].className.replace(" disableBut", "");
         // console.log(pass[0]);
+        tooltype = "init";
     }
 
 
     if (page === 3) {
+
         era = document.getElementById("erase");
         era.style.display = "block";
 
@@ -1447,55 +1464,55 @@ function sourVal(val) {
 
 
 function updateAnchorsHigh(operator) {
-    console.log("in operator: " + anchorMinNum);
-    let containerHigh = document.getElementById("containerMin");
-
-    if (operator === '-') {
-
-        if (anchorMinNum > 0) {
-            anchorMinNum--;
-            // document.getElementById("numHigh").innerHTML = anchorMinNum.toString();
-            containerHigh.removeChild(containerHigh.lastChild);
-            console.log("in Minus: " + containerHigh);
-
-        }
-    }
-    if (operator === '+') {
-        if (anchorMinNum < _placedCirclesArr.length) {
-            anchorMinNum++;
-            // document.getElementById("numHigh").innerHTML = anchorMinNum.toString();
-
-            // add new units
-            let progBarUnit = document.createElement('div');
-            progBarUnit.setAttribute('class', 'progBarUnit');
-            progBarUnit.style.width = (100 / (anchorMinNum)) + '%';
-
-            // append it:
-            containerHigh.appendChild(progBarUnit);
-        }
-    }
-    if (anchorMinNum > 0) {
-        tooltype = "min";
-    }
+    // console.log("in operator: " + anchorMinNum);
+    // let containerHigh = document.getElementById("containerMin");
+    //
+    // if (operator === '-') {
+    //
+    //     if (anchorMinNum > 0) {
+    //         anchorMinNum--;
+    //         // document.getElementById("numHigh").innerHTML = anchorMinNum.toString();
+    //         containerHigh.removeChild(containerHigh.lastChild);
+    //         console.log("in Minus: " + containerHigh);
+    //
+    //     }
+    // }
+    // if (operator === '+') {
+    //     if (anchorMinNum < _placedCirclesArr.length) {
+    //         // anchorMinNum++;
+    //         // document.getElementById("numHigh").innerHTML = anchorMinNum.toString();
+    //
+    //         // add new units
+    //         let progBarUnit = document.createElement('div');
+    //         progBarUnit.setAttribute('class', 'progBarUnit');
+    //         progBarUnit.style.width = (100 / (anchorMinNum)) + '%';
+    //
+    //         // append it:
+    //         // containerHigh.appendChild(progBarUnit);
+    //     }
+    // }
+    // if (anchorMinNum > 0) {
+    //     tooltype = "min";
+    // }
 
     // update all units width
-    for (let i = 0; i < containerHigh.children.length; i++) {
-        console.log(containerHigh.children[i]);
-        containerHigh.children[i].style.width = (100 / (anchorMinNum)) + '%';
-    }
+    // for (let i = 0; i < containerHigh.children.length; i++) {
+    //     console.log(containerHigh.children[i]);
+    // containerHigh.children[i].style.width = (100 / (anchorMinNum)) + '%';
+    // }
 
 
     // decorate the first and last units
-    if (anchorMinNum === 1) {
-        containerHigh.children[0].className += ' firstProgBarUnit lastProgBarUnit minColor';
-    }
-    if (containerHigh.children.length > 1) {
-        console.log(containerHigh.children);
-        let unitName = containerHigh.children[containerHigh.children.length - 2].className.replace(' lastProgBarUnit', '');
-        containerHigh.children[containerHigh.children.length - 2].className = unitName;
-        containerHigh.children[containerHigh.children.length - 1].className += " lastProgBarUnit";
-        console.log(containerHigh.children);
-    }
+    // if (anchorMinNum === 1) {
+    //     containerHigh.children[0].className += ' firstProgBarUnit lastProgBarUnit minColor';
+    // }
+    // if (containerHigh.children.length > 1) {
+    //     console.log(containerHigh.children);
+    //     let unitName = containerHigh.children[containerHigh.children.length - 2].className.replace(' lastProgBarUnit', '');
+    //     containerHigh.children[containerHigh.children.length - 2].className = unitName;
+    //     containerHigh.children[containerHigh.children.length - 1].className += " lastProgBarUnit";
+    //     console.log(containerHigh.children);
+    // }
 
 
 }
@@ -1506,7 +1523,7 @@ function updateProgBar() {
     console.log("in updateProg");
     containerHigh.removeChild(containerHigh.lastChild);
     // containerHigh.children[anchorMinNum].style.display = "none";
-    numOfColoredMin++;
+    // numOfColoredMin++;
 
 }
 
