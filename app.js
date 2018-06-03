@@ -1033,7 +1033,7 @@ var putNoodleRandom = function () {
         clearBowl();
     }
     let num = randrange(1, 11);
-    let shape = "images/shapes/shape" + 11 + ".svg";
+    let shape = "images/shapes/shape" + 10 + ".svg";
 
     $(function () {
         $canvas = $("#BowlCanvas");
