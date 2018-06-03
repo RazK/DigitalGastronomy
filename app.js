@@ -39,6 +39,7 @@ var sourFactor = 0;
 var circleColor = ORIGION;
 
 var flag = false;
+var isColored = false;
 var drawnFlag = false;
 
 var numOfSpicy = 0;
@@ -1032,8 +1033,9 @@ var putNoodleRandom = function () {
         console.log("clearBowl");
         clearBowl();
     }
-    let num = randrange(1, 11);
-    let shape = "images/shapes/shape" + 10 + ".svg";
+    let num = Math.floor(randrange(2, 11));
+    console.log(num);
+    let shape = "images/shapes/shape" + num + ".svg";
 
     $(function () {
         $canvas = $("#BowlCanvas");
@@ -1335,11 +1337,14 @@ function openKitchen(curPage) {
         era = document.getElementById("erase");
         era.style.display = "block";
 
+        if (!isColored) {
+
         greedyFillColor('#f97253', spicyFactor * 0.25); // spicy
         greedyFillColor("#a28275", umamiFactor * 0.25); // omami
         greedyFillColor("#a9c0a9", herbsFactor * 0.25); // herb
         greedyFillColor("#b6e079", sourFactor * 0.25); // sour
-
+        isColored =true;
+        }
     }
 
     if (page !== 3) {

@@ -407,7 +407,7 @@ input[type='range']::-webkit-slider-thumb {
 
 .wrapperBars {
     display: block;
-    height: 28vh;
+    height: 21vh;
 
     width: 100%;
     /*border: 1px solid black;*/
