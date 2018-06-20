@@ -23,9 +23,9 @@ const STROKE = "#f2d58b";
 const ORIGION = "#e8c880";
 
 
-var _canvasProps = {width: 500, height: 500};
+var _canvasProps = {width: 400, height: 400};
 // var canvas_min = 0.3 * Math.min(_canvasProps.width, _canvasProps.height);
-var canvas_min = 0.3 * 500;  // canvas width and height = 500
+var canvas_min = 0.3 * 400;  // canvas width and height = 500
 
 var _options = {spacing: -2.5, numCircles: 1000, minSize: 3, maxSize: 7, higherAccuracy: false};
 var _placedCirclesArr = [];
@@ -415,11 +415,13 @@ var _drawPath = function (ctx, points, callback) {
 var _drawSvg = function (ctx, path, callback) {
 
     let img = new Image(ctx);
+    img.setAttribute('crossOrigin', '')
     img.onload = function () {
         ctx.drawImage(img, 0, 0);
         callback();
     };
     img.src = path;
+
 };
 
 
@@ -1249,8 +1251,8 @@ function brushPress(evt) {
 
 function printSoup() {
     for (let i = 0; i < _placedCirclesArr.length; i++) {
-        _placedCirclesArr[i].x = (_placedCirclesArr[i].x - 250) / 20;
-        _placedCirclesArr[i].y = (_placedCirclesArr[i].y - 250) / 20;
+        _placedCirclesArr[i].x = (_placedCirclesArr[i].x - 200) / 20;
+        _placedCirclesArr[i].y = (_placedCirclesArr[i].y - 200) / 20;
         _placedCirclesArr[i].size = (_placedCirclesArr[i].size) / 20;
     }
 
@@ -1261,7 +1263,7 @@ function printSoup() {
 
 
     xhr = new XMLHttpRequest();
-    var url = "http://192.168.1.102:8888/data";
+    var url = "http://localhost:8888/data";
     xhr.open("POST", url, true);
 
     xhr.setRequestHeader("Content-type", "application/json");
