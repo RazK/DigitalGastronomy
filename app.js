@@ -1169,85 +1169,85 @@ function brushbut(flavor) {
 
 }
 
+//
+// function vectorPress(evt) {
+//     restoreButtons(evt);
+//     evt.currentTarget.src = ("Icons/VectorBlue.png");
+//     tooltype = "vector";
+//     let flavourTotal = 0;
+//
+//     let spicyVal = (document.getElementById("spicySlider")).value;
+//     let umamiVal = (document.getElementById("omamiSlider")).value;
+//     let herbsVal = (document.getElementById("herbSlider")).value;
+//     let sourVal = (document.getElementById("sourSlider")).value;
+//
+//     if (spicyVal > 0) {
+//         flavourTotal += parseInt(spicyVal);
+//         console.log("total:" + flavourTotal);
+//     }
+//     if (umamiVal > 0) {
+//         flavourTotal += parseInt(umamiVal);
+//         console.log("total:" + flavourTotal);
+//
+//     }
+//     if (herbsVal > 0) {
+//         flavourTotal += parseInt(herbsVal);
+//         console.log("total:" + flavourTotal);
+//
+//     }
+//     if (sourVal > 0) {
+//         flavourTotal += parseInt(sourVal);
+//         console.log("total:" + flavourTotal);
+//
+//     }
+//
+//     numOfSpicy = Math.floor((parseInt(spicyVal) / flavourTotal) * _placedCirclesArr.length);
+//     numOfUmami = Math.floor((parseInt(umamiVal) / flavourTotal) * _placedCirclesArr.length);
+//     numOfHerbs = Math.floor((parseInt(herbsVal) / flavourTotal) * _placedCirclesArr.length);
+//     numOfSour = Math.floor((parseInt(sourVal) / flavourTotal) * _placedCirclesArr.length);
+//
+//     // alert(numOfSpicy + "," + numOfUmami + ","  + numOfHerbs + "," + numOfSour + ",");
+// }
 
-function vectorPress(evt) {
-    restoreButtons(evt);
-    evt.currentTarget.src = ("Icons/VectorBlue.png");
-    tooltype = "vector";
-    let flavourTotal = 0;
-
-    let spicyVal = (document.getElementById("spicySlider")).value;
-    let umamiVal = (document.getElementById("omamiSlider")).value;
-    let herbsVal = (document.getElementById("herbSlider")).value;
-    let sourVal = (document.getElementById("sourSlider")).value;
-
-    if (spicyVal > 0) {
-        flavourTotal += parseInt(spicyVal);
-        console.log("total:" + flavourTotal);
-    }
-    if (umamiVal > 0) {
-        flavourTotal += parseInt(umamiVal);
-        console.log("total:" + flavourTotal);
-
-    }
-    if (herbsVal > 0) {
-        flavourTotal += parseInt(herbsVal);
-        console.log("total:" + flavourTotal);
-
-    }
-    if (sourVal > 0) {
-        flavourTotal += parseInt(sourVal);
-        console.log("total:" + flavourTotal);
-
-    }
-
-    numOfSpicy = Math.floor((parseInt(spicyVal) / flavourTotal) * _placedCirclesArr.length);
-    numOfUmami = Math.floor((parseInt(umamiVal) / flavourTotal) * _placedCirclesArr.length);
-    numOfHerbs = Math.floor((parseInt(herbsVal) / flavourTotal) * _placedCirclesArr.length);
-    numOfSour = Math.floor((parseInt(sourVal) / flavourTotal) * _placedCirclesArr.length);
-
-    // alert(numOfSpicy + "," + numOfUmami + ","  + numOfHerbs + "," + numOfSour + ",");
-}
-
-
-function brushPress(evt) {
-    tooltype = "brush";
-    restoreButtons(evt);
-    evt.currentTarget.src = ("Icons/BrushBlue.png");
-    let flavourTotal = 0;
-
-    let spicyVal = (document.getElementById("spicySlider")).value;
-    let umamiVal = (document.getElementById("omamiSlider")).value;
-    let herbsVal = (document.getElementById("herbSlider")).value;
-    let sourVal = (document.getElementById("sourSlider")).value;
-
-    if (spicyVal > 0) {
-        flavourTotal += parseInt(spicyVal);
-        console.log("total:" + flavourTotal);
-    }
-    if (umamiVal > 0) {
-        flavourTotal += parseInt(umamiVal);
-        console.log("total:" + flavourTotal);
-
-    }
-    if (herbsVal > 0) {
-        flavourTotal += parseInt(herbsVal);
-        console.log("total:" + flavourTotal);
-
-    }
-    if (sourVal > 0) {
-        flavourTotal += parseInt(sourVal);
-        console.log("total:" + flavourTotal);
-
-    }
-
-    numOfSpicy = Math.floor((parseInt(spicyVal) / flavourTotal) * _placedCirclesArr.length);
-    numOfUmami = Math.floor((parseInt(umamiVal) / flavourTotal) * _placedCirclesArr.length);
-    numOfHerbs = Math.floor((parseInt(herbsVal) / flavourTotal) * _placedCirclesArr.length);
-    numOfSour = Math.floor((parseInt(sourVal) / flavourTotal) * _placedCirclesArr.length);
-
-    // alert(numOfSpicy + "," + numOfUmami + ","  + numOfHerbs + "," + numOfSour + ",");
-}
+//
+// function brushPress(evt) {
+//     tooltype = "brush";
+//     restoreButtons(evt);
+//     evt.currentTarget.src = ("Icons/BrushBlue.png");
+//     let flavourTotal = 0;
+//
+//     let spicyVal = (document.getElementById("spicySlider")).value;
+//     let umamiVal = (document.getElementById("omamiSlider")).value;
+//     let herbsVal = (document.getElementById("herbSlider")).value;
+//     let sourVal = (document.getElementById("sourSlider")).value;
+//
+//     if (spicyVal > 0) {
+//         flavourTotal += parseInt(spicyVal);
+//         console.log("total:" + flavourTotal);
+//     }
+//     if (umamiVal > 0) {
+//         flavourTotal += parseInt(umamiVal);
+//         console.log("total:" + flavourTotal);
+//
+//     }
+//     if (herbsVal > 0) {
+//         flavourTotal += parseInt(herbsVal);
+//         console.log("total:" + flavourTotal);
+//
+//     }
+//     if (sourVal > 0) {
+//         flavourTotal += parseInt(sourVal);
+//         console.log("total:" + flavourTotal);
+//
+//     }
+//
+//     numOfSpicy = Math.floor((parseInt(spicyVal) / flavourTotal) * _placedCirclesArr.length);
+//     numOfUmami = Math.floor((parseInt(umamiVal) / flavourTotal) * _placedCirclesArr.length);
+//     numOfHerbs = Math.floor((parseInt(herbsVal) / flavourTotal) * _placedCirclesArr.length);
+//     numOfSour = Math.floor((parseInt(sourVal) / flavourTotal) * _placedCirclesArr.length);
+//
+//     // alert(numOfSpicy + "," + numOfUmami + ","  + numOfHerbs + "," + numOfSour + ",");
+// }
 
 function printSoup() {
     for (let i = 0; i < _placedCirclesArr.length; i++) {
